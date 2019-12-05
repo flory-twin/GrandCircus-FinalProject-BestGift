@@ -23,6 +23,12 @@ target/
 /bin
 
 # -----------------------------------------------------------------------------
+# Places both properties files outside version control.
+# -----------------------------------------------------------------------------
+application.properties
+etsy.properties
+
+# -----------------------------------------------------------------------------
 # Contents after this point provided by Spring Boot project generator, 
 #  https://start.spring.io/
 # -----------------------------------------------------------------------------
