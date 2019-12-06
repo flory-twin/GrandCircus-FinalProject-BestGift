@@ -13,18 +13,23 @@
 	crossorigin="anonymous">
 </head>
 <body>
-	<p>${giftresult.title}</p>
-	<p>${giftresult.price} ${giftresult.currency_code}</p>
-	<p><a target="_blank" href="${giftresult.url}">${giftresult.url}</a></p>
-	<c:forEach var="cp" items="${giftresult.category_path}">
-		<p>${cp}</p>
+ 
+<%-- 	<p><img src="${ i.results[0].url_570xN }" width="270" height="200"/></p> --%>
+<%-- 	<p>${g.title}</p> --%>
+<%-- 	<p>${g.price} ${g.currency_code}</p> --%>
+<%-- 	<p>${g.description}</p> --%>
+	<table class="table">
+		
+	<c:forEach var="g" items="${result.getResults() }">
+		<tr>
+			<td>${g.title}</td>
+			<td>${g.price} ${g.currency_code}</td>
+			<td>
+				<img src="${gs.getGiftImage(g.listing_id).results[0].url_570xN }"  width="270" height="200"/>
+			</td>
+			<td>${g.description}</td>
+		</tr>
 	</c:forEach>
-	<c:forEach var="m" items="${giftresult.materials}">
-		<p>${m}</p>
-	</c:forEach>
-	<c:forEach var="tp" items="${giftresult.taxonomy_path}">
-		<p>${tp}</p>
-	</c:forEach>
-	<p>${giftresult.description}</p>
+	</table>
 </body>
 </html>
