@@ -9,7 +9,7 @@
 <body>
 
 <a href="/image?listing_id=494853077">Show Cookies</a>
-<img src="${ i.results[0].url_570xN }"/>
+<img src="${ i.results[0].url_570xN }" width="270" height="200"/>
 
 </body>
 </html>
