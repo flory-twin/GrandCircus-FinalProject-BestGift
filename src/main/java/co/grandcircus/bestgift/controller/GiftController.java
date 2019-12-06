@@ -15,13 +15,14 @@ public class GiftController {
 	
 	RestTemplate rt = new RestTemplate();
 	
-	@RequestMapping("/")
+	@RequestMapping("/gift-results")
 	public ModelAndView viewGifts() {
-		ModelAndView mv = new ModelAndView("index");
+		ModelAndView mv = new ModelAndView("giftresults");
 		
 		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
 		
 //		String result = rt.getForObject(url, String.class);
+		
 		GiftResult result = rt.getForObject(url, GiftResult.class);
 		
 		System.out.println(result);
