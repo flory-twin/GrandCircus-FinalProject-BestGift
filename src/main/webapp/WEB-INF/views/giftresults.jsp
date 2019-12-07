@@ -6,25 +6,35 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Gift Results</title>
+
 <link
-	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sketchy/bootstrap.min.css"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/lux/bootstrap.min.css"
 	rel="stylesheet"
-	integrity="sha384-N8DsABZCqc1XWbg/bAlIDk7AS/yNzT5fcKzg/TwfmTuUqZhGquVmpb5VvfmLcMzp"
+	integrity="sha384-oOs/gFavzADqv3i5nCM+9CzXe3e5vXLXZ5LZ7PplpsWpTCufB7kqkTlC9FtZ5nJo"
 	crossorigin="anonymous">
 </head>
+
 <body>
-	<p>${giftresult.title}</p>
-	<p>${giftresult.price} ${giftresult.currency_code}</p>
-	<p><a target="_blank" href="${giftresult.url}">${giftresult.url}</a></p>
-	<c:forEach var="cp" items="${giftresult.category_path}">
-		<p>${cp}</p>
-	</c:forEach>
-	<c:forEach var="m" items="${giftresult.materials}">
-		<p>${m}</p>
-	</c:forEach>
-	<c:forEach var="tp" items="${giftresult.taxonomy_path}">
-		<p>${tp}</p>
-	</c:forEach>
-	<p>${giftresult.description}</p>
+
+	<%-- 	<p><img src="${ i.results[0].url_570xN }" width="270" height="200"/></p> --%>
+	<%-- 	<p>${g.title}</p> --%>
+	<%-- 	<p>${g.price} ${g.currency_code}</p> --%>
+	<%-- 	<p>${g.description}</p> --%>
+
+	<div class="table table-hover">
+		<table class="table-dark" border=1>
+			<c:forEach var="g" items="${result.getResults() }">
+				<tr>
+					<td><img
+						src="${gs.getGiftImage(g.listing_id).results[0].url_570xN }"
+						width="270" height="200" /></td>
+					<td>${g.title}</td>
+					<td>${g.price}${g.currency_code}</td>
+
+					<td>${g.description}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 </body>
 </html>
