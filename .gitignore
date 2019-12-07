@@ -28,6 +28,12 @@ target/
 # Places both properties files outside version control.
 # -----------------------------------------------------------------------------
 application.properties
+/**/*.properties
+
+a.properties
+/**/*.properties
+/**/a.properties
+
 etsy.properties
 
 # -----------------------------------------------------------------------------

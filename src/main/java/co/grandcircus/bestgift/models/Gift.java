@@ -35,6 +35,7 @@ public class Gift {
 	private int taxonomy_id;
 	private ArrayList<TaxonomyPath> taxonomy_path;
 	private boolean is_vintage;
+	
 
 	public Gift() {
 		super();
