@@ -29,6 +29,7 @@ public class GiftService {
 	}
 	
 	public Image getGiftImage(String listing_id) {
-		return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
+		//return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
+		return new Image();
 	}
 }
