@@ -18,7 +18,7 @@ public class GiftMatcher {
 	}
 	
 	public boolean matches(Keyword k) {
-		return matchesIgnoreCase(k.value);
+		return matchesIgnoreCase(k.getValue());
 	}
 //	
 //	// What we know will be true about the SearchExpression (because of how we set up the constructors):

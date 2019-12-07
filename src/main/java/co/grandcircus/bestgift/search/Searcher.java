@@ -23,7 +23,7 @@ public class Searcher {
 	 * @param k
 	 * @return
 	 */
-	private List<Gift> findMatchingGifts(Keyword k) {
+	public List<Gift> findMatchingGifts(Keyword k) {
 		List<Gift> nextRoundOfGifts = new ArrayList<>();
 		
 		// Go through the list of available gifts; 
@@ -48,7 +48,7 @@ public class Searcher {
 	 * @param numberToFind
 	 * @return
 	 */
-	private List<Gift> findMatchingGifts(Keyword k, int maxNumberToFind) {
+	public List<Gift> findMatchingGifts(Keyword k, int maxNumberToFind) {
 		List<Gift> nextRoundOfGifts = new ArrayList<>();
 		
 		boolean moreGiftsLeftToSearch = (lastRoundOfGifts.size() > 0);
