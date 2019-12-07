@@ -20,9 +20,17 @@
 	<%-- 	<p>${g.title}</p> --%>
 	<%-- 	<p>${g.price} ${g.currency_code}</p> --%>
 	<%-- 	<p>${g.description}</p> --%>
-
+	
+<h1>Refinement Search Logic</h1>
 	<form action="/search">
 		<input type="text" name="kw1"/>
+		<input type="submit" value="Submit"/> 
+	</form>
+	
+<h1>Search By Etsy</h1>	
+		<form action="/etsy-results">
+		Keywords: <input type="text" name="keywords"/>
+		Max Price: <input type="number" name="max_price"/>
 		<input type="submit" value="Submit"/> 
 	</form>
 

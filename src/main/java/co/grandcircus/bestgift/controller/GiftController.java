@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.GiftService;
@@ -68,6 +69,31 @@ public class GiftController {
 	}
 	
 	
+	@RequestMapping("/etsy-results")
+	public ModelAndView SearchGifts(HttpSession session, String keywords, float max_price) {
+	
+		ModelAndView mv = new ModelAndView("TestOutPut");
+		
+		GiftResult result = null;
+		if (session.getAttribute("result") == null) {
+			result = gs.getListOfSearchedGifts(keywords, max_price);
+			session.setAttribute("result", result);
+		} else {
+			result = (GiftResult) session.getAttribute("result");
+		}
+		
+		if (session.getAttribute("currentGiftList") == null )
+		{
+			session.setAttribute("currentGiftList", result.getResults());
+		}
+		
+		session.setAttribute("gs", gs);
+
+		mv.addObject("giftresult" , result.getResults());
+		
+		return mv;
+		
+	}
 	
 	
 	@RequestMapping("/image")
