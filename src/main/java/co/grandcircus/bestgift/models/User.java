@@ -4,19 +4,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
 	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
+
+	/**
 	private String userName;
 	private int kWTableId;
 	
 	
-	@OneToMany(mappedBy = "userId", orphanRemoval = true)
+	// @OneToMany(mappedBy = "userId", orphanRemoval = true)
 	private Gift wishListItems;
 
 
@@ -81,6 +84,6 @@ public class User {
 				+ wishListItems;
 	}
 	
-	
+	*/
 
 }

@@ -1,23 +1,33 @@
 package co.grandcircus.bestgift;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
+import co.grandcircus.bestgift.jparepos.GiftRepository;
 
 @Component
 public class GiftService {
 	@Value("${etsy.key}")
 	private String etsyKey;
 	
+	@Autowired
+	GiftRepository gr;
+	
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
 	
 	RestTemplate rt = new RestTemplate();
 	
 	public GiftResult getListOfGifts() {
-		return rt.getForObject(getGiftsUrl(), GiftResult.class);
+		GiftResult giftsToReturn = rt.getForObject(getGiftsUrl(), GiftResult.class);
+		for (Gift g : giftsToReturn.getResults()) {
+			gr.save(g); 
+		}
+		return giftsToReturn;
 	}
 	
 	public String getGiftsUrl() {
@@ -34,7 +44,11 @@ public class GiftService {
 	}
 	
 	public GiftResult getListOfSearchedGifts(String keywords, float max_price) {
-		return rt.getForObject(getSearchedGiftsUrl(keywords, max_price), GiftResult.class);
+		GiftResult giftsToReturn = rt.getForObject(getSearchedGiftsUrl(keywords, max_price), GiftResult.class);
+		for (Gift g : giftsToReturn.getResults()) {
+			gr.save(g); 
+		}
+		return giftsToReturn;
 	}
 	
 	public String getSearchedGiftsUrl(String keywords, float max_price) {

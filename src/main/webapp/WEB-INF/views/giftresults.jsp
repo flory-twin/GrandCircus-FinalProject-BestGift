@@ -33,10 +33,10 @@
 			<c:forEach var="g" items="${ currentGiftList }">
 				<tr>
 					<td><img
-						src="${gs.getGiftImage(g.listing_id).results[0].url_570xN }"
+						src="${gs.getGiftImage(g.listingId).results[0].url_570xN }"
 						width="270" height="200" /></td>
 					<td>${g.title}</td>
-					<td>${g.price}${g.currency_code}</td>
+					<td>${g.price}${g.currencyCode}</td>
 
 					<td>${g.description}</td>
 				</tr>

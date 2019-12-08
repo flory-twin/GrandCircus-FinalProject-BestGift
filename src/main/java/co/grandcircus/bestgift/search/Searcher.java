@@ -131,8 +131,8 @@ public class Searcher {
 		toBeSorted.sort(
 				(Gift g1, Gift g2) -> 
 				{
-					int id1 = g1.getListing_id();
-					int id2 = g2.getListing_id();
+					int id1 = g1.getListingId();
+					int id2 = g2.getListingId();
 					if (id1 < id2) {
 						return -1;
 					} else if (id1 == id2) {
@@ -160,7 +160,7 @@ public class Searcher {
 				// see whether it has the same ID as this gift.
 				Gift thisGift = toBeWeeded.get(giftCounter);
 				Gift nextGift = toBeWeeded.get(giftCounter + 1);
-				if (thisGift.getListing_id() == nextGift.getListing_id()) {
+				if (thisGift.getListingId() == nextGift.getListingId()) {
 					// If so, remove it.
 					toBeWeeded.remove(giftCounter + 1);
 					// The list just shrank; do NOT add one to the counter.
@@ -177,14 +177,14 @@ public class Searcher {
 		int index1 = 0;
 		sortGiftListByListingId(list1);
 		for (Gift g : list1) {
-			list1ListingIds[index1] = g.getListing_id();
+			list1ListingIds[index1] = g.getListingId();
 		}
 		
 		int[] list2ListingIds = new int[list2.size()];
 		int index2 = 0;
 		sortGiftListByListingId(list2);
 		for (Gift g : list2) {
-			list2ListingIds[index2] = g.getListing_id();
+			list2ListingIds[index2] = g.getListingId();
 		}
 		
 		LinkedList<Integer> sharedIds = new LinkedList<Integer>();
