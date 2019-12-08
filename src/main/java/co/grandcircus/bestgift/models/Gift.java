@@ -1,38 +1,117 @@
 package co.grandcircus.bestgift.models;
 
-import java.util.ArrayList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import co.grandcircus.bestgift.models.info.CategoryPath;
-import co.grandcircus.bestgift.models.info.CategoryPathIds;
-import co.grandcircus.bestgift.models.info.Materials;
-import co.grandcircus.bestgift.models.info.Style;
-import co.grandcircus.bestgift.models.info.Tags;
-import co.grandcircus.bestgift.models.info.TaxonomyPath;
-
+// This Model is both a JSON response component (within a GiftResult) and a database table.
+@Entity
+@Table(name = "gift")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Gift {
 
-	private int listing_id;
+	//TODO Refactor Integer to Integer.
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "gift_id")
+	private Integer giftId;
+	//TODO Refactor so field names are standard Java, and:
+	@Column(name = "listing_id")
+	@JsonProperty("listing_id")
+	private Integer listingId;
+	private String title;
+	@Column(length = 15000)
+	private String description;
+	@Column(name = "currency_code")
+	@JsonProperty("currency_code")
+	private String currencyCode;
+	private Double price;
+
+	public Gift() {
+		super();
+	}
+	
+	public Gift(Integer listingId, String title, String description, String currencyCode, Double price) {
+		this();
+		this.listingId = listingId;
+		this.title = title;
+		this.description = description;
+		this.currencyCode = currencyCode;
+		this.price = price;
+	}
+	
+	public Gift(Integer giftId, Integer listingId, String title, String description, String currencyCode, Double price) {
+		this(listingId, title, description, currencyCode, price);
+		this.giftId = giftId;
+	}
+
+	
+	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Integer getGiftId() {
+		return giftId;
+	}
+	public void setGiftId(Integer giftId) {
+		this.giftId = giftId;
+	}
+	public Integer getListingId() {
+		return listingId;
+	}
+	public void setListingId(Integer listingId) {
+		this.listingId = listingId;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	
+	/*
 	private String state;
-	private int user_id;
-	private int category_id;
+	private Integer user_id;
+	private Integer category_id;
 	private String title;
 	private String description;
-	private double price;
+	private Double price;
 	private String currency_code;
-	private int quantity;
+	private Integer quantity;
 	private ArrayList<Tags> tags;
 	private ArrayList<CategoryPath> category_path;
 	private ArrayList<CategoryPathIds> category_path_ids;
 	private ArrayList<Materials> materials;
 	private String url;
-	private int views;
+	private Integer views;
 	private String when_made;
 	private ArrayList<Style> style;
 	private String language;
-	private int taxonomy_id;
+	private Integer taxonomy_id;
 	private ArrayList<TaxonomyPath> taxonomy_path;
 	private boolean is_vintage;
 	
@@ -41,11 +120,11 @@ public class Gift {
 		super();
 	}
 
-	public Gift(int listing_id, String state, int user_id, int category_id, String title, String description,
-			double price, String currency_code, int quantity, ArrayList<Tags> tags,
+	public Gift(Integer listing_id, String state, Integer user_id, Integer category_id, String title, String description,
+			Double price, String currency_code, Integer quantity, ArrayList<Tags> tags,
 			ArrayList<CategoryPath> category_path, ArrayList<CategoryPathIds> category_path_ids,
-			ArrayList<Materials> materials, String url, int views, String when_made, ArrayList<Style> style,
-			String language, int taxonomy_id, ArrayList<TaxonomyPath> taxonomy_path, boolean is_vintage) {
+			ArrayList<Materials> materials, String url, Integer views, String when_made, ArrayList<Style> style,
+			String language, Integer taxonomy_id, ArrayList<TaxonomyPath> taxonomy_path, boolean is_vintage) {
 		super();
 		this.listing_id = listing_id;
 		this.state = state;
@@ -70,11 +149,44 @@ public class Gift {
 		this.is_vintage = is_vintage;
 	}
 
-	public int getListing_id() {
+	public Gift(Integer giftId, Integer listing_id, String state, Integer user_id, Integer category_id, String title, String description,
+			Double price, String currency_code, Integer quantity, ArrayList<Tags> tags,
+			ArrayList<CategoryPath> category_path, ArrayList<CategoryPathIds> category_path_ids,
+			ArrayList<Materials> materials, String url, Integer views, String when_made, ArrayList<Style> style,
+			String language, Integer taxonomy_id, ArrayList<TaxonomyPath> taxonomy_path, boolean is_vintage) {
+		super();
+		this.listing_id = listing_id;
+		this.state = state;
+		this.user_id = user_id;
+		this.category_id = category_id;
+		this.title = title;
+		this.description = description;
+		this.price = price;
+		this.currency_code = currency_code;
+		this.quantity = quantity;
+		this.tags = tags;
+		this.category_path = category_path;
+		this.category_path_ids = category_path_ids;
+		this.materials = materials;
+		this.url = url;
+		this.views = views;
+		this.when_made = when_made;
+		this.style = style;
+		this.language = language;
+		this.taxonomy_id = taxonomy_id;
+		this.taxonomy_path = taxonomy_path;
+		this.is_vintage = is_vintage;
+	}
+	
+	public Integer getGiftId() {
+		return this.giftId;
+	}
+	
+	public Integer getListing_id() {
 		return listing_id;
 	}
 
-	public void setListing_id(int listing_id) {
+	public void setListing_id(Integer listing_id) {
 		this.listing_id = listing_id;
 	}
 
@@ -86,19 +198,19 @@ public class Gift {
 		this.state = state;
 	}
 
-	public int getUser_id() {
+	public Integer getUser_id() {
 		return user_id;
 	}
 
-	public void setUser_id(int user_id) {
+	public void setUser_id(Integer user_id) {
 		this.user_id = user_id;
 	}
 
-	public int getCategory_id() {
+	public Integer getCategory_id() {
 		return category_id;
 	}
 
-	public void setCategory_id(int category_id) {
+	public void setCategory_id(Integer category_id) {
 		this.category_id = category_id;
 	}
 
@@ -110,19 +222,13 @@ public class Gift {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
-	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
@@ -134,11 +240,11 @@ public class Gift {
 		this.currency_code = currency_code;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
@@ -182,11 +288,11 @@ public class Gift {
 		this.url = url;
 	}
 
-	public int getViews() {
+	public Integer getViews() {
 		return views;
 	}
 
-	public void setViews(int views) {
+	public void setViews(Integer views) {
 		this.views = views;
 	}
 
@@ -214,11 +320,11 @@ public class Gift {
 		this.language = language;
 	}
 
-	public int getTaxonomy_id() {
+	public Integer getTaxonomy_id() {
 		return taxonomy_id;
 	}
 
-	public void setTaxonomy_id(int taxonomy_id) {
+	public void setTaxonomy_id(Integer taxonomy_id) {
 		this.taxonomy_id = taxonomy_id;
 	}
 
@@ -248,5 +354,5 @@ public class Gift {
 				+ ", taxonomy_id=" + taxonomy_id + ", taxonomy_path=" + taxonomy_path + ", is_vintage=" + is_vintage
 				+ "]";
 	}
-
+	*/
 }

@@ -20,7 +20,7 @@ class SearcherTest {
 		
 		String assertionMessage = "A list with no duplicates has the same size after duplicate weeding.";
 		Gift listingId1 = new Gift(); 
-		listingId1.setListing_id(1);
+		listingId1.setListingId(1);
 		firstList.add(listingId1);
 		
 		int oldCount = firstList.size();
@@ -32,7 +32,7 @@ class SearcherTest {
 		firstList = new ArrayList<Gift>();
 		assertionMessage = "When a duplicate is present, the resulting list size is one less than before.";
 		Gift listingId1Again = new Gift(); 
-		listingId1Again.setListing_id(1);
+		listingId1Again.setListingId(1);
 		firstList.add(listingId1Again);
 		
 		oldCount = firstList.size();
@@ -50,7 +50,7 @@ class SearcherTest {
 		
 		boolean idIsInList = false;
 		for (Gift g : firstList) {
-			if (g.getListing_id() == listingId1.getListing_id()) {
+			if (g.getListingId() == listingId1.getListingId()) {
 				idIsInList = true;
 			}
 		}
@@ -61,9 +61,9 @@ class SearcherTest {
 		firstList = new ArrayList<Gift>();
 		assertionMessage = "When a duplicate is present, it will be removed no matter where in the list it occurs.";
 		Gift listingId2 = new Gift(); 
-		listingId2.setListing_id(2);
+		listingId2.setListingId(2);
 		Gift listingId256 = new Gift(); 
-		listingId256.setListing_id(256);
+		listingId256.setListingId(256);
 		
 		firstList.add(listingId1);
 		firstList.add(listingId256);
@@ -79,7 +79,7 @@ class SearcherTest {
 		firstList = new ArrayList<Gift>();
 		assertionMessage = "Multiple, out-of-order duplicates will all be removed.";
 		Gift listingId15 = new Gift(); 
-		listingId15.setListing_id(15);
+		listingId15.setListingId(15);
 		
 		firstList.add(listingId15);
 		firstList.add(listingId256);
