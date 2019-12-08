@@ -3,8 +3,6 @@
 # -----------------------------------------------------------------------------
 
 # Eclipse
-.classpath
-.project
 .settings/
 
 # Intellij
@@ -22,18 +20,10 @@ target/
 *.class
 /bin
 
-
-
 # -----------------------------------------------------------------------------
 # Places both properties files outside version control.
 # -----------------------------------------------------------------------------
 application.properties
-/**/*.properties
-
-a.properties
-/**/*.properties
-/**/a.properties
-
 etsy.properties
 
 # -----------------------------------------------------------------------------

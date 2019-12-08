@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-<<<<<<< HEAD
 import org.springframework.web.client.RestTemplate;
-=======
->>>>>>> c177afd54f8e1b9d64430f9ae1c149688a8d08dc
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.GiftService;
@@ -71,8 +68,6 @@ public class GiftController {
 		
 	}
 	
-	
-<<<<<<< HEAD
 	@RequestMapping("/etsy-results")
 	public ModelAndView SearchGifts(HttpSession session, String keywords, float max_price) {
 	
@@ -97,10 +92,7 @@ public class GiftController {
 		
 		return mv;
 		
-	}
-=======
->>>>>>> c177afd54f8e1b9d64430f9ae1c149688a8d08dc
-	
+	}	
 	
 	@RequestMapping("/image")
 	public ModelAndView giftImages(String listing_id) {
@@ -113,13 +105,10 @@ public class GiftController {
 		
 	}
 	
-
-	
 	@RequestMapping("/image/newSearch")
 	public ModelAndView giftImagesNoUrl() {
 		return new ModelAndView("TestOutPut");
 	}
-	
 	
 	@RequestMapping("/search")
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
