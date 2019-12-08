@@ -20,10 +20,17 @@
 	<%-- 	<p>${g.title}</p> --%>
 	<%-- 	<p>${g.price} ${g.currency_code}</p> --%>
 	<%-- 	<p>${g.description}</p> --%>
+<h1>Refinement Search Logic</h1>
+<h1>Search By Etsy</h1>	
+		<form action="/etsy-results">
+		Keywords: <input type="text" name="keywords"/>
+		Max Price: <input type="number" name="max_price"/>
+		<input type="submit" value="Submit"/> 
+	</form>
 
 	<div class="table table-hover">
 		<table class="table-dark" border=1>
-			<c:forEach var="g" items="${result.getResults() }">
+			<c:forEach var="g" items="${ currentGiftList }">
 				<tr>
 					<td><img
 						src="${gs.getGiftImage(g.listing_id).results[0].url_570xN }"
@@ -36,5 +43,6 @@
 			</c:forEach>
 		</table>
 	</div>
+	
 </body>
 </html>
