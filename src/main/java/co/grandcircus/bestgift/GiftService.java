@@ -29,6 +29,15 @@ public class GiftService {
 	}
 	
 	public Image getGiftImage(String listing_id) {
-		return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
+		//return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
+		return new Image();
+	}
+	
+	public GiftResult getListOfSearchedGifts(String keywords, float max_price) {
+		return rt.getForObject(getSearchedGiftsUrl(keywords, max_price), GiftResult.class);
+	}
+	
+	public String getSearchedGiftsUrl(String keywords, float max_price) {
+		return listingUrl + "&keywords=" + keywords + "&max_price=" + max_price;
 	}
 }

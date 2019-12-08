@@ -1,16 +1,22 @@
 package co.grandcircus.bestgift.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.GiftService;
+import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
+import co.grandcircus.bestgift.search.Keyword;
+import co.grandcircus.bestgift.search.Searcher;
 
 @Controller
 public class GiftController {
@@ -19,6 +25,11 @@ public class GiftController {
 	
 	@Autowired
 	GiftService gs;
+	
+	@RequestMapping("/")
+	public ModelAndView routeFromIndex(HttpSession session) {
+		return viewGifts(session);
+	}
 	
 	@RequestMapping("/gift-results")
 	public ModelAndView viewGifts(HttpSession session) {
@@ -29,8 +40,18 @@ public class GiftController {
 		
 		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
 		
-		GiftResult result = gs.getListOfGifts();
-		session.setAttribute("result", result);
+		GiftResult result = null;
+		if (session.getAttribute("result") == null) {
+			result = gs.getListOfGifts();
+			session.setAttribute("result", result);
+		} else {
+			result = (GiftResult) session.getAttribute("result");
+		}
+		
+		if (session.getAttribute("currentGiftList") == null )
+		{
+			session.setAttribute("currentGiftList", result.getResults());
+		}
 		
 		session.setAttribute("gs", gs);
 //		listId = result.getResults().get(0).getListing_id();
@@ -47,8 +68,31 @@ public class GiftController {
 		
 	}
 	
+	@RequestMapping("/etsy-results")
+	public ModelAndView SearchGifts(HttpSession session, String keywords, float max_price) {
 	
-	
+		ModelAndView mv = new ModelAndView("TestOutPut");
+		
+		GiftResult result = null;
+		if (session.getAttribute("result") == null) {
+			result = gs.getListOfSearchedGifts(keywords, max_price);
+			session.setAttribute("result", result);
+		} else {
+			result = (GiftResult) session.getAttribute("result");
+		}
+		
+		if (session.getAttribute("currentGiftList") == null )
+		{
+			session.setAttribute("currentGiftList", result.getResults());
+		}
+		
+		session.setAttribute("gs", gs);
+
+		mv.addObject("giftresult" , result.getResults());
+		
+		return mv;
+		
+	}	
 	
 	@RequestMapping("/image")
 	public ModelAndView giftImages(String listing_id) {
@@ -61,12 +105,17 @@ public class GiftController {
 		
 	}
 	
-
-	
 	@RequestMapping("/image/newSearch")
 	public ModelAndView giftImagesNoUrl() {
 		return new ModelAndView("TestOutPut");
 	}
 	
-	
+	@RequestMapping("/search")
+	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
+		List<Gift> lastRoundOfGifts = ((List<Gift>) session.getAttribute("currentGiftList"));
+		Searcher seekAmongGifts = new Searcher(lastRoundOfGifts);
+		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts(new Keyword(kw1)));
+		
+		return new ModelAndView("giftresults");
+	}
 }
