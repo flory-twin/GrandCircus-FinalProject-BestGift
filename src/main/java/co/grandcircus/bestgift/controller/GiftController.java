@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.GiftService;
@@ -25,7 +25,7 @@ public class GiftController {
 	
 	@Autowired
 	GiftService gs;
-	
+
 	@RequestMapping("/")
 	public ModelAndView routeFromIndex(HttpSession session) {
 		return viewGifts(session);
@@ -117,5 +117,14 @@ public class GiftController {
 		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts(new Keyword(kw1)));
 		
 		return new ModelAndView("giftresults");
+	}
+	
+	@RequestMapping("/search-history")
+	public ModelAndView showHistoryPage(HttpSession session, @RequestParam(required = false) Integer listId) {
+		if (listId == null) {
+			return new ModelAndView("searchhistory");
+		} else {
+			return new ModelAndView("searchhistory", "listId", listId);
+		}
 	}
 }
