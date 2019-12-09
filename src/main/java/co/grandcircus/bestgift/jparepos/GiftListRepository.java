@@ -6,4 +6,5 @@ import co.grandcircus.bestgift.tables.GiftList;
 
 public interface GiftListRepository extends JpaRepository<GiftList, Integer>{
 	
+	
 }

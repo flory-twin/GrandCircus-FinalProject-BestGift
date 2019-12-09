@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.GiftService;
+import co.grandcircus.bestgift.jparepos.GiftListRepository;
 import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
@@ -25,9 +26,12 @@ public class GiftController {
 	
 	@Autowired
 	GiftService gs;
+	@Autowired 
+	GiftListRepository gl;
 
 	@RequestMapping("/")
 	public ModelAndView routeFromIndex(HttpSession session) {
+		recacheRepositories(session);
 		return viewGifts(session);
 	}
 	
@@ -40,20 +44,11 @@ public class GiftController {
 		
 		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
 		
-		GiftResult result = null;
-		if (session.getAttribute("result") == null) {
-			result = gs.getListOfGifts();
-			session.setAttribute("result", result);
-		} else {
-			result = (GiftResult) session.getAttribute("result");
-		}
+		recacheRepositories(session);
 		
-		if (session.getAttribute("currentGiftList") == null )
-		{
-			session.setAttribute("currentGiftList", result.getResults());
-		}
-		
-		session.setAttribute("gs", gs);
+		GiftResult result = gs.getListOfGifts();
+		session.setAttribute("result", result);		
+		session.setAttribute("currentGiftList", result.getResults());
 //		listId = result.getResults().get(0).getListing_id();
 //		
 //		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
@@ -72,19 +67,10 @@ public class GiftController {
 	public ModelAndView SearchGifts(HttpSession session, String keywords, float max_price) {
 	
 		ModelAndView mv = new ModelAndView("TestOutPut");
+		recacheRepositories(session);
 		
-		GiftResult result = null;
-		if (session.getAttribute("result") == null) {
-			result = gs.getListOfSearchedGifts(keywords, max_price);
-			session.setAttribute("result", result);
-		} else {
-			result = (GiftResult) session.getAttribute("result");
-		}
-		
-		if (session.getAttribute("currentGiftList") == null )
-		{
-			session.setAttribute("currentGiftList", result.getResults());
-		}
+		GiftResult result = gs.getListOfSearchedGifts(keywords, max_price);
+		this.recacheResult(result, session);
 		
 		session.setAttribute("gs", gs);
 
@@ -112,6 +98,8 @@ public class GiftController {
 	
 	@RequestMapping("/search")
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
+		recacheRepositories(session);
+		
 		List<Gift> lastRoundOfGifts = ((List<Gift>) session.getAttribute("currentGiftList"));
 		Searcher seekAmongGifts = new Searcher(lastRoundOfGifts);
 		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts(new Keyword(kw1)));
@@ -126,5 +114,14 @@ public class GiftController {
 		} else {
 			return new ModelAndView("searchhistory", "listId", listId);
 		}
+	}
+	
+	private void recacheResult(GiftResult toCache, HttpSession session) {
+		session.setAttribute("result", toCache);
+		session.setAttribute("currentGiftList", toCache.getResults());
+	}
+	private void recacheRepositories(HttpSession session) {
+		session.setAttribute("gs", gs);
+		session.setAttribute("gl", gl);
 	}
 }

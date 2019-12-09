@@ -33,32 +33,40 @@
 			</thead>
 			<c:forEach var="gl" varStatus="i" items="${ gs.getCompleteSearchHistory() }">
 				<tr>
-					<td>${ i.count() }</td>
+					<td>${ i.index }</td>
 					<td>
 						<form action="/search-history">
-							<input type="hidden" name="listId" value="${ gl.getId() }"/>
+							<input type="hidden" name="listId" value="${ gl.getGiftListId() }"/>
 							<input type="submit" name="Show Search"/>
 						</form>
 					</td>
 				</tr>
 			</c:forEach>
 		</table>
-		
+		<h1> Value of repo: ${ gl }</h1>
 		<h1>Gifts Returned by Search</h1>
-		<table class="table-dark" border=1>
-			<c:forEach var="giftInList" items="${ gl.getOne(listId) }">
-				<tr>
-					<td><img
-						src="${gs.getGiftImage(giftInList.listingId).results[0].url_570xN }"
-						width="270" height="200" /></td>
-					<td>${giftInList.title}</td>
-					<td>${giftInList.price}${giftInList.currencyCode}</td>
-
-					<td>${giftInList.description}</td>
-				</tr>
-			</c:forEach>
-		</table>
-	</div>
+		<c:choose>
+			<c:when test="${ listId == null }">
+				No search has been selected.		
+			</c:when>
+			<c:otherwise>
+				<table class="table-dark" border=1>
+					<c:forEach var="giftInList" items="${ gl.getOne(listId).getGifts() }">
+						<tr>
+							<td><img
+								src="${gs.getGiftImage(giftInList.listingId).results[0].url_570xN }"
+								width="270" height="200" /></td>
+							<td>${giftInList.title}</td>
+							<td>${giftInList.price}${giftInList.currencyCode}</td>
+		
+							<td>${giftInList.description}</td>
+						</tr>
+					</c:forEach>
+				</table>
+				
+			</c:otherwise>
+		</c:choose>
+</div>
 	</div>
 	
 </body>
