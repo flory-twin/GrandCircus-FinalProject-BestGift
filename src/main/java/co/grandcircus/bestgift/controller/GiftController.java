@@ -22,24 +22,24 @@ import co.grandcircus.bestgift.search.Searcher;
 public class GiftController {
 	@Value("${etsy.key}")
 	private String etsyKey;
-	
+
 	@Autowired
 	GiftService gs;
-	
+
 	@RequestMapping("/")
 	public ModelAndView routeFromIndex(HttpSession session) {
 		return viewGifts(session);
 	}
-	
+
 	@RequestMapping("/gift-results")
 	public ModelAndView viewGifts(HttpSession session) {
 		Image imgResult;
 		int listId;
 		String imageUrl;
 		ModelAndView mv = new ModelAndView("giftresults");
-		
+
 		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
-		
+
 		GiftResult result = null;
 		if (session.getAttribute("result") == null) {
 			result = gs.getListOfGifts();
@@ -47,12 +47,11 @@ public class GiftController {
 		} else {
 			result = (GiftResult) session.getAttribute("result");
 		}
-		
-		if (session.getAttribute("currentGiftList") == null )
-		{
+
+		if (session.getAttribute("currentGiftList") == null) {
 			session.setAttribute("currentGiftList", result.getResults());
 		}
-		
+
 		session.setAttribute("gs", gs);
 //		listId = result.getResults().get(0).getListing_id();
 //		
@@ -63,59 +62,53 @@ public class GiftController {
 //		mv.addObject("p", imgResult);		
 //		mv.addObject("giftresult" , imgResult);
 //		mv.addObject("giftresult" , result.getResults().get(0));
-		
+
 		return mv;
-		
+
 	}
-	
+
 	@RequestMapping("/etsy-results")
-	public ModelAndView SearchGifts(HttpSession session, String keywords, float max_price) {
-	
+	public ModelAndView SearchGifts(HttpSession session, String keywords, Double max_price) {
+
 		ModelAndView mv = new ModelAndView("TestOutPut");
-		
+
 		GiftResult result = null;
-		if (session.getAttribute("result") == null) {
-			result = gs.getListOfSearchedGifts(keywords, max_price);
-			session.setAttribute("result", result);
-		} else {
-			result = (GiftResult) session.getAttribute("result");
-		}
-		
-		if (session.getAttribute("currentGiftList") == null )
-		{
-			session.setAttribute("currentGiftList", result.getResults());
-		}
-		
+
+		result = gs.getListOfSearchedGifts(keywords, max_price);
+		session.setAttribute("result", result);
+
+		session.setAttribute("currentGiftList", result.getResults());
+
 		session.setAttribute("gs", gs);
 
-		mv.addObject("giftresult" , result.getResults());
-		
+		mv.addObject("giftresult", result.getResults());
+
 		return mv;
-		
-	}	
-	
+
+	}
+
 	@RequestMapping("/image")
 	public ModelAndView giftImages(String listing_id) {
 		ModelAndView mv = new ModelAndView("TestOutPut");
-		
+
 		Image result = gs.getGiftImage(listing_id);
-		
+
 		mv.addObject("i", result);
 		return mv;
-		
+
 	}
-	
+
 	@RequestMapping("/image/newSearch")
 	public ModelAndView giftImagesNoUrl() {
 		return new ModelAndView("TestOutPut");
 	}
-	
+
 	@RequestMapping("/search")
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
 		List<Gift> lastRoundOfGifts = ((List<Gift>) session.getAttribute("currentGiftList"));
 		Searcher seekAmongGifts = new Searcher(lastRoundOfGifts);
 		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts(new Keyword(kw1)));
-		
+
 		return new ModelAndView("giftresults");
 	}
 }
