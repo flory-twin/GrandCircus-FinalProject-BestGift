@@ -24,7 +24,7 @@ public class GiftService {
 	@Autowired
 	GiftListRepository gl;
 	
-	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
+	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
 	
 	RestTemplate rt = new RestTemplate();
 	
@@ -56,7 +56,7 @@ public class GiftService {
 	}
 	
 	public String getSearchedGiftsUrl(String keywords, float max_price) {
-		return listingUrl + "&keywords=" + keywords + "&max_price=" + max_price;
+		return listingUrl + etsyKey + "&keywords=" + keywords + "&max_price=" + max_price;
 	}
 	
 	public void saveGiftsToDatabase(List<Gift> giftsToSave) {

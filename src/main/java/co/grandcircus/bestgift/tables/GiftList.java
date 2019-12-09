@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import co.grandcircus.bestgift.models.Gift;
@@ -21,8 +20,7 @@ public class GiftList {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "gift_list_id")
 	private Integer giftListId;
-	@ManyToOne
-	@JoinColumn(name = "giftId")
+	@OneToMany
 	private List<Gift> gifts;
 	
 	/*
@@ -40,6 +38,7 @@ public class GiftList {
 		this();
 		gifts = giftsToSet;
 	}
+	
 	
 	public GiftList(Integer existingListId, List<Gift> toSet) {
 		this(toSet);
