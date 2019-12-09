@@ -1,14 +1,18 @@
 package co.grandcircus.bestgift;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import co.grandcircus.bestgift.jparepos.GiftListRepository;
+import co.grandcircus.bestgift.jparepos.GiftRepository;
 import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
-import co.grandcircus.bestgift.jparepos.GiftRepository;
+import co.grandcircus.bestgift.tables.GiftList;
 
 @Component
 public class GiftService {
@@ -17,6 +21,8 @@ public class GiftService {
 	
 	@Autowired
 	GiftRepository gr;
+	@Autowired
+	GiftListRepository gl;
 	
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
 	
@@ -24,9 +30,8 @@ public class GiftService {
 	
 	public GiftResult getListOfGifts() {
 		GiftResult giftsToReturn = rt.getForObject(getGiftsUrl(), GiftResult.class);
-		for (Gift g : giftsToReturn.getResults()) {
-			gr.save(g); 
-		}
+		saveGiftsToDatabase(giftsToReturn.getResults());
+		saveGiftListToDatabase(giftsToReturn.getResults());
 		return giftsToReturn;
 	}
 	
@@ -45,13 +50,26 @@ public class GiftService {
 	
 	public GiftResult getListOfSearchedGifts(String keywords, float max_price) {
 		GiftResult giftsToReturn = rt.getForObject(getSearchedGiftsUrl(keywords, max_price), GiftResult.class);
-		for (Gift g : giftsToReturn.getResults()) {
-			gr.save(g); 
-		}
+		saveGiftsToDatabase(giftsToReturn.getResults());
+		saveGiftListToDatabase(giftsToReturn.getResults());
 		return giftsToReturn;
 	}
 	
 	public String getSearchedGiftsUrl(String keywords, float max_price) {
 		return listingUrl + "&keywords=" + keywords + "&max_price=" + max_price;
+	}
+	
+	public void saveGiftsToDatabase(List<Gift> giftsToSave) {
+		for (Gift g : giftsToSave) {
+			gr.save(g); 
+		}
+	}
+	
+	public void saveGiftListToDatabase(List<Gift> giftsToAdd) {
+		gl.save(new GiftList(giftsToAdd));
+	}
+	
+	public List<GiftList> getCompleteSearchHistory() {
+		return gl.findAll();
 	}
 }
