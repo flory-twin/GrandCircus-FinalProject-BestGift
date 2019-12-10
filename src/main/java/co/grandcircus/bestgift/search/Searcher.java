@@ -9,21 +9,32 @@ import co.grandcircus.bestgift.models.GiftResult;
 
 public abstract class Searcher<T> {
 
+	protected T whatToSearchOn;
 	protected List<Gift> lastRoundOfGifts; 
 	
-	public Searcher(List<Gift> giftsToSearchAmong) {
+	public Searcher(List<Gift> giftsToSearchAmong, T searchCriterion) {
 		lastRoundOfGifts = giftsToSearchAmong;
-	}
-	public Searcher(GiftResult response) {
-		lastRoundOfGifts = response.getResults();
+		whatToSearchOn = searchCriterion;
 	}
 	
+	public Searcher(GiftResult response, T searchCriterion) {
+		lastRoundOfGifts = response.getResults();
+		whatToSearchOn = searchCriterion;
+	}
+	
+	public T getWhatToSearchOn() {
+		return whatToSearchOn;
+	}
+	
+	public List<Gift> getListToSearch() {
+		return lastRoundOfGifts;
+	}
 	/**
 	 * Search our list of Gifts for those Gifts matching the given Keyword.
 	 * @param k
 	 * @return
 	 */
-	public abstract List<Gift> findMatchingGifts(T t);
+	public abstract List<Gift> findMatchingGifts();
 	
 	/**
 	 * Like findMatchingGifts(Keyword), but limits the number of max results.
@@ -32,7 +43,7 @@ public abstract class Searcher<T> {
 	 * @param numberToFind
 	 * @return
 	 */
-	public abstract List<Gift> findMatchingGifts(T t, int maxNumberToFind);
+	public abstract List<Gift> findMatchingGifts(int maxNumberToFind);
 
 	public static void sortGiftListByListingId(List<Gift> toBeSorted) {
 		toBeSorted.sort(
