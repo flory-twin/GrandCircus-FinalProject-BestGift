@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,9 +19,7 @@ import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
 import co.grandcircus.bestgift.search.Keyword;
-
 import co.grandcircus.bestgift.search.KeywordSearcher;
-
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.search.Searcher;
 
@@ -40,7 +37,7 @@ public class GiftController {
 	SearchExpressionRepository ser;
 	@Autowired
 	KeywordRepository kr;
-
+	
 	@RequestMapping("/")
 	public ModelAndView routeFromIndex(HttpSession session) {
 		recacheRepositories(session);
@@ -77,23 +74,22 @@ public class GiftController {
 
 	@RequestMapping("/etsy-results")
 	public ModelAndView SearchGifts(HttpSession session, String keywords, Double max_price) {
-
-		ModelAndView mv = new ModelAndView("TestOutPut");
-
+		// Just in case user navigated straight to this page...
 		recacheRepositories(session);
 		
+		ModelAndView mv = new ModelAndView("TestOutPut");
+		// Put search operators into repo
+		Keyword k = addKeyword(keywords);
+		SearchExpression searchExp = addSearchExpression(k);
+		
+		// Perform actual search 
+		// TODO: Refactor to take SearchExp
 		GiftResult result = gs.getListOfSearchedGifts(keywords, max_price);
-		Keyword k = new Keyword(keywords);
-		kr.save(k);
-		SearchExpression searchExp = new SearchExpression(k);
 		
-		ser.save(searchExp);
-		
+		// Cache new results.
 		this.recacheResult(result, session);
-		
-		session.setAttribute("gs", gs);
 
-		mv.addObject("giftresult", result.getResults());
+		//mv.addObject("giftresult", result.getResults());
 
 		return mv;
 
@@ -120,8 +116,9 @@ public class GiftController {
 		recacheRepositories(session);
 		
 		List<Gift> lastRoundOfGifts = ((List<Gift>) session.getAttribute("currentGiftList"));
-		Searcher seekAmongGifts = new KeywordSearcher(lastRoundOfGifts);
-		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts(new Keyword(kw1)));
+		Keyword k = addKeyword(kw1);
+		Searcher seekAmongGifts = new KeywordSearcher(lastRoundOfGifts, k);
+		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts());
 
 		return new ModelAndView("giftresults");
 	}
@@ -142,5 +139,17 @@ public class GiftController {
 	private void recacheRepositories(HttpSession session) {
 		session.setAttribute("gs", gs);
 		session.setAttribute("gl", gl);
+	}
+	
+	private Keyword addKeyword(String value) {
+		Keyword k = new Keyword(value);
+		kr.save(k);
+		return k;
+	}
+	
+	private SearchExpression addSearchExpression(Keyword k) {
+		SearchExpression searchExp = new SearchExpression(k);
+		ser.save(searchExp);
+		return searchExp;
 	}
 }

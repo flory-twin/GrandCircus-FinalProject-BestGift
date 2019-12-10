@@ -13,7 +13,7 @@
 <%-- <img src="${ i.results[0].url_570xN }" width="270" height="200"/> --%>
 <h1>Test</h1>
 		<table>
-			<c:forEach var="g" items="${giftresult}">
+			<c:forEach var="g" items="${result.getResults()}">
 				<tr>
 					<td><img
 						src="${gs.getGiftImage(g.listingId).results[0].url_570xN }"
