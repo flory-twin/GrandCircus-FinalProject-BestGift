@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.GiftService;
@@ -16,6 +15,7 @@ import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
 import co.grandcircus.bestgift.search.Keyword;
+import co.grandcircus.bestgift.search.KeywordSearcher;
 import co.grandcircus.bestgift.search.Searcher;
 
 @Controller
@@ -106,7 +106,7 @@ public class GiftController {
 	@RequestMapping("/search")
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
 		List<Gift> lastRoundOfGifts = ((List<Gift>) session.getAttribute("currentGiftList"));
-		Searcher seekAmongGifts = new Searcher(lastRoundOfGifts);
+		Searcher seekAmongGifts = new KeywordSearcher(lastRoundOfGifts);
 		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts(new Keyword(kw1)));
 
 		return new ModelAndView("giftresults");
