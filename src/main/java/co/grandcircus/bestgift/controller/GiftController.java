@@ -13,10 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.GiftService;
 import co.grandcircus.bestgift.jparepos.GiftListRepository;
+import co.grandcircus.bestgift.jparepos.KeywordRepository;
+import co.grandcircus.bestgift.jparepos.SearchExpressionRepository;
 import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
 import co.grandcircus.bestgift.search.Keyword;
+import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.search.Searcher;
 
 @Controller
@@ -28,6 +31,10 @@ public class GiftController {
 	GiftService gs;
 	@Autowired 
 	GiftListRepository gl;
+	@Autowired
+	SearchExpressionRepository ser;
+	@Autowired
+	KeywordRepository kr;
 
 	@RequestMapping("/")
 	public ModelAndView routeFromIndex(HttpSession session) {
@@ -70,6 +77,12 @@ public class GiftController {
 		recacheRepositories(session);
 		
 		GiftResult result = gs.getListOfSearchedGifts(keywords, max_price);
+		Keyword k = new Keyword(keywords);
+		kr.save(k);
+		SearchExpression searchExp = new SearchExpression(k);
+		
+		ser.save(searchExp);
+		
 		this.recacheResult(result, session);
 		
 		session.setAttribute("gs", gs);

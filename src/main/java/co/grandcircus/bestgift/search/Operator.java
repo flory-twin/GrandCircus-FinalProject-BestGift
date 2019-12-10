@@ -1,3 +1,5 @@
 package co.grandcircus.bestgift.search;
 
-public enum Operator {OR}
+public enum Operator {OR, AND}
+
+
