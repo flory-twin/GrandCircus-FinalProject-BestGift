@@ -1,27 +1,47 @@
 package co.grandcircus.bestgift.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-// This Model is both a JSON response component (within a GiftResult) and a database table.
+import co.grandcircus.bestgift.tables.GiftList;
+
+/**
+ *  This Model is both a JSON response component (within a GiftResult) and a database table.
+ * 
+ *
+ */
 @Entity
 @Table(name = "gift")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Gift {
 
-	//TODO Refactor Integer to Integer.
+	/*
+	 * ------------------------------------------------------------------------------
+	 *  Database-specific model properties (not found in/deserializable from JSON)
+	 * ------------------------------------------------------------------------------
+	 */
+	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "gift_id")
 	private Integer giftId;
-	//TODO Refactor so field names are standard Java, and:
+	
+	/*
+	 * ------------------------------------------------------------------------------
+	 *  JSON-specific model properties
+	 * ------------------------------------------------------------------------------
+	 */
 	@Column(name = "listing_id")
 	@JsonProperty("listing_id")
 	private Integer listingId;
@@ -50,9 +70,6 @@ public class Gift {
 		this(listingId, title, description, currencyCode, price);
 		this.giftId = giftId;
 	}
-
-	
-	
 
 	public String getTitle() {
 		return title;
