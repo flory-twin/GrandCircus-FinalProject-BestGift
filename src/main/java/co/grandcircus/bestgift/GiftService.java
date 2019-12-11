@@ -24,7 +24,7 @@ public class GiftService {
 	GiftRepository gr;
 	@Autowired
 	GiftListRepository gl;
-	
+
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
 	RestTemplate rt = new RestTemplate();
 
