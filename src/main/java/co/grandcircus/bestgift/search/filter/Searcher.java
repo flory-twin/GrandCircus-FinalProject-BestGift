@@ -1,6 +1,5 @@
-package co.grandcircus.bestgift.search;
+package co.grandcircus.bestgift.search.filter;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

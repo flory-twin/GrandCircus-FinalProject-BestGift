@@ -22,10 +22,6 @@
 	</form>
 		<table>
 			<c:forEach var="g" items="${result.getResults()}">
-=======
-		<table>
-			<c:forEach var="g" items="${giftresult}">
->>>>>>> b8a6d13d281da969513580a61576d5c0cced981e
 				<tr>
 					<td><img
 						src="${gs.getGiftImage(g.listingId).results[0].url_570xN }"

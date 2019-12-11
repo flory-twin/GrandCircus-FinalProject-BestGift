@@ -1,11 +1,11 @@
-package co.grandcircus.bestgift.search;
+package co.grandcircus.bestgift.search.filter;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
+import co.grandcircus.bestgift.search.Keyword;
 
 public class KeywordSearcher extends Searcher<Keyword> {
 	public KeywordSearcher(GiftResult response, Keyword toSearchBy) {

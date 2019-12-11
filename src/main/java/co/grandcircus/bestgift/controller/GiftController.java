@@ -1,7 +1,5 @@
 package co.grandcircus.bestgift.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +13,11 @@ import co.grandcircus.bestgift.GiftService;
 import co.grandcircus.bestgift.jparepos.GiftListRepository;
 import co.grandcircus.bestgift.jparepos.KeywordRepository;
 import co.grandcircus.bestgift.jparepos.SearchExpressionRepository;
-import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
 import co.grandcircus.bestgift.search.Keyword;
-import co.grandcircus.bestgift.search.KeywordSearcher;
 import co.grandcircus.bestgift.search.Operator;
 import co.grandcircus.bestgift.search.SearchExpression;
-import co.grandcircus.bestgift.search.Searcher;
 
 @Controller
 public class GiftController {
@@ -44,6 +39,13 @@ public class GiftController {
 		return viewGifts(session);
 	}
 
+	/**
+	 * Routes traffic to the entry page, giftresults.jsp.
+	 * 
+	 * 
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/gift-results")
 	public ModelAndView viewGifts(HttpSession session) {
 		Image imgResult;
@@ -56,36 +58,51 @@ public class GiftController {
 		recacheRepositories(session);
 		
 		GiftResult result = gs.getListOfGifts();
-		session.setAttribute("result", result);		
-		session.setAttribute("currentGiftList", result.getResults());
-//		listId = result.getResults().get(0).getListing_id();
-//		
-//		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
-//		
-//		imgResult = rt.getForObject(imageUrl, Image.class);
-//		
-//		mv.addObject("p", imgResult);		
-//		mv.addObject("giftresult" , imgResult);
-//		mv.addObject("giftresult" , result.getResults().get(0));
+		recacheResult(result, session);
 
 		return mv;
 
 	}
 
 	@RequestMapping("/etsy-results")
-	public ModelAndView SearchGifts(HttpSession session, @RequestParam String keywords, @RequestParam Double max_price) {
+	public ModelAndView SearchGifts(
+			HttpSession session, 
+			@RequestParam String keywords, 
+			@RequestParam(required = false) String keywords2,
+			@RequestParam(required = false) String keywords3,
+			@RequestParam(required = false) String keywords4,
+			@RequestParam Double max_price) {
 		// Just in case user navigated straight to this page...
 		recacheRepositories(session);
 		
-		ModelAndView mv = new ModelAndView("TestOutPut");
+		//request.getParameter("product"+i+"SkusCnt"))
+		
+		ModelAndView mv = new ModelAndView("giftresults");
 		// Put search operators into repo
 		Keyword k = addKeyword(keywords);
 		// TODO for later: move all DB stuff into Service, or move it here, but not half and half
-		SearchExpression searchExp = addSearchExpression(k);
+		SearchExpression searchExp = new SearchExpression(k);
+		
+		if (keywords2 != null && keywords2 != "") {
+			SearchExpression inner2 = new SearchExpression(addKeyword(keywords2));
+			if (keywords3 != null && keywords3 != "") {
+				SearchExpression inner3 = new SearchExpression(addKeyword(keywords3));
+				if (keywords4 != null && keywords4 != "") {
+					inner3.setO(Operator.AND);
+					inner3.setK2(addKeyword(keywords4));
+				}
+				inner2.setO(Operator.AND);
+				inner2.setBaseSE(inner3);
+			}
+			searchExp.setO(Operator.AND);
+			searchExp.setBaseSE(inner2);
+		}
+		
 		
 		// Perform actual search 
 		// TODO: Refactor to take SearchExp
-		GiftResult result = gs.getListOfSearchedGifts(keywords, max_price);
+		
+		GiftResult result = gs.getListOfSearchedGifts(searchExp);
 		
 		// Cache new results.
 		this.recacheResult(result, session);
@@ -188,5 +205,10 @@ public class GiftController {
 		SearchExpression searchExp = new SearchExpression(k1, Operator.AND, k2);
 		ser.save(searchExp);
 		return searchExp;
+	}
+	
+	private SearchExpression addSearchExpression(SearchExpression se) {
+		ser.save(se);
+		return se;
 	}
 }

@@ -60,17 +60,40 @@ public class GiftService {
 		return listingUrl + etsyKey + "&keywords=\"" + keywords + "\"&max_price=" + max_price;
 	} 
 	public GiftResult getListOfSearchedGifts(SearchExpression se) {
-		GiftResult giftsToReturn = null;
-		
-		if (se.getK1() != null && se.getKeyword2() != null)
-		{
-			 giftsToReturn= rt.getForObject(getSearchedGiftsUrl(
-					 se.getKeyword1().getValue(), 
-					 se.getKeyword2().getValue()), GiftResult.class);
-			 saveGiftsToDatabase(giftsToReturn.getResults());
-			 saveGiftListToDatabase(giftsToReturn.getResults());
-		}
+		String url = listingUrl + etsyKey + getEtsySearchParameters(se);
+		GiftResult giftsToReturn = rt.getForObject(url, GiftResult.class);
+		// TODO Save search expression here to create history log.
+		saveGiftsToDatabase(giftsToReturn.getResults());
+		saveGiftListToDatabase(giftsToReturn.getResults());
 		return giftsToReturn;
+	}
+	
+	private String getEtsySearchParameters (SearchExpression se) {
+		String returnVal = "";
+		
+		// How to convert a SearchExpression to a URL:
+		// We know the following will always be true about a SearchExpression:
+		//  1. The first keyword will ALWAYS be set.
+		//  2. If an Operator is set, then either (2a) the second keyword is set, or (2b) the interior search expression is set.
+		if (se.getOperator() == null) {
+			// Case 1
+			//  To get this data from Etsy, just use the 1st keyword.
+			returnVal = ("&keywords=\"" + se.getKeyword1().getUrlEncodedValue() + "\"");
+		} else {
+			// Case 2
+			//   Case 2a. If the second keyword is set, the URL is easy.
+			if (se.getKeyword2() != null) {
+				returnVal = ("&keywords=\"" + se.getKeyword1().getUrlEncodedValue() + "\" \"" + se.getKeyword2().getUrlEncodedValue() + "\"");
+			} else {
+				// Case 2b
+				//  We'll need to go through the BaseExpression in order to get -its- query parameters...
+				returnVal = getEtsySearchParameters(se.getBaseExpression());
+				// Now add our keyword to the very front.
+				returnVal = returnVal.replace("&keywords=", "&keywords=\"" + se.getKeyword1().getUrlEncodedValue() + "\" ");
+			}
+		}
+		
+		return returnVal;
 	}
 	
 	public String getSearchedGiftsUrl(String keywords, String keywords2) {
