@@ -20,29 +20,32 @@
 	<%-- 	<p>${g.title}</p> --%>
 	<%-- 	<p>${g.price} ${g.currency_code}</p> --%>
 	<%-- 	<p>${g.description}</p> --%>
-<h1>Refinement Search Logic</h1>
-<h1>Search By Etsy</h1>	
-		<form action="/etsy-results">
-		Keywords: <input type="text" name="keywords"/>
-		Max Price: <input type="number" name="max_price" />
-		<input type="submit" value="Submit"/> 
+	<h1>Refinement Search Logic</h1>
+	<h1>Search By Etsy</h1>
+	<form action="/etsy-results">
+		Keywords: <input type="text" name="keywords" /> Max Price: <input
+			type="number" name="max_price" /> <input type="submit"
+			value="Submit" />
 	</form>
-
 	<div class="table table-hover">
-		<table class="table-dark" border=1>
-			<c:forEach var="g" items="${ currentGiftList }">
-				<tr>
-					<td><img
-						src="${gs.getGiftImage(g.listingId).results[0].url_570xN }"
-						width="270" height="200" /></td>
-					<td>${g.title}</td>
-					<td>${g.price}${g.currencyCode}</td>
 
-					<td>${g.description}</td>
+		<c:forEach var="g" items="${ currentGiftList }">
+			<table class="table-dark" border=1 >
+				<tr>
+					<th><img
+						src="${gs.getGiftImage(g.listingId).results[0].url_570xN }"
+						width="270" height="200" /></th>
+					<th>${g.title}</th>
+					<th>${g.price}${g.currencyCode}</th>
+
+					<th>${g.description}</th>
 				</tr>
-			</c:forEach>
-		</table>
+			</table>
+
+		</c:forEach>
 	</div>
-	
+
+
+
 </body>
 </html>
