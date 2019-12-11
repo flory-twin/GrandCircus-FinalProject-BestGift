@@ -109,6 +109,12 @@ public class Gift {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+
+	@Override
+	public String toString() {
+		return "Gift [giftId=" + giftId + ", listingId=" + listingId + ", title=" + title + ", description="
+				+ description + ", currencyCode=" + currencyCode + ", price=" + price + "]";
+	}
 	
 	/*
 	private String state;
