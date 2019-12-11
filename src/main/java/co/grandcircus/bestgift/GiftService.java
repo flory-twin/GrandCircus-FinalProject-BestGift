@@ -59,7 +59,22 @@ public class GiftService {
 	}
 	
 	public String getSearchedGiftsUrl(String keywords, Double max_price) {
-		return listingUrl + etsyKey + "&keywords=" + keywords + "&max_price=" + max_price;
+		keywords = keywords.replace(' ', '+');
+		return listingUrl + etsyKey + "&keywords=\"" + keywords + "\"&max_price=" + max_price;
+	} 
+	public GiftResult getListOfSearchedGifts(String keywords, String keywords2) {
+		
+		GiftResult giftsToReturn = rt.getForObject(getSearchedGiftsUrl(keywords, keywords2), GiftResult.class);
+
+		saveGiftsToDatabase(giftsToReturn.getResults());
+		saveGiftListToDatabase(giftsToReturn.getResults());
+		return giftsToReturn;
+	}
+	
+	public String getSearchedGiftsUrl(String keywords, String keywords2) {
+		keywords = keywords.replace(' ', '+');
+		keywords2 = keywords2.replace(' ', '+');
+		return listingUrl + etsyKey + "&keywords=\"" + keywords + "\" \"" + keywords2 +"\"";
 	}
 	
 	public void saveGiftsToDatabase(List<Gift> giftsToSave) {

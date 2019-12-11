@@ -20,6 +20,7 @@ import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
 import co.grandcircus.bestgift.search.Keyword;
 import co.grandcircus.bestgift.search.KeywordSearcher;
+import co.grandcircus.bestgift.search.Operator;
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.search.Searcher;
 
@@ -73,18 +74,45 @@ public class GiftController {
 	}
 
 	@RequestMapping("/etsy-results")
-	public ModelAndView SearchGifts(HttpSession session, String keywords, Double max_price) {
+	public ModelAndView SearchGifts(HttpSession session, @RequestParam String keywords, @RequestParam Double max_price) {
 		// Just in case user navigated straight to this page...
 		recacheRepositories(session);
 		
 		ModelAndView mv = new ModelAndView("TestOutPut");
 		// Put search operators into repo
 		Keyword k = addKeyword(keywords);
+		// TODO for later: move all DB stuff into Service, or move it here, but not half and half
 		SearchExpression searchExp = addSearchExpression(k);
 		
 		// Perform actual search 
 		// TODO: Refactor to take SearchExp
 		GiftResult result = gs.getListOfSearchedGifts(keywords, max_price);
+		
+		// Cache new results.
+		this.recacheResult(result, session);
+
+		//mv.addObject("giftresult", result.getResults());
+
+		return mv;
+
+	}
+	
+	@RequestMapping("/etsy-results2")
+	public ModelAndView SearchGifts(HttpSession session, @RequestParam String keywords, @RequestParam String keywords2) {
+		// Just in case user navigated straight to this page...
+		recacheRepositories(session);
+		
+		ModelAndView mv = new ModelAndView("TestOutPut");
+		// Put search operators into repo
+		Keyword k = addKeyword(keywords);
+		Keyword k2 = addKeyword(keywords2);
+		// TODO for later: move all DB stuff into Service, or move it here, but not half and half
+		SearchExpression searchExp = addSearchExpression(k, k2);
+		
+		
+		// Perform actual search 
+		// TODO: Refactor to take SearchExp
+		GiftResult result = gs.getListOfSearchedGifts(keywords, keywords2);
 		
 		// Cache new results.
 		this.recacheResult(result, session);
@@ -149,6 +177,12 @@ public class GiftController {
 	
 	private SearchExpression addSearchExpression(Keyword k) {
 		SearchExpression searchExp = new SearchExpression(k);
+		ser.save(searchExp);
+		return searchExp;
+	}
+	
+	private SearchExpression addSearchExpression(Keyword k1, Keyword k2) {
+		SearchExpression searchExp = new SearchExpression(k1, Operator.AND, k2);
 		ser.save(searchExp);
 		return searchExp;
 	}
