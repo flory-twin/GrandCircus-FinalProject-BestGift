@@ -173,10 +173,11 @@ public class GiftService {
 		ser.save(se);
 	}
 	
-	public SearchHistory saveSearchHistoryRecordToDatabase(SearchHistory sh) {
+	public SearchHistory saveSearchHistoryRecordToDatabase(SearchHistory sh, HttpSession session) {
 		ser.save(sh.getQuery());
 		gl.save(sh.getSearchResult());
 		shr.save(sh);
+		session.setAttribute("lastSearchHistory", sh);
 		return sh;
 	}
 	

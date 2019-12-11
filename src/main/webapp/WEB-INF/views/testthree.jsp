@@ -50,9 +50,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   <footer class="w3-row-padding w3-padding-32">
     <div class="w3-third">
       <h3>Search By More KeyWords</h3>
-      ${ shr.find }
+      B LACH SLKDFJSLDKJF ${ lastSearchHistory.query.getKeyword1() }
       <form action="/etsy-results">
-		Search Param: <input type="text" name="keywords" value=${  }/> <br>
+		Search Param: <input type="text" name="keywords" /> <br>
 		Search Param: <input type="text" name="keywords2" /> <br>
 		Search Param: <input type="text" name="keywords3" /> <br>
 		Search Param: <input type="text" name="keywords4" /> <br>
