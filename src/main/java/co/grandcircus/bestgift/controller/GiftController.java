@@ -149,10 +149,77 @@ public class GiftController {
 
 	}
 
-	@RequestMapping("/image/newSearch")
-	public ModelAndView giftImagesNoUrl() {
-		return new ModelAndView("TestOutPut");
+	@RequestMapping("/testtwo")
+	public ModelAndView viewGiftstesttwo(HttpSession session) {
+		Image imgResult;
+		int listId;
+		String imageUrl;
+		ModelAndView mv = new ModelAndView("startsearch");
+
+		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
+
+		GiftResult result = null;
+		if (session.getAttribute("result") == null) {
+			result = gs.getListOfGifts();
+			session.setAttribute("result", result);
+		} else {
+			result = (GiftResult) session.getAttribute("result");
+		}
+
+		if (session.getAttribute("currentGiftList") == null) {
+			session.setAttribute("currentGiftList", result.getResults());
+		}
+
+		session.setAttribute("gs", gs);
+//		listId = result.getResults().get(0).getListing_id();
+//		
+//		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
+//		
+//		imgResult = rt.getForObject(imageUrl, Image.class);
+//		
+//		mv.addObject("p", imgResult);		
+//		mv.addObject("giftresult" , imgResult);
+//		mv.addObject("giftresult" , result.getResults().get(0));
+
+		return mv;
+
 	}
+	@RequestMapping("/testthree")
+	public ModelAndView viewGiftstestthree(HttpSession session) {
+		Image imgResult;
+		int listId;
+		String imageUrl;
+		ModelAndView mv = new ModelAndView("testthree");
+
+		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
+
+		GiftResult result = null;
+		if (session.getAttribute("result") == null) {
+			result = gs.getListOfGifts();
+			session.setAttribute("result", result);
+		} else {
+			result = (GiftResult) session.getAttribute("result");
+		}
+
+		if (session.getAttribute("currentGiftList") == null) {
+			session.setAttribute("currentGiftList", result.getResults());
+		}
+
+		session.setAttribute("gs", gs);
+//		listId = result.getResults().get(0).getListing_id();
+//		
+//		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
+//		
+//		imgResult = rt.getForObject(imageUrl, Image.class);
+//		
+//		mv.addObject("p", imgResult);		
+//		mv.addObject("giftresult" , imgResult);
+//		mv.addObject("giftresult" , result.getResults().get(0));
+
+		return mv;
+
+	}
+	
 
 	@RequestMapping("/search")
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
@@ -161,6 +228,52 @@ public class GiftController {
 		return new ModelAndView("giftresults");
 	}
 	
+
+	@RequestMapping("/con")
+	public ModelAndView viewGiftscongrad(HttpSession session) {
+		Image imgResult;
+		int listId;
+		String imageUrl;
+		ModelAndView mv = new ModelAndView("congrad");
+
+		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
+
+		GiftResult result = null;
+		if (session.getAttribute("result") == null) {
+			result = gs.getListOfGifts();
+			session.setAttribute("result", result);
+		} else {
+			result = (GiftResult) session.getAttribute("result");
+		}
+
+		if (session.getAttribute("currentGiftList") == null) {
+			session.setAttribute("currentGiftList", result.getResults());
+		}
+
+		session.setAttribute("gs", gs);
+//		listId = result.getResults().get(0).getListing_id();
+//		
+//		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
+//		
+//		imgResult = rt.getForObject(imageUrl, Image.class);
+//		
+//		mv.addObject("p", imgResult);		
+//		mv.addObject("giftresult" , imgResult);
+//		mv.addObject("giftresult" , result.getResults().get(0));
+
+		return mv;
+
+	}
+	
+	
+	
+	@RequestMapping("/image/newSearch")
+	public ModelAndView giftImagesNoUrl() {
+		return new ModelAndView("TestOutPut");
+	}
+
+
+
 	@RequestMapping("/search-history")
 	public ModelAndView showHistoryPage(HttpSession session, @RequestParam(required = false) Integer listId) {
 		if (listId == null) {
@@ -171,3 +284,4 @@ public class GiftController {
 	}
 	
 }
+
