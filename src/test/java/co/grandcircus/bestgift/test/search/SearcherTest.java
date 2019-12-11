@@ -1,13 +1,15 @@
 package co.grandcircus.bestgift.test.search;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import co.grandcircus.bestgift.models.Gift;
-import co.grandcircus.bestgift.search.Searcher;
+import co.grandcircus.bestgift.search.filter.Searcher;
 
 class SearcherTest {
 	public static String testLabel = "SearcherTest";

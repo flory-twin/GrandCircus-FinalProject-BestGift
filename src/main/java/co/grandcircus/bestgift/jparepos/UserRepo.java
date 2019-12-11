@@ -1,4 +1,4 @@
-package co.grandcircus.bestgift.repo;
+package co.grandcircus.bestgift.jparepos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

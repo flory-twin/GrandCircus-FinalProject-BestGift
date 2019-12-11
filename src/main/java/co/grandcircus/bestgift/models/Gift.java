@@ -115,7 +115,7 @@ public class Gift {
 		return "Gift [giftId=" + giftId + ", listingId=" + listingId + ", title=" + title + ", description="
 				+ description + ", currencyCode=" + currencyCode + ", price=" + price + "]";
 	}
-	
+
 	/*
 	private String state;
 	private Integer user_id;

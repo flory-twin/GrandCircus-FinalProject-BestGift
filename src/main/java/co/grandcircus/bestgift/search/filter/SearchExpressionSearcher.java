@@ -1,10 +1,11 @@
-package co.grandcircus.bestgift.search;
+package co.grandcircus.bestgift.search.filter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
+import co.grandcircus.bestgift.search.Operator;
+import co.grandcircus.bestgift.search.SearchExpression;
 
 public class SearchExpressionSearcher extends Searcher<SearchExpression>{
 	public SearchExpressionSearcher(GiftResult response, SearchExpression toSearchBy) {

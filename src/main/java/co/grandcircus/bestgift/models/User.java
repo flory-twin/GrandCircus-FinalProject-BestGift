@@ -1,10 +1,10 @@
 package co.grandcircus.bestgift.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -12,7 +12,26 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private int userId;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public User(int userId) {
+		super();
+		this.userId = userId;
+	}
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	private String userName;

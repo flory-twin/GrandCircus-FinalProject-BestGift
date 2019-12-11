@@ -24,6 +24,9 @@
 <h1>Search By Etsy</h1>	
 		<form action="/etsy-results">
 		Keywords: <input type="text" name="keywords"/>
+		Keyword: <input type="text" name="keywords2"/>
+		Keyword: <input type="text" name="keywords3"/>
+		Keyword: <input type="text" name="keywords4"/>
 		Max Price: <input type="number" name="max_price" />
 		<input type="submit" value="Submit"/> 
 	</form>

@@ -25,6 +25,7 @@ target/
 # -----------------------------------------------------------------------------
 application.properties
 etsy.properties
+/##/*.properties
 
 # -----------------------------------------------------------------------------
 # Contents after this point provided by Spring Boot project generator, 
