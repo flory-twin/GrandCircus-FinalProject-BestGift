@@ -12,6 +12,13 @@
 <!-- <a href="/image?listing_id=494853077">Show Cookies</a> -->
 <%-- <img src="${ i.results[0].url_570xN }" width="270" height="200"/> --%>
 <h1>Test</h1>
+		<form action="/etsy-results2">
+		Keywords: <input type="text" name="keywords"/>
+		Keywords: <input type="text" name="keywords2"/>
+		
+<!-- 			<input type="checkbox" onchange="function(){document.getElementById('setMaxPrice').visibility='inline'}"> Max Price: <input type="number" id="setMaxPrice" name="max_price" style="visibility:none"/>
+ -->		<input type="submit" value="Submit"/> 
+	</form>
 		<table>
 			<c:forEach var="g" items="${result.getResults()}">
 				<tr>
