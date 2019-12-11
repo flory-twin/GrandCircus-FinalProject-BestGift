@@ -14,8 +14,8 @@ public class SearchExpression {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "search_id")
 	private Integer searchId;
+	
 	@OneToOne
 	private Keyword k1;
 	@OneToOne
