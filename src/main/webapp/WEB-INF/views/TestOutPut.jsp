@@ -12,6 +12,7 @@
 <!-- <a href="/image?listing_id=494853077">Show Cookies</a> -->
 <%-- <img src="${ i.results[0].url_570xN }" width="270" height="200"/> --%>
 <h1>Test</h1>
+<<<<<<< HEAD
 		<form action="/etsy-results2">
 		Keywords: <input type="text" name="keywords"/>
 		Keywords: <input type="text" name="keywords2"/>
@@ -21,6 +22,10 @@
 	</form>
 		<table>
 			<c:forEach var="g" items="${result.getResults()}">
+=======
+		<table>
+			<c:forEach var="g" items="${giftresult}">
+>>>>>>> b8a6d13d281da969513580a61576d5c0cced981e
 				<tr>
 					<td><img
 						src="${gs.getGiftImage(g.listingId).results[0].url_570xN }"
