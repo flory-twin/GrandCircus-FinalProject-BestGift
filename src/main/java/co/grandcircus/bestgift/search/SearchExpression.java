@@ -18,8 +18,7 @@ public class SearchExpression {
 	private Integer searchId;
 	@OneToOne
 	private Keyword k1;
-	
-	
+
 	@OneToOne
 	private SearchExpression baseSE = null;
 	@OneToOne

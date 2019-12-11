@@ -22,17 +22,14 @@ public class GiftService {
 
 	@Autowired
 	GiftRepository gr;
-
 	@Autowired
 	GiftListRepository gl;
 	
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
-	
 	RestTemplate rt = new RestTemplate();
 
 	public GiftResult getListOfGifts() {
 		GiftResult giftsToReturn = rt.getForObject(getGiftsUrl(), GiftResult.class);
-
 		saveGiftsToDatabase(giftsToReturn.getResults());
 		saveGiftListToDatabase(giftsToReturn.getResults());
 		return giftsToReturn;
@@ -53,7 +50,6 @@ public class GiftService {
 
 	public GiftResult getListOfSearchedGifts(String keywords, Double max_price) {
 		GiftResult giftsToReturn = rt.getForObject(getSearchedGiftsUrl(keywords, max_price), GiftResult.class);
-
 		saveGiftsToDatabase(giftsToReturn.getResults());
 		saveGiftListToDatabase(giftsToReturn.getResults());
 		return giftsToReturn;
@@ -83,9 +79,12 @@ public class GiftService {
 		return listingUrl + etsyKey + "&keywords=\"" + keywords + "\" \"" + keywords2 +"\"";
 	}
 	
+	public String getSearchedGiftsUrl(String keywords, float max_price) {
+		return listingUrl + etsyKey + "&keywords=" + keywords + "&max_price=" + max_price;
+	}
+	
 	public void saveGiftsToDatabase(List<Gift> giftsToSave) {
 		for (Gift g : giftsToSave) {
-			System.out.println(g);
 			gr.save(g); 
 		}
 	}

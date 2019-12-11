@@ -31,14 +31,13 @@ public class GiftController {
 
 	@Autowired
 	GiftService gs;
-
 	@Autowired 
 	GiftListRepository gl;
 	@Autowired
 	SearchExpressionRepository ser;
 	@Autowired
 	KeywordRepository kr;
-	
+
 	@RequestMapping("/")
 	public ModelAndView routeFromIndex(HttpSession session) {
 		recacheRepositories(session);
@@ -143,10 +142,14 @@ public class GiftController {
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
 		recacheRepositories(session);
 		
-		List<Gift> lastRoundOfGifts = ((List<Gift>) session.getAttribute("currentGiftList"));
-		Keyword k = addKeyword(kw1);
-		Searcher seekAmongGifts = new KeywordSearcher(lastRoundOfGifts, k);
-		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts());
+//		List<Gift> lastRoundOfGifts = ((List<Gift>) session.getAttribute("currentGiftList"));
+//		Searcher seekAmongGifts = new Searcher(lastRoundOfGifts);
+//		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts(new Keyword(kw1)));
+//		
+//		List<Gift> lastRoundOfGifts = ((List<Gift>) session.getAttribute("currentGiftList"));
+//		Keyword k = addKeyword(kw1);
+//		Searcher seekAmongGifts = new KeywordSearcher(lastRoundOfGifts, k);
+//		session.setAttribute("currentGiftList", seekAmongGifts.findMatchingGifts());
 
 		return new ModelAndView("giftresults");
 	}
@@ -168,7 +171,7 @@ public class GiftController {
 		session.setAttribute("gs", gs);
 		session.setAttribute("gl", gl);
 	}
-	
+
 	private Keyword addKeyword(String value) {
 		Keyword k = new Keyword(value);
 		kr.save(k);
