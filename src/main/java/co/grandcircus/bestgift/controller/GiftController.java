@@ -112,7 +112,7 @@ public class GiftController {
 		
 		// Perform actual search 
 		// TODO: Refactor to take SearchExp
-		GiftResult result = gs.getListOfSearchedGifts(keywords, keywords2);
+		GiftResult result = gs.getListOfSearchedGifts(searchExp);
 		
 		// Cache new results.
 		this.recacheResult(result, session);

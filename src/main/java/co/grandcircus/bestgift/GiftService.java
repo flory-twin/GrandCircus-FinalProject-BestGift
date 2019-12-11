@@ -12,6 +12,7 @@ import co.grandcircus.bestgift.jparepos.GiftRepository;
 import co.grandcircus.bestgift.models.Gift;
 import co.grandcircus.bestgift.models.GiftResult;
 import co.grandcircus.bestgift.models.Image;
+import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.tables.GiftList;
 
 @Component
@@ -62,12 +63,17 @@ public class GiftService {
 		keywords = keywords.replace(' ', '+');
 		return listingUrl + etsyKey + "&keywords=\"" + keywords + "\"&max_price=" + max_price;
 	} 
-	public GiftResult getListOfSearchedGifts(String keywords, String keywords2) {
+	public GiftResult getListOfSearchedGifts(SearchExpression se) {
+		GiftResult giftsToReturn = null;
 		
-		GiftResult giftsToReturn = rt.getForObject(getSearchedGiftsUrl(keywords, keywords2), GiftResult.class);
-
-		saveGiftsToDatabase(giftsToReturn.getResults());
-		saveGiftListToDatabase(giftsToReturn.getResults());
+		if (se.getK1() != null && se.getKeyword2() != null)
+		{
+			 giftsToReturn= rt.getForObject(getSearchedGiftsUrl(
+					 se.getKeyword1().getValue(), 
+					 se.getKeyword2().getValue()), GiftResult.class);
+			 saveGiftsToDatabase(giftsToReturn.getResults());
+			 saveGiftListToDatabase(giftsToReturn.getResults());
+		}
 		return giftsToReturn;
 	}
 	
@@ -79,6 +85,7 @@ public class GiftService {
 	
 	public void saveGiftsToDatabase(List<Gift> giftsToSave) {
 		for (Gift g : giftsToSave) {
+			System.out.println(g);
 			gr.save(g); 
 		}
 	}
