@@ -1,5 +1,7 @@
 package co.grandcircus.bestgift.tables;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -25,6 +27,12 @@ public class SearchHistory {
 	@OneToOne
 	private GiftList searchResult;
 	
+	@Column(name = "created_at")
+	private Date createdAt;
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 	public Integer getHistoryLogId() {
 		return historyLogId;
 	}
@@ -45,13 +53,19 @@ public class SearchHistory {
 	}
 	public SearchHistory() {
 		super();
+		createdAt = GregorianCalendar.getInstance().getTime();
 		// TODO Auto-generated constructor stub
 	}
 	public SearchHistory(SearchExpression query, List<Gift> searchResult) {
-		super();
+		this();
 		this.query = query;
 		this.searchResult = new GiftList(searchResult);
 	}
+	public SearchHistory(Integer historyLogId, SearchExpression query, List<Gift> searchResult) {
+		this(query, searchResult);
+		this.historyLogId = historyLogId;
+	}
+	
 	public SearchHistory(SearchExpression query, GiftList searchResult) {
 		super();
 		this.query = query;

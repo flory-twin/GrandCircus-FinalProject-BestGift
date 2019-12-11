@@ -49,7 +49,7 @@ public class GiftController {
 		Image imgResult;
 		int listId;
 		String imageUrl;
-		ModelAndView mv = new ModelAndView("giftresults");
+		ModelAndView mv = new ModelAndView("startsearch");
 
 		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
 		
@@ -64,19 +64,19 @@ public class GiftController {
 	}
 
 	@RequestMapping("/etsy-results")
-	public ModelAndView SearchGifts(
+	public ModelAndView searchGifts(
 			HttpSession session, 
 			@RequestParam String keywords, 
 			@RequestParam(required = false) String keywords2,
 			@RequestParam(required = false) String keywords3,
 			@RequestParam(required = false) String keywords4,
-			@RequestParam Double max_price) {
+			@RequestParam(required = false) Double max_price) {
 		// Just in case user navigated straight to this page...
 		gs.recacheRepositories(session);
 		
 		//request.getParameter("product"+i+"SkusCnt"))
 		
-		ModelAndView mv = new ModelAndView("giftresults");
+		ModelAndView mv = new ModelAndView("testthree");
 		// Put search operators into repo
 		Keyword k = new Keyword(keywords);
 		// TODO for later: move all DB stuff into Service, or move it here, but not half and half

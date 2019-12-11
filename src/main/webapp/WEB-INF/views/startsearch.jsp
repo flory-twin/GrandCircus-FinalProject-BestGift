@@ -18,7 +18,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
       <h3>Search By More KeyWords</h3>
       <p><form action="/etsy-results">
 		Search Param: <input type="text" name="keywords" /> <br>
-		Search Param: <input type="text" name="keywords2" />  
+		Search Param: <input type="text" name="keywords2" /> <br>
+		Search Param: <input type="text" name="keywords3" /> <br>
+		Search Param: <input type="text" name="keywords4" /> <br>  
 		<input type="submit" value="Submit" />
 	</form></p>
       <p></p>

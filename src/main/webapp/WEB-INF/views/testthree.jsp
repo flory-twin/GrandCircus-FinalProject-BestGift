@@ -40,7 +40,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 	text-overflow: ellipsis;
 	height: 10.8em;
 	width: 18em;
-	line-height: 2em;
+	line-height: 1.7em;
 	" >${g.description}</p>
     </div>
    
@@ -50,9 +50,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   <footer class="w3-row-padding w3-padding-32">
     <div class="w3-third">
       <h3>Search By More KeyWords</h3>
+      ${ shr.find }
       <form action="/etsy-results">
-		Search Param: <input type="text" name="keywords" /> <br>
-		Search Param: <input type="text" name="keywords2" />  
+		Search Param: <input type="text" name="keywords" value=${  }/> <br>
+		Search Param: <input type="text" name="keywords2" /> <br>
+		Search Param: <input type="text" name="keywords3" /> <br>
+		Search Param: <input type="text" name="keywords4" /> <br>
 		<input type="submit" value="Submit" />
 	</form>
      
@@ -77,6 +80,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
     <div class="w3-third w3-serif">
       <h3>KeyWords Being Searched</h3>
       <p>
+      	<c:forEach var="kw" items="shr.findByMaxId().query.getKeyword1()">
+      		<span class="w3-tag w3-black w3-margin-bottom">${ kw }</span>
+      	</c:forEach>
         <span class="w3-tag w3-black w3-margin-bottom">red</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">fabric</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Dinner</span>
         <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">hat</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">vintage</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Drinks</span>
         <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">mrs robe</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">cartoon</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Cuisine</span>
