@@ -92,8 +92,8 @@ public class GiftService {
 		
 	public Image getGiftImage(String listing_id) {
 		//TODO add images to DB
-		// return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
-		return new Image();
+		 return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
+//		return new Image();
 	}
 	
 	public GiftResult getListOfGifts() {

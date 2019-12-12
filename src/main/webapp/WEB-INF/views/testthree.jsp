@@ -30,11 +30,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   </div>
 </div>
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">  
-  <c:forEach var="g" items="${ currentGiftList }">  
+  <c:forEach var="g" items="${ currentGiftList }" begin="0" end="23">  
     <div class="w3-quarter">
-      <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN }src="${gs.getGiftImage(g.listingId).results[0].url_570xN }"
-					width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
-      <h3>${g.price}${g.currencyCode}</h3>
+      <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
+      <h3>${g.price} ${g.currencyCode}</h3>
       <p style="width: 300px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -50,7 +49,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   <footer class="w3-row-padding w3-padding-32">
     <div class="w3-third">
       <h3>Search By More KeyWords</h3>
-      B LACH SLKDFJSLDKJF ${ lastSearchHistory.query.getKeyword1() }
+      ${ lastSearchHistory.query.getKeyword1() }
       <form action="/etsy-results">
 		Search Param: <input type="text" name="keywords" /> <br>
 		Search Param: <input type="text" name="keywords2" /> <br>

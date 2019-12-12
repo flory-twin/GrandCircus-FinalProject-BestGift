@@ -1,5 +1,6 @@
 package co.grandcircus.bestgift.tables;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -29,6 +30,13 @@ public class SearchHistory {
 	
 	@Column(name = "created_at")
 	private Date createdAt;
+	
+	@Column(name = "local_time")
+	LocalDateTime lt = LocalDateTime.now();
+//	
+//	DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+//	
+//	String formatedtime = lt.format(dt);
 	
 	public Date getCreatedAt() {
 		return createdAt;
