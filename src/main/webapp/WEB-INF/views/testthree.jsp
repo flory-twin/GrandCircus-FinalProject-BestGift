@@ -41,7 +41,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">  
   <c:forEach var="g" items="${ currentGiftList }" begin="0" end="23">  
     <div class="w3-quarter">
-      <!-- <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;"> -->
       <h3>${g.price} ${g.currencyCode}</h3>
       <p style="width: 300px;
 	overflow: hidden;
@@ -60,22 +59,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
       <h3>Search By More KeyWords</h3>
       <form action="/etsy-results">
       	<c:forEach var="kw" items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }" varStatus="s">
-      		Search Param: <input type="text" name="keywords${ s.count }" value="${ oldKw.getValue() }"/> <br>
+      		Search Param: <input type="text" name="keywords${ s.count }" value="${ kw }"/> <br>
       	</c:forEach>
       	Search Param: <input type="text" name="keywords1" /> <br>
+      	<input type="submit" value="Search"/>
       </form>
       
-      <form:form action="/etsy-results" 
-      modelAttribute="stringListModel">
-	      	
-	      	<c:forEach var="oldKw" items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywords() }" varStatus="s">
-	    		Search Param: <input type="text" path="stringListModel.strings[0]" value="${ oldKw.getValue() }"/> <br/>
-			</c:forEach>
-			  
-		
-			<input type="submit" value="Submit" />
-		</form:form>
-     
+      
     </div>
   
     <div class="w3-third">
@@ -95,11 +85,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
     </div>
 
 
+
     <div class="w3-third w3-serif">
-      <h3>KeyWords Being Searched</h3>
+      <h3>Interested Keywords</h3>
       <p>
-      	<c:forEach var="kw" items="shr.findByMaxCreatedAt().getQuery().getAllKeywords()">
-      		<span class="w3-tag w3-black w3-margin-bottom">${ kw.getValue() }</span>
+      	<c:forEach var="kw" items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings()}">
+      		<span class="w3-tag w3-black w3-margin-bottom">${ kw }</span>
       	</c:forEach>
       	
       </p>
