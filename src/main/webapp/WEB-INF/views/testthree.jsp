@@ -34,7 +34,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
     <div class="w3-quarter">
       <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN }src="${gs.getGiftImage(g.listingId).results[0].url_570xN }"
 					width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
-      <h3>${g.price}${g.currencyCode}</h3>
+      <h3>${g.price}</h3>${g.currencyCode}
       <p style="width: 300px;
 	overflow: hidden;
 	text-overflow: ellipsis;

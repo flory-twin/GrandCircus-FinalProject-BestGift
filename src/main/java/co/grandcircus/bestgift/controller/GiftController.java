@@ -181,6 +181,43 @@ public class GiftController {
 
 	}
 	
+	@RequestMapping("/login")
+	public ModelAndView viewGiftstestthree2(HttpSession session) {
+		Image imgResult;
+		int listId;
+		String imageUrl;
+		ModelAndView mv = new ModelAndView("login");
+
+		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
+
+		GiftResult result = null;
+		if (session.getAttribute("result") == null) {
+			result = gs.getListOfGifts();
+			session.setAttribute("result", result);
+		} else {
+			result = (GiftResult) session.getAttribute("result");
+		}
+
+		if (session.getAttribute("currentGiftList") == null) {
+			session.setAttribute("currentGiftList", result.getResults());
+		}
+
+		session.setAttribute("gs", gs);
+//		listId = result.getResults().get(0).getListing_id();
+//		
+//		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
+//		
+//		imgResult = rt.getForObject(imageUrl, Image.class);
+//		
+//		mv.addObject("p", imgResult);		
+//		mv.addObject("giftresult" , imgResult);
+//		mv.addObject("giftresult" , result.getResults().get(0));
+
+		return mv;
+
+	}
+	
+	
 
 	@RequestMapping("/search")
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
@@ -199,7 +236,8 @@ public class GiftController {
 		Image imgResult;
 		int listId;
 		String imageUrl;
-		ModelAndView mv = new ModelAndView("congrad");
+		ModelAndView mv = new ModelAndView("congrad"
+				+ "");
 
 		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
 

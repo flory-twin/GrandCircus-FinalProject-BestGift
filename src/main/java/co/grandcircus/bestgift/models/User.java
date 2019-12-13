@@ -14,13 +14,17 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 
-	/**
+	
 	private String userName;
 	private int kWTableId;
+	private String passWord;
 	
 	
-	// @OneToMany(mappedBy = "userId", orphanRemoval = true)
-	private Gift wishListItems;
+	
+	/*
+	 * @OneToMany(mappedBy = "userId", orphanRemoval = true) private Gift
+	 * wishListItems;
+	 */
 
 
 	public int getUserId() {
@@ -52,15 +56,13 @@ public class User {
 		this.kWTableId = kWTableId;
 	}
 
-
-	public Gift getWishListItems() {
-		return wishListItems;
-	}
-
-
-	public void setWishListItems(Gift wishListItems) {
-		this.wishListItems = wishListItems;
-	}
+	/*
+	 * public Gift getWishListItems() { return wishListItems; }
+	 * 
+	 * 
+	 * public void setWishListItems(Gift wishListItems) { this.wishListItems =
+	 * wishListItems; }
+	 */
 
 
 	public User(int userId, String userName, int kWTableId, Gift wishListItems) {
@@ -68,7 +70,7 @@ public class User {
 		this.userId = userId;
 		this.userName = userName;
 		this.kWTableId = kWTableId;
-		this.wishListItems = wishListItems;
+		//this.wishListItems = wishListItems;
 	}
 
 
@@ -81,9 +83,9 @@ public class User {
 	@Override
 	public String toString() {
 		return "User userId=" + userId + ", userName=" + userName + ", kWTableId=" + kWTableId + ", wishListItems="
-				+ wishListItems;
+		/* + wishListItems */;
 	}
 	
-	*/
+	
 
 }
