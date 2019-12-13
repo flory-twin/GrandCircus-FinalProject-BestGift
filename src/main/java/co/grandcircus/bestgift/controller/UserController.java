@@ -43,12 +43,14 @@ public class UserController {
 		List<User> users = rp.findAll();
 		User loginUser = rp.findByEmailAddress(emailAddress);
 		if (!users.contains(loginUser)) {
-			return new ModelAndView("sorry", "message", "Your email is not in our database");
+			//TODO add a popup alert to indicate user if email/password don't match
+			// as opposed to redirecting to a new page
+			return new ModelAndView("/", "message", "Your email is not in our database");
 		}
 		if (!loginUser.getPassWord().equals(passWord)) {
-			return new ModelAndView("sorry", "message", "Your password does not match");
+			return new ModelAndView("/", "message", "Your password does not match");
 		}
-		return new ModelAndView("/gift-results", "user", loginUser);
+		return new ModelAndView("/start-search", "user", loginUser);
 
 	}
 }

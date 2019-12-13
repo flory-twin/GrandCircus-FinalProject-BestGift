@@ -27,59 +27,40 @@ public class GiftController {
 	@Autowired
 	GiftService gs;
 
-//	@RequestMapping("/")
-//	public ModelAndView routeFromIndex(HttpSession session) {
-//		gs.recacheRepositories(session);
-//		return viewGifts(session);
-//	}
-
-
-	/**
-	 * Routes traffic to the entry page, giftresults.jsp.
-	 * 
-	 * 
-	 * @param session
-	 * @return
-	 */
-
-	@RequestMapping("/gift-results")
+	@RequestMapping("/start-search")
 	public ModelAndView viewGifts(HttpSession session) {
-		Image imgResult;
-		int listId;
-		String imageUrl;
+
 		ModelAndView mv = new ModelAndView("startsearch");
 
-		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
-		
 		gs.recacheRepositories(session);
 		GiftResult result = gs.getListOfGifts();
 
 		gs.recacheResult(result, session);
-
 
 		return mv;
 
 	}
 
 	@RequestMapping("/etsy-results")
-	public ModelAndView searchGifts(
-			HttpSession session, 
-			@RequestParam(value="keywords1", required=true) String kw1,
-			@RequestParam(value="keywords2", required=false) String kw2,
-			@RequestParam(value="keywords3", required=false) String kw3,
-			@RequestParam(value="keywords4", required=false) String kw4,
-			@RequestParam(value="keywords5", required=false) String kw5,
-			@RequestParam(value="keywords6", required=false) String kw6,
-			@RequestParam(value="keywords7", required=false) String kw7,
-			@RequestParam(value="keywords8", required=false) String kw8,
-			@RequestParam(value="keywords9", required=false) String kw9,
-			@RequestParam(value="keywords10", required=false) String kw10,
+	public ModelAndView searchGifts(HttpSession session, @RequestParam(value = "keywords1", required = true) String kw1,
+			// The first parameter must be present, but the remaining parameters not need be
+			// sent
+			// in the request (required = false)
+			@RequestParam(value = "keywords2", required = false) String kw2,
+			@RequestParam(value = "keywords3", required = false) String kw3,
+			@RequestParam(value = "keywords4", required = false) String kw4,
+			@RequestParam(value = "keywords5", required = false) String kw5,
+			@RequestParam(value = "keywords6", required = false) String kw6,
+			@RequestParam(value = "keywords7", required = false) String kw7,
+			@RequestParam(value = "keywords8", required = false) String kw8,
+			@RequestParam(value = "keywords9", required = false) String kw9,
+			@RequestParam(value = "keywords10", required = false) String kw10,
 			@RequestParam(required = false) Double max_price) {
 		List<String> keywords = new LinkedList<>();
 		keywords.add(kw1);
 		if (kw2 != null && !(kw2.equals(""))) {
 			keywords.add(kw2);
-		} 
+		}
 		if (kw3 != null && !(kw3.equals(""))) {
 			keywords.add(kw3);
 		}
@@ -104,140 +85,30 @@ public class GiftController {
 		if (kw10 != null && !(kw10.equals(""))) {
 			keywords.add(kw10);
 		}
-		
+		// Turns keywords into a list of strings, then passes to private method
 		return searchGiftsUsingList(session, keywords);
 	}
-	
-	private ModelAndView searchGiftsUsingList(HttpSession session, List<String> kws)
-	{
+
+	private ModelAndView searchGiftsUsingList(HttpSession session, List<String> kws) {
 		gs.recacheRepositories(session);
-		
-		//request.getParameter("product"+i+"SkusCnt"))
-		
-		ModelAndView mv = new ModelAndView("testthree");
-		SearchExpression searchExp = SearchExpression.createFromKeywords(kws);		
-		
-		// Perform actual search 
+
+		// request.getParameter("product"+i+"SkusCnt"))
+
+		ModelAndView mv = new ModelAndView("listing-page");
+		SearchExpression searchExp = SearchExpression.createFromKeywords(kws);
+
+		// Perform actual search
 		// TODO: Refactor to take SearchExp
-		
+
 		GiftResult result = gs.getListOfSearchedGifts(searchExp);
-		
+
 		// Cache new results.
 		gs.recacheResult(result, session);
 
-		//mv.addObject("giftresult", result.getResults());
-
-		return mv;		
-	}
-	
-	@RequestMapping("/etsy-results2")
-	public ModelAndView SearchGifts(HttpSession session, @RequestParam String keywords, @RequestParam String keywords2) {
-		// Just in case user navigated straight to this page...
-		gs.recacheRepositories(session);
-		
-		ModelAndView mv = new ModelAndView("testthree");
-		// Put search operators into repo
-		Keyword k = new Keyword(keywords);
-		Keyword k2 = new Keyword(keywords2);
-		// TODO for later: move all DB stuff into Service, or move it here, but not half and half
-		SearchExpression searchExp = new SearchExpression(k, Operator.AND, k2);
-		
-		
-		// Perform actual search 
-		// TODO: Refactor to take SearchExp
-		GiftResult result = gs.getListOfSearchedGifts(searchExp);
-		
-		// Cache new results.
-		gs.recacheResult(result, session);
-
-		//mv.addObject("giftresult", result.getResults());
+		// mv.addObject("giftresult", result.getResults());
 
 		return mv;
-
 	}
-
-	@RequestMapping("/image")
-	public ModelAndView giftImages(String listing_id) {
-		ModelAndView mv = new ModelAndView("TestOutPut");
-
-		Image result = gs.getGiftImage(listing_id);
-
-		mv.addObject("i", result);
-		return mv;
-
-	}
-
-	@RequestMapping("/testtwo")
-	public ModelAndView viewGiftstesttwo(HttpSession session) {
-		Image imgResult;
-		int listId;
-		String imageUrl;
-		ModelAndView mv = new ModelAndView("startsearch");
-
-		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
-
-		GiftResult result = null;
-		if (session.getAttribute("result") == null) {
-			result = gs.getListOfGifts();
-			session.setAttribute("result", result);
-		} else {
-			result = (GiftResult) session.getAttribute("result");
-		}
-
-		if (session.getAttribute("currentGiftList") == null) {
-			session.setAttribute("currentGiftList", result.getResults());
-		}
-
-		session.setAttribute("gs", gs);
-//		listId = result.getResults().get(0).getListing_id();
-//		
-//		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
-//		
-//		imgResult = rt.getForObject(imageUrl, Image.class);
-//		
-//		mv.addObject("p", imgResult);		
-//		mv.addObject("giftresult" , imgResult);
-//		mv.addObject("giftresult" , result.getResults().get(0));
-
-		return mv;
-
-	}
-	@RequestMapping("/testthree")
-	public ModelAndView viewGiftstestthree(HttpSession session) {
-		Image imgResult;
-		int listId;
-		String imageUrl;
-		ModelAndView mv = new ModelAndView("testthree");
-
-		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
-
-		GiftResult result = null;
-		if (session.getAttribute("result") == null) {
-			result = gs.getListOfGifts();
-			session.setAttribute("result", result);
-		} else {
-			result = (GiftResult) session.getAttribute("result");
-		}
-
-		if (session.getAttribute("currentGiftList") == null) {
-			session.setAttribute("currentGiftList", result.getResults());
-		}
-
-		session.setAttribute("gs", gs);
-//		listId = result.getResults().get(0).getListing_id();
-//		
-//		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
-//		
-//		imgResult = rt.getForObject(imageUrl, Image.class);
-//		
-//		mv.addObject("p", imgResult);		
-//		mv.addObject("giftresult" , imgResult);
-//		mv.addObject("giftresult" , result.getResults().get(0));
-
-		return mv;
-
-	}
-	
 
 	@RequestMapping("/search")
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
@@ -245,16 +116,11 @@ public class GiftController {
 
 		return new ModelAndView("giftresults");
 	}
-	
 
+	// TODO potentially use if only one gift comes back
 	@RequestMapping("/con")
 	public ModelAndView viewGiftscongrad(HttpSession session) {
-		Image imgResult;
-		int listId;
-		String imageUrl;
 		ModelAndView mv = new ModelAndView("congrad");
-
-		String url = "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
 
 		GiftResult result = null;
 		if (session.getAttribute("result") == null) {
@@ -269,28 +135,10 @@ public class GiftController {
 		}
 
 		session.setAttribute("gs", gs);
-//		listId = result.getResults().get(0).getListing_id();
-//		
-//		imageUrl = "https://openapi.etsy.com/v2/listings/" + listId + "/images?api_key=" + etsyKey;
-//		
-//		imgResult = rt.getForObject(imageUrl, Image.class);
-//		
-//		mv.addObject("p", imgResult);		
-//		mv.addObject("giftresult" , imgResult);
-//		mv.addObject("giftresult" , result.getResults().get(0));
 
 		return mv;
 
 	}
-	
-	
-	
-	@RequestMapping("/image/newSearch")
-	public ModelAndView giftImagesNoUrl() {
-		return new ModelAndView("TestOutPut");
-	}
-
-
 
 	@RequestMapping("/search-history")
 	public ModelAndView showHistoryPage(HttpSession session, @RequestParam(required = false) Integer listId) {
@@ -300,6 +148,5 @@ public class GiftController {
 			return new ModelAndView("searchhistory", "listId", listId);
 		}
 	}
-	
-}
 
+}

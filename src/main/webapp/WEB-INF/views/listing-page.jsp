@@ -29,13 +29,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
     <div class="w3-right w3-padding-16">Possible Link</div>
     <div class="w3-center w3-padding-16">Best Gift Finder</div>
     
-    
-    
-
-
-
-
-
   </div>
 </div>
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">  
