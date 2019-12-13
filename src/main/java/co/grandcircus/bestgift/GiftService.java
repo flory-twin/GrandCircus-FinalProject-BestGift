@@ -43,11 +43,11 @@ public class GiftService {
 	RestTemplate rt = new RestTemplate();
 
 	/**
-	 * Builds URL to get a list of Gifts from Etsy.
+	 * Builds URL  to get a list of Gifts from Etsy.
 	 * @return
 	 */
 	public String getGiftsUrl() {
-		return "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey;
+		return "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey + "&limit=8";
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class GiftService {
 	}
 
 	public GiftResult getListOfSearchedGifts(SearchExpression se) {
-		String url = listingUrl + etsyKey + getEtsySearchParameters(se);
+		String url = listingUrl + etsyKey + getEtsySearchParameters(se) + "&limit=8";
 		GiftResult giftsToReturn = rt.getForObject(url, GiftResult.class);
 		// TODO Save search expression here to create history log.
 		// Save gifts to DB.

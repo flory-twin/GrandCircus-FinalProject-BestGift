@@ -29,11 +29,11 @@ public class GiftController {
 	@Autowired
 	GiftService gs;
 
-	@RequestMapping("/")
-	public ModelAndView routeFromIndex(HttpSession session) {
-		gs.recacheRepositories(session);
-		return viewGifts(session);
-	}
+//	@RequestMapping("/")
+//	public ModelAndView routeFromIndex(HttpSession session) {
+//		gs.recacheRepositories(session);
+//		return viewGifts(session);
+//	}
 
 
 	/**
