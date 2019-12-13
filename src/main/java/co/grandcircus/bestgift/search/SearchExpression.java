@@ -1,6 +1,8 @@
 package co.grandcircus.bestgift.search;
 
-import javax.persistence.Column;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,6 +29,7 @@ public class SearchExpression {
 	@Enumerated(EnumType.ORDINAL)
 	private Operator o = null;
 
+	
 	// The following cases give a SearchExpression which can be evaluated.
 	// Cases:
 	// 1. Only Keyword k1 is set.
@@ -41,9 +44,23 @@ public class SearchExpression {
 	// Of course, if we only allow a subset of those cases, the results are still
 	// going to be evaluatable!!
 
+	
+	/*
+	 * -----------------------------------------------------------------------------
+	 * Constructors
+	 * -----------------------------------------------------------------------------
+	 */
+	
+	
+	// The default, required if this is to be used as a DB model.
+	public SearchExpression()
+	{
+		super();
+	}
+	
 	// Covers case 1.
 	public SearchExpression(Keyword k) {
-		super();
+		this();
 		this.k1 = k;
 	}
 
@@ -51,7 +68,7 @@ public class SearchExpression {
 
 	// Covers case 3.
 	public SearchExpression(SearchExpression se) {
-		super();
+		this();
 		baseSE = se;
 	}
 
@@ -69,6 +86,12 @@ public class SearchExpression {
 		this.baseSE = se;
 	}
 
+	/*
+	 * -----------------------------------------------------------------------------
+	 * Getters/Setters
+	 * -----------------------------------------------------------------------------
+	 */
+	
 	// Allow access to members.
 	public Keyword getKeyword1() {
 		return k1;
@@ -126,4 +149,55 @@ public class SearchExpression {
 		this.o = o;
 	}
 
+	/**
+	 * A special method used to obtain all the Keywords belonging to this Search.
+	 * @return
+	 */
+	public List<Keyword> getAllKeywords() {
+		List<Keyword> kwsToReturn = new LinkedList<>();
+		
+		kwsToReturn.add(this.getKeyword1());
+		if (k2 != null) {
+			kwsToReturn.add(k2);
+		} else if (baseSE != null) {
+			kwsToReturn.addAll(baseSE.getAllKeywords());
+		}
+		
+		return kwsToReturn;
+	}
+	
+	public List<String> getAllKeywordsAsStrings() {
+		List<Keyword> kws = getAllKeywords();
+		List<String> asStrings = new LinkedList<>();
+		for (Keyword k: kws) {
+			asStrings.add(k.getValue());
+		}
+		return asStrings;
+	}
+	
+	/**
+	 * A special method used by an SE to expand an instance from a list of keywords.
+	 */
+	public static SearchExpression createFromKeywords(List<String> keywords) {
+		SearchExpression seToReturn = new SearchExpression();
+		
+		// If only one keyword is given, create a one-operand search expression.
+		if (keywords.size() == 1) {
+			seToReturn.setK1(new Keyword(keywords.get(0)));
+		} else if (keywords.size() == 2) {
+			// If exactly two keywords are given, create a two-operand search expression.
+			seToReturn.setK1(new Keyword(keywords.get(0)));
+			seToReturn.setK2(new Keyword(keywords.get(1)));
+			// Use the default operand...
+			seToReturn.setO(Operator.AND);
+		} else if (keywords.size() > 2) {
+			// If there are more keywords, recursively add search expressions to handle them.
+			seToReturn.setK1(new Keyword(keywords.get(0)));
+			// Use the default operand...
+			seToReturn.setO(Operator.AND);
+			seToReturn.setBaseSE(SearchExpression.createFromKeywords(keywords.subList(1, keywords.size() - 1)));
+		}
+		
+		return seToReturn;
+	}
 }

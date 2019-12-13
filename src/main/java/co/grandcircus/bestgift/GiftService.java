@@ -139,9 +139,22 @@ public class GiftService {
 	
 	public void recacheRepositories(HttpSession session) {
 		session.setAttribute("gs", this);
+		session.setAttribute("gr", gr);
 		session.setAttribute("gl", gl);
+		session.setAttribute("kr", kr);
+		session.setAttribute("ser", ser);
+		session.setAttribute("shr", shr);
 	}
 
+	/*
+	 * Interact with increasingly complex save scenarios. The higher-level save scenarios save all their components themselves, so try not to call the primitives!!
+	 */
+	
+	/**
+	 * 
+	 * @param k
+	 * @return
+	 */
 	private Keyword saveKeywordToDatabase(Keyword k) {;
 		kr.save(k);
 		return k;
