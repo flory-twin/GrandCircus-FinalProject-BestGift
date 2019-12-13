@@ -15,7 +15,8 @@
 </head>
 
 <body>
-
+<!-- KDF TODO: Rebuild this entire page! -->
+	
 	<!-- ------------------------------------------------------------------------- -->
 	<!--  This page takes an optional, non session parameter--Integer listId.      -->
 	<!--  If set, this param causes the gift list with that ID in the DB to be     -->

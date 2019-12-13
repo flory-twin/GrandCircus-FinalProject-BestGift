@@ -17,15 +17,16 @@
 	<h1>Add User</h1>
 
 	<form action="/add-user" method="post">
-	Email: <input type="email" name="emailAddress" placeholder="Email Address" required> <br>
-	Password: <input type="password" id="password" onkeyup= "confirmPassword()" name="passWord" placeholder="Password" required> <br>
-	Confirm Password: <input type="password" id="confirm_password" onkeyup= "confirmPassword()" placeholder="Confirm Password" required><br>
-	<span id="message"></span> <br>
-	<input class="btn btn-primary" type="submit" id="submit" value="Add User" disabled>
-    <input class="btn btn-secondary" type = "reset" value = "Clear">
+		Email: <input type="email" name="emailAddress" placeholder="Email Address" required> <br>
+		Password: <input type="password" id="password" onkeyup= "confirmPassword()" name="passWord" placeholder="Password" required> <br>
+		Confirm Password: <input type="password" id="confirm_password" onkeyup= "confirmPassword()" placeholder="Confirm Password" required><br>
+		<span id="message"></span> <br>
+		<input class="btn btn-primary" type="submit" id="submit" value="Add User" disabled>
+    	<input class="btn btn-secondary" type = "reset" value = "Clear">
 	</form>
 	
 <script>
+// Show error/alert message in span[@id="message"] element.
 function confirmPassword() {
 	  if (document.getElementById("password").value === document.getElementById("confirm_password").value) {
 	    document.getElementById("message").style.color = "green";

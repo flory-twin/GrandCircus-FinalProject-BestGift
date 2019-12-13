@@ -18,6 +18,11 @@ public class UserController {
 	@Autowired
 	UserRepo rp;
 
+	@RequestMapping("/") 
+	public ModelAndView displayLogin() {
+		return new ModelAndView("index");
+	}
+	
 	@RequestMapping("/new-account")
 	public ModelAndView newAccount() {
 		return new ModelAndView("add-user");

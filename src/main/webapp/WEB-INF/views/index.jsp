@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Home Page</title>
+<title>Best Gift: Login</title>
 <link
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sketchy/bootstrap.min.css"
 	rel="stylesheet"
@@ -86,7 +86,7 @@ span.psw {
 </style>
 </head>
 <body>
-	<form action="/gift-results" method="post">
+	<form action="/start-search" method="post">
 		<div class="imgcontainer">
 			<img src="img_avatar2.png" alt="Login" class="avatar">
 		</div>
