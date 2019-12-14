@@ -29,16 +29,14 @@ public class SearchHistory {
 	private GiftList searchResult;
 	
 	@Column(name = "created_at")
-	private Date createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 	
-	@Column(name = "local_time")
-	LocalDateTime lt = LocalDateTime.now();
 //	
 //	DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
 //	
 //	String formatedtime = lt.format(dt);
 	
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 	public Integer getHistoryLogId() {
@@ -61,7 +59,6 @@ public class SearchHistory {
 	}
 	public SearchHistory() {
 		super();
-		createdAt = GregorianCalendar.getInstance().getTime();
 		// TODO Auto-generated constructor stub
 	}
 	public SearchHistory(SearchExpression query, List<Gift> searchResult) {

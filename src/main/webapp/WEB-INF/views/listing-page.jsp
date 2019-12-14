@@ -61,10 +61,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
       <h3>Search By More KeyWords</h3>
       <form action="/etsy-results">
       	<c:forEach var="kw" items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }" varStatus="s">
-      		Search Param: <input type="text" name="keywords${ s.count }" value="${ kw }"/> <br>
+      		Search Param: <input type="text" name="keywords${ s.count + 1 }" value="${ kw }"/>  <br>
       	</c:forEach>
       	Search Param: <input type="text" name="keywords1" /> <br>
       	<input type="submit" value="Search"/>
+      	
       </form>
       
       

@@ -195,7 +195,9 @@ public class SearchExpression {
 			seToReturn.setK1(new Keyword(keywords.get(0)));
 			// Use the default operand...
 			seToReturn.setO(Operator.AND);
-			seToReturn.setBaseSE(SearchExpression.createFromKeywords(keywords.subList(1, keywords.size() - 1)));
+			List<String> copyList = new LinkedList<>(keywords);
+			copyList.remove(0);
+			seToReturn.setBaseSE(SearchExpression.createFromKeywords(copyList));
 		}
 		
 		return seToReturn;

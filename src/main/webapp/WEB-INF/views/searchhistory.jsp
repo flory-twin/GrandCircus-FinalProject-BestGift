@@ -28,23 +28,53 @@
 		<table class="table-dark" border=1>
 			<thead>
 				<tr>
-					<th>Search Number</th>
-					<th>Action</th>
+					<th>User</th>
+					<th>Search Date</th>
+					<th>Search Parameters</th>
+					<th>Selected Results</th>
 				</tr>
 			</thead>
-			<c:forEach var="gl" varStatus="i" items="${ gs.getCompleteSearchHistory() }">
+			<c:forEach var="sh" varStatus="i" items="${ shr.findAll() }">
 				<tr>
-					<td>${ i.index }</td>
+					<td>NOT SET</td>
+					<td>${ sh.getCreatedAt() }	</td>
 					<td>
-						<form action="/search-history">
-							<input type="hidden" name="listId" value="${ gl.getGiftListId() }"/>
-							<input type="submit" name="Show Search"/>
-						</form>
+					     <div class="container">
+					     	<p>
+					      		<c:forEach var="kw" items="${ sh.getQuery().getAllKeywordsAsStrings()}">
+					      			<span class="w3-tag w3-black w3-margin-bottom">${ kw }</span>
+					      		</c:forEach>
+					      	</p>     	
+   						</div>
+					</td>
+					<td>
+						<div class="container">
+							<!-- Get the first two results and their images; display. -->	
+							<div class="container">
+							    <div class="w3-quarter">
+								      <!-- TODO Needs update to synch with main page changes.  -->
+								      <img src=${ gs.getGiftImage(sh.getSearchResult().getGifts()[0].listingId)
+								      	  .results[0].url_570xN } width="80" height="100" hspace="15"  style="width:90%; float:left; margin: 5px;">
+								      <h3>${sh.getSearchResult().getGifts()[0].price} ${sh.getSearchResult().getGifts()[0].currencyCode}</h3>
+								      <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
+								      <p style="width: 300px;
+									overflow: hidden;
+									text-overflow: ellipsis;
+									height: 10em;
+									width: 10em;
+									line-height: 1.7em;
+									" >${sh.getSearchResult().getGifts()[0].description.substring(0, 20)}...</p>
+									<!--  TODO Brian to add mouseover text containing full description. -->
+								</div>
+							</div>
+						</div> 
 					</td>
 				</tr>
 			</c:forEach>
 		</table>
-		<h1> Value of repo: ${ gl }</h1>
+	</div>
+		
+	<div>
 		<h1>Gifts Returned by Search</h1>
 		<c:choose>
 			<c:when test="${ listId == null }">
@@ -67,7 +97,6 @@
 				
 			</c:otherwise>
 		</c:choose>
-</div>
 	</div>
 	
 </body>
