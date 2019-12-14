@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import co.grandcircus.bestgift.models.Gift;
+import co.grandcircus.bestgift.models.etsy.Gift;
 
 @Entity
 @Table(name = "giftlist")

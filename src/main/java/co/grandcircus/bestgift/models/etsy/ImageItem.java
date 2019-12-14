@@ -1,4 +1,4 @@
-package co.grandcircus.bestgift.models;
+package co.grandcircus.bestgift.models.etsy;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

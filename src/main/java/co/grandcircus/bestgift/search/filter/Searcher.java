@@ -3,8 +3,8 @@ package co.grandcircus.bestgift.search.filter;
 import java.util.LinkedList;
 import java.util.List;
 
-import co.grandcircus.bestgift.models.Gift;
-import co.grandcircus.bestgift.models.GiftResult;
+import co.grandcircus.bestgift.models.etsy.Gift;
+import co.grandcircus.bestgift.models.etsy.GiftResult;
 
 public abstract class Searcher<T> {
 

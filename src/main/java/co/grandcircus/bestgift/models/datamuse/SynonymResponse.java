@@ -1,4 +1,4 @@
-package co.grandcircus.bestgift.models;
+package co.grandcircus.bestgift.models.datamuse;
 
 import java.util.List;
 
@@ -8,7 +8,6 @@ public class SynonymResponse {
 
 	public SynonymResponse() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SynonymResponse(List<Word> words) {

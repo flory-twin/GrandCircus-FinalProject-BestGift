@@ -2,8 +2,8 @@ package co.grandcircus.bestgift.search.filter;
 
 import java.util.List;
 
-import co.grandcircus.bestgift.models.Gift;
-import co.grandcircus.bestgift.models.GiftResult;
+import co.grandcircus.bestgift.models.etsy.Gift;
+import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.search.Operator;
 import co.grandcircus.bestgift.search.SearchExpression;
 
