@@ -31,13 +31,14 @@ public class GiftController {
 
 	@RequestMapping("/start-search")
 	public ModelAndView viewGifts(HttpSession session) {
-		System.out.println(dms.getSynonyms("blue+hat"));
 		ModelAndView mv = new ModelAndView("startsearch");
 
 		gs.recacheRepositories(session);
 		GiftResult result = gs.getListOfGifts();
 
 		gs.recacheResult(result, session);
+		
+		session.setAttribute("dms", dms);
 
 		return mv;
 
@@ -151,4 +152,5 @@ public class GiftController {
 		}
 	}
 
+	
 }

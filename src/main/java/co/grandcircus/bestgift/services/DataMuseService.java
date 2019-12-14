@@ -18,7 +18,7 @@ public class DataMuseService {
 	
 	public List<String> getSynonyms(String phrase){
 		
-		 Word[] response = rt.getForObject(synonymUrl, Word[].class);
+		 Word[] response = rt.getForObject(synonymUrl + phrase, Word[].class);
 		 
 		 List<String> returnValues = new LinkedList<String>();
 		 for (Word w : response) {
