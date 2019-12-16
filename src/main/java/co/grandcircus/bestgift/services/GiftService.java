@@ -14,6 +14,8 @@ import co.grandcircus.bestgift.jparepos.GiftRepository;
 import co.grandcircus.bestgift.jparepos.KeywordRepository;
 import co.grandcircus.bestgift.jparepos.SearchExpressionRepository;
 import co.grandcircus.bestgift.jparepos.SearchHistoryRepository;
+import co.grandcircus.bestgift.jparepos.UserRepo;
+import co.grandcircus.bestgift.models.User;
 import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.models.etsy.Image;
@@ -44,6 +46,10 @@ public class GiftService {
 	KeywordRepository kr;
 	@Autowired
 	SearchHistoryRepository shr;
+	@Autowired
+	UserRepo ur;
+	@Autowired
+	HttpSession session;
 
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
 	RestTemplate rt = new RestTemplate();
@@ -136,7 +142,11 @@ public class GiftService {
 		// Save gifts to DB.
 		GiftList returnedList = saveGiftListToDatabase(giftsToReturn.getResults());
 		saveSearchExpressionToDatabase(se);
-		shr.save(new SearchHistory(se, returnedList));
+		SearchHistory search = new SearchHistory(se, returnedList);
+		User loginUser = (User) session.getAttribute("user");
+		search.setUser(loginUser);
+		shr.save(search);
+//		shr.save(new SearchHistory(se, returnedList));
 		return giftsToReturn;
 	}
 	/**
@@ -214,6 +224,8 @@ public class GiftService {
 	 */
 
 	public SearchHistory saveSearchHistoryRecordToDatabase(SearchHistory sh, HttpSession session) {
+		User loginUser = (User) session.getAttribute("user");
+		sh.setUser(loginUser);
 		ser.save(sh.getQuery());
 		gl.save(sh.getSearchResult());
 		shr.save(sh);
@@ -232,10 +244,14 @@ public class GiftService {
 	 * @return
 	 */
 	public GiftList saveGiftListToDatabase(List<Gift> giftsToAdd) {
+		User loginUser = (User) session.getAttribute("user");
+		
 		saveGiftsToDatabase(giftsToAdd);
 
 		GiftList list = new GiftList(giftsToAdd);
+		list.setUser(loginUser);
 		gl.save(list);
+		
 		return list;
 	}
 }

@@ -1,10 +1,15 @@
 package co.grandcircus.bestgift.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import co.grandcircus.bestgift.tables.GiftList;
 
 @Entity
 public class User {
@@ -12,15 +17,15 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	private int userId;
+	private Integer userId;
 	private String emailAddress;
 	private String passWord;
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -44,7 +49,7 @@ public class User {
 		super();
 	}
 
-	public User(int userId) {
+	public User(Integer userId) {
 		super();
 		this.userId = userId;
 	}
@@ -55,7 +60,7 @@ public class User {
 		this.passWord = passWord;
 	}
 
-	public User(int userId, String emailAddress, String passWord) {
+	public User(Integer userId, String emailAddress, String passWord) {
 		super();
 		this.userId = userId;
 		this.emailAddress = emailAddress;
