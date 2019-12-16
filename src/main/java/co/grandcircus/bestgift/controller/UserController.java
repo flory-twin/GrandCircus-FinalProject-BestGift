@@ -2,6 +2,8 @@ package co.grandcircus.bestgift.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.jparepos.UserRepo;
 import co.grandcircus.bestgift.models.User;
+import co.grandcircus.bestgift.models.dandelion.EntityExtractionResults;
+import co.grandcircus.bestgift.services.EntityExtractionService;
 
 @Controller
 public class UserController {
@@ -18,6 +22,9 @@ public class UserController {
 	@Autowired
 	UserRepo rp;
 
+	@Autowired
+	HttpSession session;
+	
 	@RequestMapping("/") 
 	public ModelAndView displayLogin() {
 		return new ModelAndView("index");
@@ -50,12 +57,15 @@ public class UserController {
 		if (!users.contains(loginUser)) {
 			//TODO add a popup alert to indicate user if email/password don't match
 			// as opposed to redirecting to a new page
-			return new ModelAndView("/", "message", "Your email is not in our database");
+			return new ModelAndView("index", "message", "Your email is not in our database");
 		}
 		if (!loginUser.getPassWord().equals(passWord)) {
-			return new ModelAndView("/", "message", "Your password does not match");
+			return new ModelAndView("index", "message", "Your password does not match");
 		}
-		return new ModelAndView("/start-search", "user", loginUser);
+		
+		session.setAttribute("user", loginUser);
+				
+		return new ModelAndView("startsearch", "user", loginUser);
 
 	}
 }

@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import co.grandcircus.bestgift.models.User;
 import co.grandcircus.bestgift.models.etsy.Gift;
 
 @Entity
@@ -22,35 +24,40 @@ public class GiftList {
 	private Integer giftListId;
 	@OneToMany
 	private List<Gift> gifts;
-	
+	@ManyToOne
+	private User user;
+
 	/*
-	 * ------------------------------------------------------------------------------
-	 *  Constructors.
-	 * ------------------------------------------------------------------------------
+	 * -----------------------------------------------------------------------------
+	 * - Constructors.
+	 * -----------------------------------------------------------------------------
+	 * -
 	 */
-	
+
 	public GiftList() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public GiftList(List<Gift> giftsToSet) {
 		this();
 		gifts = giftsToSet;
 	}
-	
-	
-	public GiftList(Integer existingListId, List<Gift> toSet) {
-		this(toSet);
-		giftListId = existingListId;
+
+	public GiftList(Integer giftListId, List<Gift> gifts, User user) {
+		super();
+		this.giftListId = giftListId;
+		this.gifts = gifts;
+		this.user = user;
 	}
-	
+
 	/*
-	 * ------------------------------------------------------------------------------
-	 *  G/S
-	 * ------------------------------------------------------------------------------
+	 * -----------------------------------------------------------------------------
+	 * - G/S
+	 * -----------------------------------------------------------------------------
+	 * -
 	 */
-	
+
 	public List<Gift> getGifts() {
 		return gifts;
 	}
@@ -62,4 +69,17 @@ public class GiftList {
 	public Integer getGiftListId() {
 		return giftListId;
 	}
+
+	public void setGiftListId(Integer giftListId) {
+		this.giftListId = giftListId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }

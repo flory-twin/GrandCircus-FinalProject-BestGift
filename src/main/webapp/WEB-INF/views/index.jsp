@@ -86,7 +86,9 @@ span.psw {
 </style>
 </head>
 <body>
-	<form action="/start-search" method="post">
+	<h1>${message}</h1>
+	
+	<form action="/login-user" method="post">
 		<div class="imgcontainer">
 			<img src="img_avatar2.png" alt="Login" class="avatar">
 		</div>
@@ -95,7 +97,7 @@ span.psw {
 			<label for="uemail"><b>Email Address</b></label> 
 			<input type="text" placeholder="Email Address" name="emailAddress" required> 
 			<label for="psw"><b>Password</b></label> 
-			<input type="password" placeholder="Enter Password" name="psw" required>
+			<input type="password" placeholder="Enter Password" name="passWord" required>
 			<button type="submit">Login</button>
 		</div>
 
