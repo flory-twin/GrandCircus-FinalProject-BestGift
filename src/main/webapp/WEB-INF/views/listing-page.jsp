@@ -14,6 +14,10 @@
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 .w3-bar-block .w3-bar-item {padding:20px}
+
+.text:hover {
+overflow: visible;
+}
 </style>
 <body>
 
@@ -43,34 +47,53 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
       <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
       <h3>${g.price} ${g.currencyCode}</h3>
       <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
-      <p style="width: 300px;
+      <div class="text"><p style="width: 300px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	height: 10.8em;
 	width: 18em;
 	line-height: 1.7em;
-	" >${g.description}</p>
+	" >${g.description}</p></div>
 	<!--  TODO Brian to add mouseover text containing full description. -->
     </div>
    
     <!--  TODO Add favorites list. -->
     </c:forEach>
 
+
   <footer class="w3-row-padding w3-padding-32">
+  	<p>
     <div class="w3-third">
       <h3>Search By More KeyWords</h3>
       <form action="/etsy-results">
-      	<c:forEach var="kw" items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }" varStatus="s">
-      		Search Param: <input type="text" name="keywords${ s.count + 1 }" value="${ kw }"/>  <br>
-      	</c:forEach>
+      	<table class="table">
+      		<tr>
+      			<c:forEach var="kw" items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }" varStatus="s">
+	      			<td>Search Param: </td>
+	      			<td>
+	      				<input type="text" name="keywords${ s.count + 1 }" value="${ kw }"/>  <br>
+	      			</td>
+	      			<td>
+	      				Synonyms:
+	      					<option name="keywords${ s.count + 1 }">
+	      						<select>
+	      						<c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20">
+	      								<option value="${ synonym }"/>${ synonym }</option>
+      							</c:forEach>
+      							</select>
+      						</option>
+      				</td>
+      			</c:forEach>
+			</tr>
+      	</table>
       	Search Param: <input type="text" name="keywords1" /> <br>
       	<input type="submit" value="Search"/>
       	
       </form>
-      
-      
     </div>
+  	</p>
   
+  	<p>
     <div class="w3-third">
       <h3>Past Favorite Items</h3>
       <ul class="w3-ul w3-hoverable">
@@ -86,9 +109,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
         </li> 
       </ul>
     </div>
+	</p>
 
-
-
+	<p>
     <div class="w3-third w3-serif">
       <h3>Interested Keywords</h3>
       <p>
@@ -99,7 +122,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
       </p>
     </div>
   </footer>
-</div>
+</div>	      						
+</p>
+
 
 <script>
 
