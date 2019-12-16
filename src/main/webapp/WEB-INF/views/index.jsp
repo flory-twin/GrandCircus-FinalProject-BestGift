@@ -33,11 +33,25 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 </style>
 <body>
+
 	<div class="w3-top">
 		<div class="w3-white w3-xlarge"
 			style="max-width: 1200px; margin: auto">
 			<div class="w3-right w3-padding-16">Possible Link</div>
 			<div class="w3-center w3-padding-16">Best Gift Finder</div>
+
+	<h1>${message}</h1>
+	
+	<form action="/login-user" method="post">
+		
+		<div class="container">
+			<label for="uemail"><b>Email Address</b></label> 
+			<input type="text" placeholder="Email Address" name="emailAddress" required> 
+			<label for="psw"><b>Password</b></label> 
+			<input type="password" placeholder="Enter Password" name="passWord" required>
+			<button type="submit">Login</button>
+		</div>
+
 
 		</div>
 	</div>

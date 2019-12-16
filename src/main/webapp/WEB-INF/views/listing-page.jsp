@@ -13,6 +13,8 @@
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Karma">
 <style>
+<<<<<<<
+HEAD
 body, h1, h2, h3, h4, h5, h6 {
 	font-family: "Karma", sans-serif
 }
@@ -23,19 +25,11 @@ body, h1, h2, h3, h4, h5, h6 {
 
 .desLim {
 	width: 300px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	height: 10.8em;
-	width: 18em;
-	line-height: 1.4em;	
-	
-}
-.desLim:hover{
-overflow: visble;
-
-
 }
 
+.desLim:hover {
+	overflow: visble;
+}
 </style>
 <body>
 
@@ -68,12 +62,13 @@ overflow: visble;
 		<c:forEach var="g" items="${ currentGiftList }">
 			<div class="w3-quarter">
 				<!-- TODO Brian to link this image to the original Etsy posting.  -->
-				<a href="https://www.etsy.com/listing/${ g.listingId }" target="_blank"><img src=${gs.getGiftImage(g.listingId).results[0].url_570xN }
-					width="270" height="200" hspace="15" style="border-radius:10%"></a>
+				<a href="https://www.etsy.com/listing/${ g.listingId }"
+					target="_blank"><img
+					src=${gs.getGiftImage(g.listingId).results[0].url_570xN }
+					width="270" height="200" hspace="15" style="border-radius: 10%"></a>
 				<h3>${g.price}${g.currencyCode}</h3>
 				<!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
-				<div class="desLim">${g.description}
-				</div>
+				<div class="desLim">${g.description}</div>
 				<br>
 				<!--  TODO Brian to add mouseover text containing full description. -->
 			</div>

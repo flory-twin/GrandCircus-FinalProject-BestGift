@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.grandcircus.bestgift.models.datamuse.SynonymResponse;
+import co.grandcircus.bestgift.jparepos.UserRepo;
 import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.services.DataMuseService;
@@ -28,16 +28,17 @@ public class GiftController {
 	
 	@Autowired
 	DataMuseService dms;
-
+	
 	@RequestMapping("/start-search")
 	public ModelAndView viewGifts(HttpSession session) {
-		System.out.println(dms.getSynonyms("blue+hat"));
 		ModelAndView mv = new ModelAndView("startsearch");
-
+		
 		gs.recacheRepositories(session);
 		GiftResult result = gs.getListOfGifts();
 
 		gs.recacheResult(result, session);
+		
+		session.setAttribute("dms", dms);
 
 		return mv;
 
@@ -87,6 +88,7 @@ public class GiftController {
 		if (kw10 != null && !(kw10.equals(""))) {
 			keywords.add(kw10);
 		}
+		
 		// Turns keywords into a list of strings, then passes to private method
 		return searchGiftsUsingList(session, keywords);
 	}
@@ -151,4 +153,5 @@ public class GiftController {
 		}
 	}
 
+	
 }
