@@ -20,7 +20,33 @@ body, h1, h2, h3, h4, h5, h6 {
 	padding: 20px
 }
 </style>
+
 <body class="w3-row-padding w3-padding-32">
+<nav
+		class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
+		style="display: none; z-index: 2; width: 40%; min-width: 300px"
+		id="mySidebar">
+		<a href="javascript:void(0)" onclick="w3_close()"
+			class="w3-bar-item w3-button">Close Menu</a>
+		<!--  Kevin TODO: Fill these out, and hyperlink or buttonize or something to open search. -->
+		<a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search
+			17:29</a> <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search
+			03:46</a> <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search
+			19:29</a> <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search
+			01:46</a>
+	</nav>
+	<div class="w3-top">
+		<div class="w3-white w3-xlarge"
+			style="max-width: 1200px; margin: auto">
+			<div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">(>")>-+</div>
+			<div class="w3-right w3-padding-16">Possible Link</div>
+			<div class="w3-center w3-padding-16">Best Gift Finder</div>
+
+		</div>
+	</div>
+<br>
+<br>
+
 	<div class="w3-third">
 		<h3>Search By More KeyWords</h3>
 		<p>

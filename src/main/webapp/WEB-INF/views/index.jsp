@@ -3,106 +3,73 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Best Gift: Login</title>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sketchy/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-N8DsABZCqc1XWbg/bAlIDk7AS/yNzT5fcKzg/TwfmTuUqZhGquVmpb5VvfmLcMzp"
-	crossorigin="anonymous">
-
+<title>Best Gift Finder</title>
+<!--  TODO Brian to add this to shared JSP. -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Karma">
 <style>
-form {
-	border: 3px solid #f1f1f1;
+body, h1, h2, h3, h4, h5, h6 {
+	font-family: "Karma", sans-serif
 }
 
-/* Full-width inputs */
-input[type=text], input[type=password] {
-	width: 100%;
-	padding: 12px 20px;
-	margin: 8px 0;
-	display: inline-block;
-	border: 1px solid #ccc;
-	box-sizing: border-box;
+.w3-bar-block .w3-bar-item {
+	padding: 20px
 }
 
-/* Set a style for all buttons */
-button {
-	background-color: #4d524d;
-	color: white;
-	padding: 14px 20px;
-	margin: 8px 0;
-	border: none;
-	cursor: pointer;
-	width: 100%;
+.desLim {
+	width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 10.8em;
+	width: 18em;
+	line-height: 1.4em;
 }
 
-/* Add a hover effect for buttons */
-button:hover {
-	opacity: 0.8;
-}
-
-/* Extra style for the cancel button (red) */
-.cancelbtn {
-	width: auto;
-	padding: 10px 18px;
-	background-color: #36f1f4;
-}
-
-/* Center the avatar image inside this container */
-.imgcontainer {
-	text-align: center;
-	margin: 24px 0 12px 0;
-}
-
-/* Avatar image */
-img.avatar {
-	width: 40%;
-	border-radius: 50%;
-}
-
-/* Add padding to containers */
-.container {
-	padding: 16px;
-}
-
-/* The "Forgot password" text */
-span.psw {
-	float: right;
-	padding-top: 16px;
-}
-
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-	span.psw {
-		display: block;
-		float: none;
-	}
-	.cancelbtn {
-		width: 100%;
-	}
+.desLim:hover {
+	overflow: visble;
 }
 </style>
-</head>
 <body>
-	<form action="/start-search" method="post">
-		<div class="imgcontainer">
-			<img src="img_avatar2.png" alt="Login" class="avatar">
-		</div>
-		
-		<div class="container">
-			<label for="uemail"><b>Email Address</b></label> 
-			<input type="text" placeholder="Email Address" name="emailAddress" required> 
-			<label for="psw"><b>Password</b></label> 
-			<input type="password" placeholder="Enter Password" name="psw" required>
-			<button type="submit">Login</button>
-		</div>
+	<div class="w3-top">
+		<div class="w3-white w3-xlarge"
+			style="max-width: 1200px; margin: auto">
+			<div class="w3-right w3-padding-16">Possible Link</div>
+			<div class="w3-center w3-padding-16">Best Gift Finder</div>
 
-		<div class="container" style="background-color: #f1f1f1">
-			<a class="btn btn-primary" href="/new-account">New Account</a>
 		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<form action="/start-search" method="post">
+		<table align="center" style="border: 1px solid black; border-radius: 10px;">
+			<tr>
+				<th align="left">LogIn</th>
+
+			</tr>
+			<tr>
+				<th align="left"><label for="uemail"><b>Email
+							Address</b></label></th>
+				<th><input type="text" placeholder="Email Address"
+					name="emailAddress" required></th>
+			</tr>
+			<tr>
+				<td align="left"><label for="psw"><b>Password</b></label></td>
+				<td><input type="password" placeholder="Enter Password"
+					name="psw" required></td>
+			</tr>
+			<tr>
+				<th align="left"><button type="submit">Login</button></th>
+			</tr>
+			<tr>
+				<th align="left"><a class="btn btn-primary" href="/new-account"><button
+							type="submit">New Account</button></a></th>
+			</tr>
+		</table>
 	</form>
-		
 </body>
 </html>
