@@ -1,6 +1,6 @@
 package co.grandcircus.bestgift.search.filter;
 
-import co.grandcircus.bestgift.models.Gift;
+import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.search.Keyword;
 
 public class GiftMatcher {

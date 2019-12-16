@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import co.grandcircus.bestgift.models.Gift;
+import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.search.filter.Searcher;
 
 class SearcherTest {

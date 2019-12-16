@@ -1,8 +1,6 @@
 package co.grandcircus.bestgift.tables;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import co.grandcircus.bestgift.models.Gift;
+import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.search.SearchExpression;
 
 @Entity

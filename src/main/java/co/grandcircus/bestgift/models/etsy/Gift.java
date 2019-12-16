@@ -1,20 +1,14 @@
-package co.grandcircus.bestgift.models;
-
-import java.util.List;
+package co.grandcircus.bestgift.models.etsy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import co.grandcircus.bestgift.tables.GiftList;
 
 /**
  *  This Model is both a JSON response component (within a GiftResult) and a database table.

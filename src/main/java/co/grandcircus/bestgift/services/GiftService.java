@@ -1,4 +1,4 @@
-package co.grandcircus.bestgift;
+package co.grandcircus.bestgift.services;
 
 import java.util.List;
 
@@ -14,9 +14,9 @@ import co.grandcircus.bestgift.jparepos.GiftRepository;
 import co.grandcircus.bestgift.jparepos.KeywordRepository;
 import co.grandcircus.bestgift.jparepos.SearchExpressionRepository;
 import co.grandcircus.bestgift.jparepos.SearchHistoryRepository;
-import co.grandcircus.bestgift.models.Gift;
-import co.grandcircus.bestgift.models.GiftResult;
-import co.grandcircus.bestgift.models.Image;
+import co.grandcircus.bestgift.models.etsy.Gift;
+import co.grandcircus.bestgift.models.etsy.GiftResult;
+import co.grandcircus.bestgift.models.etsy.Image;
 import co.grandcircus.bestgift.search.Keyword;
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.tables.GiftList;

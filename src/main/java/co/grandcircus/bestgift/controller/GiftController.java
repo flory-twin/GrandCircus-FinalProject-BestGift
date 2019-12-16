@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.grandcircus.bestgift.GiftService;
-import co.grandcircus.bestgift.models.GiftResult;
-import co.grandcircus.bestgift.models.Image;
-import co.grandcircus.bestgift.search.Keyword;
-import co.grandcircus.bestgift.search.Operator;
+import co.grandcircus.bestgift.models.datamuse.SynonymResponse;
+import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.search.SearchExpression;
+import co.grandcircus.bestgift.services.DataMuseService;
+import co.grandcircus.bestgift.services.GiftService;
 
 @Controller
 public class GiftController {
@@ -26,10 +25,13 @@ public class GiftController {
 
 	@Autowired
 	GiftService gs;
+	
+	@Autowired
+	DataMuseService dms;
 
 	@RequestMapping("/start-search")
 	public ModelAndView viewGifts(HttpSession session) {
-
+		System.out.println(dms.getSynonyms("blue+hat"));
 		ModelAndView mv = new ModelAndView("startsearch");
 
 		gs.recacheRepositories(session);
