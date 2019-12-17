@@ -25,6 +25,7 @@ public class KeywordController {
 	@Autowired
 	EntityExtractionService es;
 	
+	// TODO Need to align over deletions
 	List<List<String>> allKeywords;
 	List<String> sharedKeywords;
 
@@ -74,10 +75,21 @@ public class KeywordController {
 				List<String> keywords = new ArrayList<String>();
 				EntityExtractionResults eer = es.getResults(toBeAdded.getDescription().replaceAll("\\s", "+"));
 				for (Entity e : eer.getAnnotations()) {
-					keywords.add(e.getTitle());
-				}
-				allKeywords.add(keywords);
+					// Check label, spot, and title. If they (caseless) differ, add the unique values.
+					String label = e.getLabel();
+					String spot = e.getSpot();
+					String title = e.getTitle();
 					
+					List<String> values = new LinkedList();
+					values.add(label);
+					values.add(spot);
+					values.add(title);
+					
+					keywords.addAll(values);
+				}
+				
+				keywords = getUniqueWords(keywords);
+				allKeywords.add(keywords);	
 			}
 		}
 		
@@ -122,5 +134,31 @@ public class KeywordController {
 		}
 		
 		return sharedTokens;
+	}
+	
+	private List<String> getUniqueWords(List<String> wordsToCheck) {
+		// Check whether list has more than one member.
+		if (wordsToCheck.size() > 1) {
+			// Check 1st word against rest of list. If it's equal to any other word, remove it.
+			String firstWord = wordsToCheck.get(0);
+			// Second param to subList is EXCLUSIVE, not inclusive
+			List<String> restOfList = wordsToCheck.subList(1, wordsToCheck.size());
+			// Don't use contains--it checks by object identity, not string value.
+			for (String s : restOfList) {
+				if (s.equalsIgnoreCase(firstWord)) {
+					// Call this function on the remaining portion of the list only.
+					return getUniqueWords(restOfList);
+				}
+			}
+			
+			// If we're here, the first word is unique. Retain it, and check the rest of the list recursively.
+			List<String> toBeReturned = new LinkedList<>();
+			toBeReturned.add(firstWord);
+			toBeReturned.addAll(getUniqueWords(restOfList));
+			return toBeReturned;
+		} else {
+			// If the first word was the only member, return the list.
+			return wordsToCheck;
+		}
 	}
 }
