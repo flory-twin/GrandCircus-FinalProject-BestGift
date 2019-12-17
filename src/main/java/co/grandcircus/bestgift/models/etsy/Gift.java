@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -46,23 +47,34 @@ public class Gift {
 	@JsonProperty("currency_code")
 	private String currencyCode;
 	private Double price;
-
+	@OneToOne
+	private Image image;
+	
 	public Gift() {
 		super();
 	}
 	
-	public Gift(Integer listingId, String title, String description, String currencyCode, Double price) {
+	public Gift(Integer listingId, String title, String description, String currencyCode, Double price, Image image) {
 		this();
 		this.listingId = listingId;
 		this.title = title;
 		this.description = description;
 		this.currencyCode = currencyCode;
 		this.price = price;
+		this.image = image;
 	}
 	
-	public Gift(Integer giftId, Integer listingId, String title, String description, String currencyCode, Double price) {
-		this(listingId, title, description, currencyCode, price);
+	public Gift(Integer giftId, Integer listingId, String title, String description, String currencyCode, Double price, Image image) {
+		this(listingId, title, description, currencyCode, price, image);
 		this.giftId = giftId;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 	public String getTitle() {

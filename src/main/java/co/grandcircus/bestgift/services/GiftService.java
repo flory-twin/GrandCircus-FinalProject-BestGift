@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import co.grandcircus.bestgift.jparepos.GiftListRepository;
 import co.grandcircus.bestgift.jparepos.GiftRepository;
+import co.grandcircus.bestgift.jparepos.ImageRepository;
 import co.grandcircus.bestgift.jparepos.KeywordRepository;
 import co.grandcircus.bestgift.jparepos.SearchExpressionRepository;
 import co.grandcircus.bestgift.jparepos.SearchHistoryRepository;
@@ -49,6 +50,8 @@ public class GiftService {
 	@Autowired
 	UserRepo ur;
 	@Autowired
+	ImageRepository ir;
+	@Autowired
 	HttpSession session;
 
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
@@ -68,7 +71,7 @@ public class GiftService {
 	 * 
 	 * @return
 	 */
-	public String getGiftImageUrl(String listing_id) {
+	public String getGiftImageUrl(Integer listing_id) {
 		return "https://openapi.etsy.com/v2/listings/" + listing_id + "/images?api_key=" + etsyKey;
 	}
 
@@ -111,9 +114,8 @@ public class GiftService {
 		return returnVal;
 	}
 
-	public Image getGiftImage(String listing_id) {
+	public Image getGiftImage(Integer listing_id) {
 		return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
-//		return new Image();
 	}
 
 	// TODO combine this with the getListofSearchGifts
@@ -238,6 +240,13 @@ public class GiftService {
 			gr.save(g);
 		}
 	}
+	
+	// TODO: For some reason there are duplicate Gifts by listing ID in the DB. That shouldn't be possible, but regardless, all of those Gifts are logically the same Gift...
+	public Gift getExistingGiftFromDb(int listingId) {
+		return gr.findByListingId(listingId).get(0);
+	}
+	
+	
 	/**
 	 * If calling this method do not call saveGiftsToDatabase
 	 * @param giftsToAdd

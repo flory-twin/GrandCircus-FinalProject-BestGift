@@ -15,6 +15,7 @@ public class EntityExtractionService {
 	public EntityExtractionResults getResults(String description) {
 		
 		EntityExtractionResults response = rt.getForObject(entityExtractionUrl + description, EntityExtractionResults.class);
+		// EntityExtractionResults response = rt.getForObject(entityExtractionUrl + description + "&top_entities=15", EntityExtractionResults.class);
 		
 		return response;
 	}
