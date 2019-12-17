@@ -18,14 +18,14 @@ body, h1, h2, h3, h4, h5, h6 {
 
 .w3-bar-block .w3-bar-item {
 	padding: 20px
+
 }
 </style>
 
-<body class="w3-row-padding w3-padding-32">
+<body>
 
-<nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()"
-  class="w3-bar-item w3-button">Close Menu</a>
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftMenu">
+  <button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-xlarge">Close &times;</button>
 	<table>
   <tr>
     <th>Time</th>
@@ -40,17 +40,24 @@ body, h1, h2, h3, h4, h5, h6 {
   </tr>
   	</c:forEach>
 	</table>
-</nav>
+</div>
 
-<div class="w3-top">
-  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">(>")>-+</div>
-    <div class="w3-right w3-padding-16"><a href="/log-out" >Log out</a></div>
-    <div class="w3-center w3-padding-16">Best Gift Finder</div>
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="rightMenu">
+  <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+  <a href="#" class="w3-bar-item w3-button">Link 1</a>
+  <a href="#" class="w3-bar-item w3-button">Link 2</a>
+  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+</div>
+
+<div>
+  <button class="w3-button w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
+  <button class="w3-button w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</button>
+  <div class="w3-container">
   </div>
 </div>
 
-<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">  
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+	<div>  
   <c:forEach var="g" items="${giftHistory.searchResult.gifts}">  
     <div class="w3-quarter">
       <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
@@ -129,16 +136,25 @@ body, h1, h2, h3, h4, h5, h6 {
 			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">bright</span>
 		</p>
 	</div>
+</div>
 </body>
 
 
 <script>
-	function w3_open() {
-		document.getElementById("mySidebar").style.display = "block";
+function openLeftMenu() {
+	  document.getElementById("leftMenu").style.display = "block";
 	}
 
-	function w3_close() {
-		document.getElementById("mySidebar").style.display = "none";
+	function closeLeftMenu() {
+	  document.getElementById("leftMenu").style.display = "none";
+	}
+
+	function openRightMenu() {
+	  document.getElementById("rightMenu").style.display = "block";
+	}
+
+	function closeRightMenu() {
+	  document.getElementById("rightMenu").style.display = "none";
 	}
 </script>
 
