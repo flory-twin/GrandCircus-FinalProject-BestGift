@@ -15,11 +15,13 @@ import co.grandcircus.bestgift.jparepos.ImageRepository;
 import co.grandcircus.bestgift.jparepos.KeywordRepository;
 import co.grandcircus.bestgift.jparepos.SearchExpressionRepository;
 import co.grandcircus.bestgift.jparepos.SearchHistoryRepository;
+import co.grandcircus.bestgift.jparepos.TagRepository;
 import co.grandcircus.bestgift.jparepos.UserRepo;
 import co.grandcircus.bestgift.models.User;
 import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.models.etsy.Image;
+import co.grandcircus.bestgift.models.etsy.info.Tag;
 import co.grandcircus.bestgift.search.Keyword;
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.tables.GiftList;
@@ -52,7 +54,10 @@ public class GiftService {
 	@Autowired
 	ImageRepository ir;
 	@Autowired
+	TagRepository tr;
+	@Autowired
 	HttpSession session;
+	
 	
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
 	RestTemplate rt = new RestTemplate();
@@ -240,12 +245,15 @@ public class GiftService {
 
 	private void saveGiftsToDatabase(List<Gift> giftsToAdd) {
 		for (Gift g : giftsToAdd) {
+			for (Tag t : g.getTags()) {
+				tr.save(t);
+			}
 			gr.save(g);
 		}
 	}
 	
 	// TODO: For some reason there are duplicate Gifts by listing ID in the DB. That shouldn't be possible, but regardless, all of those Gifts are logically the same Gift...
-	public Gift getExistingGiftFromDb(int listingId) {
+	public Gift getExistingGiftFromDb(Integer listingId) {
 		return gr.findByListingId(listingId).get(0);
 	}
 	

@@ -8,13 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import co.grandcircus.bestgift.models.etsy.info.Tags;
+import co.grandcircus.bestgift.models.etsy.info.Tag;
 
 /**
  * This Model is both a JSON response component (within a GiftResult) and a
@@ -57,14 +58,15 @@ public class Gift {
 	private Double price;
 	@OneToOne
 	private Image image;
-	private ArrayList<Tags> tags;
+	@OneToMany
+	private List<Tag> tags;
 
 	public Gift() {
 		super();
 	}
 	
 	public Gift(Integer listingId, String title, String description, String currencyCode, Double price,
-			Image image, ArrayList<Tags> tags) {
+			Image image, List<Tag> tags) {
 		this();
 		this.listingId = listingId;
 		this.title = title;
@@ -76,7 +78,7 @@ public class Gift {
 	}
 
 	public Gift(Integer giftId, Integer listingId, String title, String description, String currencyCode, Double price,
-			Image image, ArrayList<Tags> tags) {
+			Image image, List<Tag> tags) {
 		this(listingId, title, description, currencyCode, price, image, tags);
 		this.giftId = giftId;
 	}
@@ -137,11 +139,11 @@ public class Gift {
 		this.price = price;
 	}
 
-	public ArrayList<Tags> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(ArrayList<Tags> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 

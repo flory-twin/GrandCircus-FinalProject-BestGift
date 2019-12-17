@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import co.grandcircus.bestgift.models.dandelion.Entity;
 import co.grandcircus.bestgift.models.dandelion.EntityExtractionResults;
 import co.grandcircus.bestgift.models.etsy.Gift;
+import co.grandcircus.bestgift.models.etsy.info.Tag;
 import co.grandcircus.bestgift.services.EntityExtractionService;
 import co.grandcircus.bestgift.services.GiftService;
 import co.grandcircus.bestgift.tables.GiftList;
@@ -71,7 +72,7 @@ public class KeywordController {
 				Gift toBeAdded = gs.getExistingGiftFromDb(id);
 				favorites.getGifts().add(toBeAdded);
 				
-				// Also, get and add the keywords for this Gift.
+				// Also, get and add the extracted keywords for this Gift.
 				List<String> keywords = new ArrayList<String>();
 				EntityExtractionResults eer = es.getResults(toBeAdded.getDescription().replaceAll("\\s", "+"));
 				for (Entity e : eer.getAnnotations()) {
@@ -87,6 +88,14 @@ public class KeywordController {
 					
 					keywords.addAll(values);
 				}
+				
+				// Also, add Etsy's tags to the keywords for this Gift.
+				List<String> tagValues = new LinkedList<>();
+				for (Tag t : toBeAdded.getTags()) {
+					tagValues.add(t.getValue());
+				}
+				
+				keywords.addAll(tagValues);
 				
 				keywords = getUniqueWords(keywords);
 				allKeywords.add(keywords);	
