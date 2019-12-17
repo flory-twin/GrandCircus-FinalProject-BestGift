@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="co.grandcircus.bestgift.tables.GiftList" %>
-<%@ page import="co.grandcircus.bestgift.models.etsy.Gift" %>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
     
@@ -27,65 +25,65 @@ overflow: visible;
 <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
   <a href="javascript:void(0)" onclick="w3_close()"
   class="w3-bar-item w3-button">Close Menu</a>
-	<table>
-  <tr>
-    <th>Time</th>
-    <th>Keywords Used</th>
-  </tr>
-  	<c:forEach var="sh" items="${shr.findSearchByUser(user)}">
-  <tr>
-    <td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
-    <td>
-    ${sh.query.getAllKeywordsAsStrings()}
-    </td>
-  </tr>
-  	</c:forEach>
-	</table>
+  <!--  Kevin TODO: Fill these out, and hyperlink or buttonize or something to open search. -->
+  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search 17:29</a>
+  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search 03:46</a>
+  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search 19:29</a>
+  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search 01:46</a>
 </nav>
-
 <div class="w3-top">
   <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
     <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">(>")>-+</div>
-    <div class="w3-right w3-padding-16"><a href="/log-out">Log out</a></div>
+    <div class="w3-right w3-padding-16">Possible Link</div>
     <div class="w3-center w3-padding-16">Best Gift Finder</div>
+    
   </div>
 </div>
 
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
 
   <!-- Form to contain the 1...${etsy.itemlimit}th 'favorites' checkboxes. -->  
-  <c:forEach var="g" items="${ currentGiftList }" varStatus="i">
-    <form id="favoritesCheckboxForm${ i.count }" action="processFavoritesSelection">  
-      <div class="w3-quarter">
-        <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } 
-        width="270" height="200" hspace="15"  
-        style="width:90%; float:left; margin: 5px;">
-        <h3>${g.price} ${g.currencyCode}     Favorite:    
-            <input type="checkbox" name="checkbox" 
-              onclick="document.getElementById('favoritesCheckboxForm${ i.count }').submit();"
-              <c:forEach var="f" items="${ favorites.getGifts() }" varStatus = "j">
-                <c:if test="${ g.getListingId().equals(f.getListingId()) }">checked</c:if>
-              </c:forEach>
-            />  
-        </h3>
-        <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
-        <div class="text">
-          <p style="width: 300px;
-        	   overflow: hidden;
-        	   text-overflow: ellipsis;
-        	   height: 10.8em;
-        	   width: 18em;
-        	   line-height: 1.7em;">
-            ${g.description}
-          </p>
-        </div>
-        <!--  TODO Brian to add mouseover text containing full description. -->
+  <input type="Submit" value="Extract Keywords From Favorites"/>
+  <c:forEach var="g" items="${ currentGiftList }" varStatus="i">  
+    <div class="w3-quarter">
+      <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
+      <h3>${g.price} ${g.currencyCode}     Favorite: 
+        <form id="favoritesCheckboxForm" action="processFavoritesSelection">
+        <input type="checkbox" name="checkbox${ i.count }" ${
+          String checkedAttribute = "";
+           
+          // If this listing is in the favorites list in the session, check its favorite box.
+          GiftList favorites = session.getAttribute("favorites");
+          if (favorites != null) {
+            for (Gift f : favorites.getGifts()) {
+              if (f.getListingId().equals(g.listingId)) {
+                checkedAttribute = "checked";
+              }
+            }
+          }
+          
+          // An EL will effectively "print" the value of the last line of the EL...
+          checkedAttribute;
+         }/> 
+      </h3>
+      <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
+      <div class="text">
+        <p style="width: 300px;
+      	   overflow: hidden;
+      	   text-overflow: ellipsis;
+      	   height: 10.8em;
+      	   width: 18em;
+      	   line-height: 1.7em;">
+          ${g.description}
+        </p>
       </div>
-      <!-- Add a hidden input holding the description so it can be passed back to the controller.  -->
-      <input type="number" value="${ g.listingId }" name="listId" hidden/>
-      <input type="submit" value="Submit"/>
-    </form>  
+      <!--  TODO Brian to add mouseover text containing full description. -->
+    </div>
+    <!-- Add a hidden input holding the description so it can be passed back to the controller.  -->
+    <input type="text" value="${ g.description }" name="description${ i.count }" hidden/>
   </c:forEach>
+  </form>  
+
 
   <footer class="w3-row-padding w3-padding-32">
   	<p>
@@ -121,8 +119,19 @@ overflow: visible;
   
   	<p>
     <div class="w3-third">
-		<ul id="favoritesList" hidden>
-		</ul> 
+      <h3>Past Favorite Items</h3>
+      <ul class="w3-ul w3-hoverable">
+        <li class="w3-padding-16">
+          <img src="" class="w3-left w3-margin-right" style="width:50px">
+          <span class="w3-large">Cute Catz</span><br>
+          <span>meow meow meow meow meow</span>
+        </li>
+        <li class="w3-padding-16">
+          <img src="" class="w3-left w3-margin-right" style="width:50px">
+          <span class="w3-large">tree frog</span><br>
+          <span>In the tree looking at you</span>
+        </li> 
+      </ul>
     </div>
 	</p>
 
@@ -130,7 +139,7 @@ overflow: visible;
     <div class="w3-third w3-serif">
       <h3>Interested Keywords</h3>
       <p>
-      	<c:forEach var="kw" items="${ sharedKeywords }">
+      	<c:forEach var="kw" items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings()}">
       		<span class="w3-tag w3-black w3-margin-bottom">${ kw }</span>
       	</c:forEach>
       	

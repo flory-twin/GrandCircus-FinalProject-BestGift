@@ -1,5 +1,6 @@
 package co.grandcircus.bestgift.tables;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -36,6 +37,7 @@ public class GiftList {
 
 	public GiftList() {
 		super();
+		gifts = new LinkedList<Gift>();
 		// TODO Auto-generated constructor stub
 	}
 
