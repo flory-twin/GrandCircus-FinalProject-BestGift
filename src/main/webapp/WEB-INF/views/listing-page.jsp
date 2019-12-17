@@ -25,12 +25,22 @@ overflow: visible;
 <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
   <a href="javascript:void(0)" onclick="w3_close()"
   class="w3-bar-item w3-button">Close Menu</a>
-  <!--  Kevin TODO: Fill these out, and hyperlink or buttonize or something to open search. -->
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search 17:29</a>
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search 03:46</a>
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search 19:29</a>
-  <a href="" onclick="w3_close()" class="w3-bar-item w3-button">Search 01:46</a>
+	<table>
+  <tr>
+    <th>Time</th>
+    <th>Keywords Used</th>
+  </tr>
+  	<c:forEach var="sh" items="${shr.findSearchByUser(user)}">
+  <tr>
+    <td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
+    <td>
+    ${sh.query.getAllKeywordsAsStrings()}
+    </td>
+  </tr>
+  	</c:forEach>
+	</table>
 </nav>
+
 <div class="w3-top">
   <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
     <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">(>")>-+</div>
@@ -41,11 +51,12 @@ overflow: visible;
 </div>
 
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">  
-  <c:forEach var="g" items="${ currentGiftList }">  
+  <c:forEach var="g" items="${ currentGiftList }" varStatus="i">  
     <div class="w3-quarter">
+   		<div id="gift${i.index}" hidden>${g.listingId}</div>
       <!-- TODO Brian to link this image to the original Etsy posting.  -->
       <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
-      <h3>${g.price} ${g.currencyCode}</h3>
+      <h3>${g.price} ${g.currencyCode}  Favorite: <input type="checkbox" id="giftcheckbox${i.index}" value="${i.index}"></h3>
       <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
       <div class="text"><p style="width: 300px;
 	overflow: hidden;
@@ -95,19 +106,8 @@ overflow: visible;
   
   	<p>
     <div class="w3-third">
-      <h3>Past Favorite Items</h3>
-      <ul class="w3-ul w3-hoverable">
-        <li class="w3-padding-16">
-          <img src="" class="w3-left w3-margin-right" style="width:50px">
-          <span class="w3-large">Cute Catz</span><br>
-          <span>meow meow meow meow meow</span>
-        </li>
-        <li class="w3-padding-16">
-          <img src="" class="w3-left w3-margin-right" style="width:50px">
-          <span class="w3-large">tree frog</span><br>
-          <span>In the tree looking at you</span>
-        </li> 
-      </ul>
+		<ul id="favoritesList" hidden>
+		</ul> 
     </div>
 	</p>
 

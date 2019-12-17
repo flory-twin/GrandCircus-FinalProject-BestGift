@@ -50,7 +50,7 @@ public class GiftService {
 	UserRepo ur;
 	@Autowired
 	HttpSession session;
-
+	
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
 	RestTemplate rt = new RestTemplate();
 
@@ -172,6 +172,9 @@ public class GiftService {
 		session.setAttribute("kr", kr);
 		session.setAttribute("ser", ser);
 		session.setAttribute("shr", shr);
+		session.setAttribute("ur", ur);
+//		User loginUser = (User) session.getAttribute("user");
+//		session.setAttribute("user", loginUser);
 	}
 
 	/*
@@ -247,7 +250,7 @@ public class GiftService {
 		User loginUser = (User) session.getAttribute("user");
 		
 		saveGiftsToDatabase(giftsToAdd);
-
+		
 		GiftList list = new GiftList(giftsToAdd);
 		list.setUser(loginUser);
 		gl.save(list);

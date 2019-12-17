@@ -20,7 +20,50 @@ body, h1, h2, h3, h4, h5, h6 {
 	padding: 20px
 }
 </style>
+
 <body class="w3-row-padding w3-padding-32">
+
+<nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()"
+  class="w3-bar-item w3-button">Close Menu</a>
+	<table>
+  <tr>
+    <th>Time</th>
+    <th>Keywords Used</th>
+  </tr>
+  	<c:forEach var="sh" items="${shr.findSearchByUser(user)}">
+  <tr>
+    <td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
+    <td>
+    ${sh.query.getAllKeywordsAsStrings()}
+    </td>
+  </tr>
+  	</c:forEach>
+	</table>
+</nav>
+
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">(>")>-+</div>
+  </div>
+</div>
+
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">  
+  <c:forEach var="g" items="${giftHistory.searchResult.gifts}">  
+    <div class="w3-quarter">
+      <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
+      <h3>${g.price} ${g.currencyCode}</h3>
+      <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
+      <div class="text"><p style="width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 10.8em;
+	width: 18em;
+	line-height: 1.7em;
+	" >${g.description}</p></div>
+    </div>
+    </c:forEach>
+</div>
 	<div class="w3-third">
 		<h3>Search By More KeyWords</h3>
 		<p>

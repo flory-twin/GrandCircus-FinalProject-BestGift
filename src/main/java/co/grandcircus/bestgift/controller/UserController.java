@@ -13,15 +13,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.bestgift.jparepos.UserRepo;
 import co.grandcircus.bestgift.models.User;
-import co.grandcircus.bestgift.models.dandelion.EntityExtractionResults;
-import co.grandcircus.bestgift.services.EntityExtractionService;
+import co.grandcircus.bestgift.services.GiftService;
 
 @Controller
 public class UserController {
 
 	@Autowired
 	UserRepo rp;
-
+	@Autowired
+	GiftService gs;
 	@Autowired
 	HttpSession session;
 	
@@ -62,9 +62,8 @@ public class UserController {
 		if (!loginUser.getPassWord().equals(passWord)) {
 			return new ModelAndView("index", "message", "Your password does not match");
 		}
-		
+		gs.recacheRepositories(session);
 		session.setAttribute("user", loginUser);
-				
 		return new ModelAndView("startsearch", "user", loginUser);
 
 	}

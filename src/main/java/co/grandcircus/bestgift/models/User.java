@@ -67,6 +67,11 @@ public class User {
 		this.passWord = passWord;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", emailAddress=" + emailAddress + ", passWord=" + passWord + "]";
+	}
+
 	/**
 	 * private int kWTableId;
 	 * 
