@@ -67,4 +67,10 @@ public class UserController {
 		return new ModelAndView("startsearch", "user", loginUser);
 
 	}
+	
+	@RequestMapping("/log-out")
+	public ModelAndView logOut() {
+		session.removeAttribute("user");
+		return new ModelAndView("index");
+	}
 }
