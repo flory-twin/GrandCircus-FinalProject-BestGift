@@ -104,4 +104,10 @@ public class SearchHistory {
 		this.user = user;
 	}
 
+	@Override
+	public String toString() {
+		return "SearchHistory [historyLogId=" + historyLogId + ", query=" + query + ", searchResult=" + searchResult
+				+ ", createdAt=" + createdAt + ", user=" + user + "]";
+	}
+
 }

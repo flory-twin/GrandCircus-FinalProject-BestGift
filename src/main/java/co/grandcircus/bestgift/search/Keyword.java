@@ -40,13 +40,18 @@ public class Keyword {
 	public String getValue() {
 		return value;
 	}
-	
+
 	public String getUrlEncodedValue() {
 		return value.replaceAll(" ", "+");
 	}
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return "Keyword [id=" + id + ", value=" + value + "]";
 	}
 
 }
