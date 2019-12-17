@@ -1,8 +1,10 @@
 package co.grandcircus.bestgift.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,103 +27,44 @@ public class KeywordController {
 	
 	@Autowired
 	EntityExtractionService es;
-	
-	// TODO Need to align over deletions
-	List<List<String>> allKeywords;
-	List<String> sharedKeywords;
+	@Autowired
+	HttpSession session;
 
+	// HTML only sends values for a checkbox when it's toggled on--not when it toggles off.
 	@RequestMapping("processFavoritesSelection")
 	public ModelAndView calculateFavoritesAndStashInSession(
-			@RequestParam(value = "checkbox", required = true) String shouldBeInFavsString, 
+			@RequestParam(value = "checkbox", required = false) String shouldBeInFavsString, 
 			@RequestParam(value = "listId", required = true) Integer id, 
 			HttpSession session){
 		
+		GiftService gs = (GiftService) session.getAttribute("gs");
+		Gift toBeProcessed = gs.getExistingGiftFromDb(id);
+		
 		// Fetch/modify the current list of favorites based on the new data.
 		GiftList favorites;
+		Map<Integer, List<String>> keywordsMapByGiftId;
 		if (session.getAttribute("favorites") != null) {
 			favorites = (GiftList) session.getAttribute("favorites");
+			keywordsMapByGiftId = (Map<Integer, List<String>>) session.getAttribute("keywords");
 		} else {
 			favorites = new GiftList();
-			allKeywords = new ArrayList<>();
+			keywordsMapByGiftId = new HashMap<>();
 		}
 		
-		boolean shouldBeInFavs = (shouldBeInFavsString.equals("on") ? true : false);
+		boolean shouldBeInFavs = false;
+		if (shouldBeInFavsString != null) {
+			if (shouldBeInFavsString.equals("on")) {
+				shouldBeInFavs = true;
+			}
+		}
 		// Now add or remove the favorite which has been toggled.
 		if (shouldBeInFavs == false) {
-			// If the Gift should not be in the favorites--but currently is--then remove it.
-			if (favorites.getGifts().size() > 0) {
-				for (Gift f : favorites.getGifts()) {
-					if (f.getListingId() == id) {
-						favorites.getGifts().remove(f);
-					}
-				}
-			}		
+			removeFavorite(toBeProcessed, favorites, keywordsMapByGiftId);
 		} else {
-			// If the Gift should be in the favorites--and currently is not--then add it.
-			boolean alreadyInFavs = false;
-			if (favorites.getGifts().size() > 0) {
-				for (Gift f : favorites.getGifts()) {
-					if (f.getListingId() == id) {
-						alreadyInFavs |= true;
-					}
-				}
-			}
-			
-			if (!alreadyInFavs) {
-				GiftService gs = (GiftService) session.getAttribute("gs");
-				Gift toBeAdded = gs.getExistingGiftFromDb(id);
-				favorites.getGifts().add(toBeAdded);
-				
-				// Also, get and add the extracted keywords for this Gift.
-				List<String> keywords = new ArrayList<String>();
-				EntityExtractionResults eer = es.getResults(toBeAdded.getDescription().replaceAll("\\s", "+"));
-				for (Entity e : eer.getAnnotations()) {
-					// Check label, spot, and title. If they (caseless) differ, add the unique values.
-					String label = e.getLabel();
-					String spot = e.getSpot();
-					String title = e.getTitle();
-					
-					List<String> values = new LinkedList();
-					values.add(label);
-					values.add(spot);
-					values.add(title);
-					
-					keywords.addAll(values);
-				}
-				
-				// Also, add Etsy's tags to the keywords for this Gift.
-				List<String> tagValues = new LinkedList<>();
-				for (Tag t : toBeAdded.getTags()) {
-					tagValues.add(t.getValue());
-				}
-				
-				keywords.addAll(tagValues);
-				
-				keywords = getUniqueWords(keywords);
-				allKeywords.add(keywords);	
-			}
+			addFavorite(toBeProcessed, favorites, keywordsMapByGiftId);
 		}
-		
-		// Now, calculate the set of keywords shared by all favorites. 
-		//  --Beware that these are runtime (not persistent) Objects of type String.
-		//    Type Keyword is reserved for those search params submitted to a search in the GiftController.--
-		
-		for (int i = 0; i < allKeywords.size(); i++) {
-						// Use those KWs to calculate which KWs are shared between favorites. 
-			//  Note that sharedKeywords holds a running list of shared KWs.
-			if (i == 0) {
-				sharedKeywords = allKeywords.get(i);
-			} else {
-				// Only try to calculate shared keywords if more than one favorite exists!
-				sharedKeywords = extractSharedWords(sharedKeywords, allKeywords.get(i));
-			}		
-		}
-		
-		// Finally, put the list of favorites and the list of shared keywords into the session.
-		session.setAttribute("favorites", favorites);
-		session.setAttribute("sharedKeywords", sharedKeywords);
-		
-		// Finally finally, return to the main display.
+
+		// Finally, return to the main display.
 		return new ModelAndView("listing-page");
 	}
 					
@@ -169,5 +112,79 @@ public class KeywordController {
 			// If the first word was the only member, return the list.
 			return wordsToCheck;
 		}
+	}
+	
+	/**
+	 * Take a Gift out of the favorites. Take its keywords out too.
+	 * @param toBeRemoved
+	 */
+	private void removeFavorite(Gift toBeRemoved, GiftList favorites,
+			Map<Integer, List<String>> keywords) {
+		// If the Gift is currently in the favorites, then remove it.
+		if (favorites.getGifts().size() > 0) {
+			for (Gift f : favorites.getGifts()) {
+				if (f.getListingId().equals(toBeRemoved.getListingId())) {
+					favorites.getGifts().remove(f);
+					// Remove its keywords too!
+					if (keywords.containsKey(toBeRemoved.getListingId())) {
+						keywords.remove(toBeRemoved.getListingId());
+					}
+				}
+			}
+		}
+		
+		recache(favorites, keywords);
+	}
+	
+	private void addFavorite(Gift toBeAdded, GiftList favorites, 
+			Map<Integer, List<String>> keywords) {
+		// If the Gift should be in the favorites--and currently is not--then add it.
+		boolean alreadyInFavs = false;
+		if (favorites.getGifts().size() > 0) {
+			for (Gift f : favorites.getGifts()) {
+				if (f.getListingId().equals(toBeAdded.getListingId())) {
+					alreadyInFavs |= true;
+				}
+			}
+		}
+		
+		if (!alreadyInFavs) {
+			favorites.getGifts().add(toBeAdded);
+			
+			// Also, get and add the extracted keywords for this Gift.
+			List<String> giftKeywords = new ArrayList<String>();
+			EntityExtractionResults eer = es.getResults(toBeAdded.getDescription().replaceAll("\\s", "+"));
+			for (Entity e : eer.getAnnotations()) {
+				// Check label, spot, and title. If they (caseless) differ, add the unique values.
+				String label = e.getLabel();
+				String spot = e.getSpot();
+				String title = e.getTitle();
+				
+				List<String> values = new LinkedList();
+				values.add(label);
+				values.add(spot);
+				values.add(title);
+				
+				giftKeywords.addAll(values);
+			}
+			
+			// Also, add Etsy's tags to the keywords for this Gift.
+			List<String> tagValues = new LinkedList<>();
+			for (Tag t : toBeAdded.getTags()) {
+				tagValues.add(t.getValue());
+			}
+			
+			giftKeywords.addAll(tagValues);
+			
+			giftKeywords = getUniqueWords(giftKeywords);
+			keywords.put(toBeAdded.getListingId(), giftKeywords);	
+			
+			recache(favorites, keywords);
+		}
+	}
+	
+	private void recache(GiftList favs, Map<Integer, List<String>> keywords) {
+		session.setAttribute("favorites", favs);
+		session.setAttribute("keywords", keywords);
 	}
 }
