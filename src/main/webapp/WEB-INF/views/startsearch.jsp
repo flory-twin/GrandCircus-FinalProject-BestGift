@@ -35,9 +35,11 @@ body, h1, h2, h3, h4, h5, h6 {
   	<c:forEach var="sh" items="${shr.findSearchByUser(user)}">
   <tr>
     <td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
+    <c:forEach var="kw" items="${sh.query.getAllKeywordsAsStrings()}">
     <td>
-    ${sh.query.getAllKeywordsAsStrings()}
+    <a href="etsy-results?keywords1=${kw}">${kw}</a>
     </td>
+    </c:forEach>
   </tr>
   	</c:forEach>
 	</table>
