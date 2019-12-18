@@ -46,12 +46,8 @@ width: 18em;  */
 }
 </style>
 <header class="navbar navbar-light bg-light fixed-top">
-
 	<button class="w3-button w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
-	
 	<button class="w3-button w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</button>
-
-
 </header>
 <body>
 
@@ -76,8 +72,8 @@ width: 18em;  */
 	</table>
 </div>
 
-<!-- This is the correct table format for searched keywords and synonyms -->
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display: none; right: 0; width:30%; opacity: 0.95;" id="rightMenu">
+<!-- Right-hand collapsible element -->
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display: none; right: 0; width:50%; opacity: 0.95;" id="rightMenu">
 	<button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
 			<div>
 			<h3 align="center">Search By More KeyWords</h3>
@@ -121,7 +117,37 @@ width: 18em;  */
 					</tbody>
 				</table>
 			</form>
-
+		</div>
+		
+		<!-- Right-hand favorited gifts and keywords -->
+		<br>
+		<div>
+		<table>
+			<thead>
+				<tr>
+					<th>Favorite</th>
+					<th>Keywords</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="f" items="${ favorites.getGifts() }" varStatus = "j">
+					<tr>
+						<td>
+						<p>${ f.title.substring(0, 25) }
+							<c:if test="${f.title.length() > 25 }" >...</c:if>
+                        </p>
+                        <p><img src=${gs.getGiftImage(f.listingId).results[0].url_570xN } width="180" height="130" hspace="15" style="border-radius: 10%"></p>
+                        <p>${f.description.substring(0, 80) }<c:if test="${f.description.length() > 80 }" >...</c:if></p>
+                        </td>
+                        <td>
+                 			<c:forEach var="kw" items="${ keywords.get(f.getListingId()) }">
+							<span class="w3-tag w3-black w3-margin-bottom">${kw}</span>
+							</c:forEach>
+                        </td>
+                     </tr>
+				</c:forEach>
+			</tbody>
+		</table>
 
 		</div>
 </div>
@@ -162,21 +188,49 @@ width: 18em;  */
 
 	<footer class="w3-row-padding w3-padding-32">
 		<div class="w3-third">
-			<h3>Search By More KeyWords</h3>
-			<form action="/etsy-results">
-				
-						<c:forEach var="kw"
-							items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }"
-							varStatus="s">
-						Search Param:<input type="text" name="keywords${ s.count + 1 }" value="${ kw }" />
-						<br>
-						Synonyms: <select><c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20"><option value="${ synonym }">${ synonym }</option></c:forEach></select>
-						<br>
-						</c:forEach>									
-						Search Param: <input type="text" name="keywords1" /> <input	type="submit" value="Search" />
+			<div>
+			<h3 align="left">Search By More KeyWords</h3>
+			<form action="/etsy-results">	
+				<!-- The following table lays out search parameters and possible synonyms in a grid. -->			
+				<table>
+					<thead>
+						<tr>
+							<td>Searched Terms:</td>
+							<td>Pick a Synonym:</td>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Create a separate row for each of the search parameters used to create the last search. -->
+						<c:forEach var="kw"	items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
+							<tr>
+								<td>
+									<input id="option${ s.count+1}" type="text" name="keywords${ s.count+1}" value="${ kw }"  />
+								</td>
+								<td>
+									<select onchange="changeKeyword(this,${ s.count +1})">
+										<c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20" varStatus="t">
+											<option value="${ synonym }">${ synonym }</option>
+										</c:forEach>	
+									</select>
+								</td>
+								<td>
+								
+								</td>
+							</tr>
+						</c:forEach>
+						<!-- Create one additional row with a blank parameter. -->
+						<tr>
+							<td>
+								<input type="text" name="keywords1" /> 
+							</td>
+							<td>
+								<input	type="submit" value="Search" />
+							</td>
+						</tr>							
+					</tbody>
+				</table>
 			</form>
-
-
+		</div>
 		</div>
 
 		<div class="w3-third">
@@ -207,10 +261,6 @@ width: 18em;  */
 	</footer>
 
 </div>
-
-<c:forEach var="f" items="${ favorites.getGifts() }" varStatus = "j">
-	${ f }
-</c:forEach>
 
 <script>
 	function openLeftMenu() {
