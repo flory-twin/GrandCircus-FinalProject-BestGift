@@ -25,7 +25,7 @@ body, h1, h2, h3, h4, h5, h6 {
 
 <body>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; width:25%" id="leftMenu">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; width: 30%; opacity: 0.95" id="leftMenu">
   <button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-xlarge">Close &times;</button>
 	<table>
   <tr>
@@ -45,7 +45,7 @@ body, h1, h2, h3, h4, h5, h6 {
 	</table>
 </div>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="rightMenu">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0; width: 30%; opacity: 0.95" id="rightMenu">
   <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
   <a href="#" class="w3-bar-item w3-button">Link 1</a>
   <a href="#" class="w3-bar-item w3-button">Link 2</a>
@@ -63,7 +63,9 @@ body, h1, h2, h3, h4, h5, h6 {
 	<div>  
   <c:forEach var="g" items="${giftHistory.searchResult.gifts}">  
     <div class="w3-quarter">
-      <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
+      <a href="https://www.etsy.com/listing/${g.listingId}" target="_blank">
+      <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15" style="border-radius: 10%">
+      </a>
       <h3>${g.price} ${g.currencyCode}</h3>
       <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
       <div class="text"><p style="width: 300px;

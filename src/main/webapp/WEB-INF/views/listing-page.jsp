@@ -24,14 +24,19 @@ Head, body, h1, h2, h3, h4, h5, h6 {
 }
 
 .desLim {
-	width: 300px;
-	Body
-	,h1,h2,h3,h4,h5,h6
-	{font-family
-	:
-	"Karma"
-	,
-	sans-serif
+width: 300px; 
+overflow: hidden;
+text-overflow: ellipsis;
+height: 12em;
+width: 18em; 
+line-height: 1.2em;
+
+}
+.desLim:hover{
+/* overflow: visible;
+background-color: coral;
+height: 50em;
+width: 18em;  */
 }
 
 .w3-bar-block .w3-bar-item {
@@ -47,7 +52,7 @@ Head, body, h1, h2, h3, h4, h5, h6 {
 
 
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-left"
-	style="display: none; width: 25%" id="leftMenu">
+	style="display: none; width: 30%; opacity: 0.95" id="leftMenu">
 	<button onclick="closeLeftMenu()"
 		class="w3-bar-item w3-button w3-xlarge">Close &times;</button>
 	<table>
@@ -64,7 +69,8 @@ Head, body, h1, h2, h3, h4, h5, h6 {
 	</table>
 </div>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display: none; right: 0; width:30%;" id="rightMenu">
+<!-- This is the correct table format for searched keywords and synonyms -->
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display: none; right: 0; width:30%; opacity: 0.95;" id="rightMenu">
 	<button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
 			<div>
 			<h3 align="center">Search By More KeyWords</h3>
@@ -82,23 +88,28 @@ Head, body, h1, h2, h3, h4, h5, h6 {
 						<c:forEach var="kw"	items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
 							<tr>
 								<td>
-									<input type="text" name="keywords${ s.count + 1 }" value="${ kw }" />
+									<input id="option${ s.count+1}" type="text" name="keywords${ s.count+1}" value="${ kw }"  />
 								</td>
 								<td>
-									<select>
-										<c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20">
+									<select onchange="changeKeyword(this,${ s.count +1})">
+										<c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20" varStatus="t">
 											<option value="${ synonym }">${ synonym }</option>
-										</c:forEach>
+										</c:forEach>	
 									</select>
+								</td>
+								<td>
+								
 								</td>
 							</tr>
 						</c:forEach>
 						<!-- Create one additional row with a blank parameter. -->
 						<tr>
 							<td>
-								Search Param: <input type="text" name="keywords1" /> <input	type="submit" value="Search" />
+								<input type="text" name="keywords1" /> 
 							</td>
-							<td></td>
+							<td>
+								<input	type="submit" value="Search" />
+							</td>
 						</tr>							
 					</tbody>
 				</table>
@@ -135,10 +146,8 @@ Head, body, h1, h2, h3, h4, h5, h6 {
               </c:forEach> />
 				</h3>
 				<!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
-				<div class="text">
-					<p
-						style="width: 300px; overflow: hidden; text-overflow: ellipsis; height: 10.8em; width: 18em; line-height: 1.7em;">
-						${g.description}</p>
+				<div class="desLim">
+						${g.description}
 				</div>
 				<!--  TODO Brian to add mouseover text containing full description. -->
 			</div>
@@ -186,9 +195,8 @@ Head, body, h1, h2, h3, h4, h5, h6 {
 		<div class="w3-third w3-serif">
 			<h3>Interested Keywords</h3>
 			<p>
-				<c:forEach var="kw"
-					items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings()}">
-					<span class="w3-tag w3-black w3-margin-bottom">${ kw }</span>
+				<c:forEach var="kw" items="${shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings()}">
+					<span class="w3-tag w3-black w3-margin-bottom"><a href="etsy-results?keywords1=${kw}">${kw}</a></span>
 				</c:forEach>
 
 			</p>
@@ -217,6 +225,13 @@ Head, body, h1, h2, h3, h4, h5, h6 {
 	function closeRightMenu() {
 		document.getElementById("rightMenu").style.display = "none";
 	}
+
+	function changeKeyword(data,count) {
+		console.log(data);
+		console.log(count);
+		document.getElementById("option".concat(count)).value = data.value;
+	}
+	
 </script>
 
 
