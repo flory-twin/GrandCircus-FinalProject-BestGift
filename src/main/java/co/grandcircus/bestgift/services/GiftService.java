@@ -56,6 +56,9 @@ public class GiftService {
 	@Autowired
 	TagRepository tr;
 	@Autowired
+	DataMuseService dms;
+	
+	@Autowired
 	HttpSession session;
 	
 	
@@ -180,6 +183,7 @@ public class GiftService {
 		session.setAttribute("ser", ser);
 		session.setAttribute("shr", shr);
 		session.setAttribute("ur", ur);
+		session.setAttribute("dms", dms);
 	}
 
 	/*
