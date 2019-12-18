@@ -1,0 +1,30 @@
+@charset "ISO-8859-1";
+
+body, h1, h2, h3, h4, h5, h6 {
+	font-family: "Karma", sans-serif
+}
+
+.w3-bar-block .w3-bar-item {
+	padding: 20px
+}
+
+.desLim {
+width: 300px; 
+overflow: hidden;
+text-overflow: ellipsis;
+height: 12em;
+width: 18em; 
+line-height: 1.2em;
+
+}
+.desLim:hover{
+/* overflow: visible;
+background-color: coral;
+height: 50em;
+width: 18em;  */
+}
+
+
+.text:hover {
+	overflow: visible;
+}

@@ -14,46 +14,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-G3Fme2BM4boCE9tHx9zHvcxaQoAkksPQa/8oyn1Dzqv7gdcXChereUsXGx6LtbqA" crossorigin="anonymous">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet"	href="https://fonts.googleapis.com/css?family=Karma">
-<style>
-body, h1, h2, h3, h4, h5, h6 {
-	font-family: "Karma", sans-serif
-}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="stylesheet" href="listing-page.css">
 
-.w3-bar-block .w3-bar-item {
-	padding: 20px
-}
-
-.desLim {
-width: 300px; 
-overflow: hidden;
-text-overflow: ellipsis;
-height: 12em;
-width: 18em; 
-line-height: 1.2em;
-
-}
-.desLim:hover{
-/* overflow: visible;
-background-color: coral;
-height: 50em;
-width: 18em;  */
-}
-
-
-.text:hover {
-	overflow: visible;
-}
-</style>
 <header class="navbar navbar-light bg-light fixed-top">
-	<button class="w3-button w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
-	<button class="w3-button w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</button>
+	<button class="w3-button w3-xlarge w3-left" onclick="openLeftMenu()">&#9776; Search History</button>
+	<button class="w3-button w3-xlarge w3-right" onclick="openRightMenu()">Keywords/Favorites &#9776;</button>
 </header>
+
 <body>
 
-
-
-
+<!-- Right-hand collapsible element -->
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-left"
 	style="display: none; width: 30%; opacity: 0.95" id="leftMenu">
 	<button onclick="closeLeftMenu()"
@@ -100,9 +71,6 @@ width: 18em;  */
 										</c:forEach>	
 									</select>
 								</td>
-								<td>
-								
-								</td>
 							</tr>
 						</c:forEach>
 						<!-- Create one additional row with a blank parameter. -->
@@ -145,10 +113,11 @@ width: 18em;  */
 							</c:forEach>
                         </td>
                      </tr>
+                     <br>
 				</c:forEach>
 			</tbody>
 		</table>
-
+		<br>
 		</div>
 </div>
 
@@ -213,9 +182,6 @@ width: 18em;  */
 										</c:forEach>	
 									</select>
 								</td>
-								<td>
-								
-								</td>
 							</tr>
 						</c:forEach>
 						<!-- Create one additional row with a blank parameter. -->
@@ -247,15 +213,12 @@ width: 18em;  */
 			</ul>
 		</div>
 
-
-
 		<div class="w3-third w3-serif">
 			<h3>Interested Keywords</h3>
 			<p>
 				<c:forEach var="kw" items="${shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings()}">
 					<span class="w3-tag w3-black w3-margin-bottom"><a href="etsy-results?keywords1=${kw}">${kw}</a></span>
 				</c:forEach>
-
 			</p>
 		</div>
 	</footer>
