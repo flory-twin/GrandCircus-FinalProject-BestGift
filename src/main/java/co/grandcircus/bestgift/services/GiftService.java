@@ -11,14 +11,17 @@ import org.springframework.web.client.RestTemplate;
 
 import co.grandcircus.bestgift.jparepos.GiftListRepository;
 import co.grandcircus.bestgift.jparepos.GiftRepository;
+import co.grandcircus.bestgift.jparepos.ImageRepository;
 import co.grandcircus.bestgift.jparepos.KeywordRepository;
 import co.grandcircus.bestgift.jparepos.SearchExpressionRepository;
 import co.grandcircus.bestgift.jparepos.SearchHistoryRepository;
+import co.grandcircus.bestgift.jparepos.TagRepository;
 import co.grandcircus.bestgift.jparepos.UserRepo;
 import co.grandcircus.bestgift.models.User;
 import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.models.etsy.Image;
+import co.grandcircus.bestgift.models.etsy.info.Tag;
 import co.grandcircus.bestgift.search.Keyword;
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.tables.GiftList;
@@ -49,8 +52,13 @@ public class GiftService {
 	@Autowired
 	UserRepo ur;
 	@Autowired
+	ImageRepository ir;
+	@Autowired
+	TagRepository tr;
+	@Autowired
 	HttpSession session;
-
+	
+	
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
 	RestTemplate rt = new RestTemplate();
 
@@ -68,7 +76,7 @@ public class GiftService {
 	 * 
 	 * @return
 	 */
-	public String getGiftImageUrl(String listing_id) {
+	public String getGiftImageUrl(Integer listing_id) {
 		return "https://openapi.etsy.com/v2/listings/" + listing_id + "/images?api_key=" + etsyKey;
 	}
 
@@ -111,9 +119,8 @@ public class GiftService {
 		return returnVal;
 	}
 
-	public Image getGiftImage(String listing_id) {
+	public Image getGiftImage(Integer listing_id) {
 		return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
-//		return new Image();
 	}
 
 	// TODO combine this with the getListofSearchGifts
@@ -172,6 +179,7 @@ public class GiftService {
 		session.setAttribute("kr", kr);
 		session.setAttribute("ser", ser);
 		session.setAttribute("shr", shr);
+		session.setAttribute("ur", ur);
 	}
 
 	/*
@@ -235,9 +243,19 @@ public class GiftService {
 
 	private void saveGiftsToDatabase(List<Gift> giftsToAdd) {
 		for (Gift g : giftsToAdd) {
+			for (Tag t : g.getTags()) {
+				tr.save(t);
+			}
 			gr.save(g);
 		}
 	}
+	
+	// TODO: For some reason there are duplicate Gifts by listing ID in the DB. That shouldn't be possible, but regardless, all of those Gifts are logically the same Gift...
+	public Gift getExistingGiftFromDb(Integer listingId) {
+		return gr.findByListingId(listingId).get(0);
+	}
+	
+	
 	/**
 	 * If calling this method do not call saveGiftsToDatabase
 	 * @param giftsToAdd
@@ -247,7 +265,7 @@ public class GiftService {
 		User loginUser = (User) session.getAttribute("user");
 		
 		saveGiftsToDatabase(giftsToAdd);
-
+		
 		GiftList list = new GiftList(giftsToAdd);
 		list.setUser(loginUser);
 		gl.save(list);

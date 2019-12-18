@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.bestgift.jparepos.SearchHistoryRepository;
 import co.grandcircus.bestgift.jparepos.UserRepo;
+import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.services.DataMuseService;
 import co.grandcircus.bestgift.services.GiftService;
+import co.grandcircus.bestgift.tables.SearchHistory;
 
 @Controller
 public class GiftController {
@@ -28,6 +31,9 @@ public class GiftController {
 	
 	@Autowired
 	DataMuseService dms;
+	
+	@Autowired
+	SearchHistoryRepository shr;
 	
 	@RequestMapping("/start-search")
 	public ModelAndView viewGifts(HttpSession session) {
@@ -151,11 +157,18 @@ public class GiftController {
 	@RequestMapping("/search-history")
 	public ModelAndView showHistoryPage(HttpSession session, @RequestParam(required = false) Integer listId) {
 		if (listId == null) {
+			gs.recacheRepositories(session);
 			return new ModelAndView("searchhistory");
 		} else {
+			gs.recacheRepositories(session);
 			return new ModelAndView("searchhistory", "listId", listId);
 		}
 	}
 
-	
+	@RequestMapping("/gift-history")
+	public ModelAndView getGiftHistory(HttpSession session, Integer historyLogId) {
+		gs.recacheRepositories(session);
+		SearchHistory giftHistory = shr.findById(historyLogId).orElse(null);
+		return new ModelAndView("startsearch", "giftHistory", giftHistory);
+	}
 }

@@ -23,7 +23,12 @@
 	<!--  displayed. -->
 	<!-- ------------------------------------------------------------------------- -->
 	<h1>List of Searches</h1>
-	
+	<c:forEach var="sh" items="${shr.findSearchByUser(user)}">
+	<p>${sh.createdAt} ${sh.query.k1.value} ${sh.query.k2.value}</p>
+		<c:forEach var="gl" items="${sh.searchResult.gifts}">
+			<p>${gl}</p>
+		</c:forEach>
+	</c:forEach>
 	<div class="table table-hover">
 		<table class="table-dark" border=1>
 			<thead>
@@ -36,7 +41,7 @@
 			</thead>
 			<c:forEach var="sh" varStatus="i" items="${ shr.findAll() }">
 				<tr>
-					<td>NOT SET</td>
+					<td>${ user }</td>
 					<td>${ sh.getCreatedAt() }	</td>
 					<td>
 					     <div class="container">

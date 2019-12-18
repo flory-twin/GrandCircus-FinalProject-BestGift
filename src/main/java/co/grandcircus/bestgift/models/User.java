@@ -16,20 +16,10 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	@Column(name = "user_id")
 	private Integer userId;
 	private String emailAddress;
 	private String passWord;
-
-	
-	
-	/*
-	 * @OneToMany(mappedBy = "userId", orphanRemoval = true) private Gift
-	 * wishListItems;
-	 */
-
-
 
 	public Integer getUserId() {
 		return userId;
@@ -59,11 +49,9 @@ public class User {
 		super();
 	}
 
-
 	public User(Integer userId) {
 		super();
 		this.userId = userId;
-
 
 	}
 
@@ -73,6 +61,9 @@ public class User {
 		this.passWord = passWord;
 	}
 
-
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", emailAddress=" + emailAddress + ", passWord=" + passWord + "]";
+	}
 
 }
