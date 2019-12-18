@@ -64,13 +64,48 @@ body, h1, h2, h3, h4, h5, h6 {
 	</table>
 </div>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-right"
-	style="display: none; right: 0;" id="rightMenu">
-	<button onclick="closeRightMenu()"
-		class="w3-bar-item w3-button w3-large">Close &times;</button>
-	<a href="#" class="w3-bar-item w3-button">Link 1</a> <a href="#"
-		class="w3-bar-item w3-button">Link 2</a> <a href="#"
-		class="w3-bar-item w3-button">Link 3</a>
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display: none; right: 0; width:30%;" id="rightMenu">
+	<button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+			<div>
+			<h3 align="center">Search By More KeyWords</h3>
+			<form action="/etsy-results">	
+				<!-- The following table lays out search parameters and possible synonyms in a grid. -->			
+				<table>
+					<thead>
+						<tr>
+							<td>Searched Terms:</td>
+							<td>Pick a Synonym:</td>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Create a separate row for each of the search parameters used to create the last search. -->
+						<c:forEach var="kw"	items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
+							<tr>
+								<td>
+									<input type="text" name="keywords${ s.count + 1 }" value="${ kw }" />
+								</td>
+								<td>
+									<select>
+										<c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20">
+											<option value="${ synonym }">${ synonym }</option>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
+						</c:forEach>
+						<!-- Create one additional row with a blank parameter. -->
+						<tr>
+							<td>
+								Search Param: <input type="text" name="keywords1" /> <input	type="submit" value="Search" />
+							</td>
+							<td></td>
+						</tr>							
+					</tbody>
+				</table>
+			</form>
+
+
+		</div>
 </div>
 
 <div>
