@@ -135,16 +135,14 @@ body, h1, h2, h3, h4, h5, h6 {
 		<div class="w3-third">
 			<h3>Past Favorite Items</h3>
 			<ul class="w3-ul w3-hoverable">
-				<li class="w3-padding-16"><img src=""
-					class="w3-left w3-margin-right" style="width: 50px"> <span
-					class="w3-large" style="width: 300px; overflow: hidden; text-overflow: ellipsis; height: 10.8em; width: 18em; line-height: 1.7em;">
-					<c:forEach var="f" items="${ favorites.getGifts() }" varStatus = "j">${ f.title }</c:forEach>
-                            </span><br> <span>meow meow
-						meow meow meow</span></li>
-				<li class="w3-padding-16"><img src=""
-					class="w3-left w3-margin-right" style="width: 50px"> <span
-					class="w3-large">tree frog</span><br> <span>In the tree
-						looking at you</span></li>
+				<c:forEach var="f" items="${ favorites.getGifts() }" varStatus = "j">
+					<li>
+						<span class="w3-large">
+							${ f.title.substring(0, 25) }
+							<c:if test="${f.title.length() > 25 }" >...</c:if>
+                        </span><br> 
+                        <span>${f.description.substring(0, 80) }<c:if test="${f.description.length() > 80 }" >...</c:if></span></li>
+				</c:forEach>
 			</ul>
 		</div>
 
