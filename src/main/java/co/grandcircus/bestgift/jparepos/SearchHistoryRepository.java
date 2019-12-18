@@ -16,7 +16,7 @@ public interface SearchHistoryRepository extends JpaRepository<SearchHistory, In
 	
 	public SearchHistory findBySearchResult(GiftList gl);
 	
-	@Query("SELECT sh FROM SearchHistory sh WHERE user = ?1")
+	@Query("SELECT sh FROM SearchHistory sh WHERE user = ?1 ORDER BY createdAt desc")
 	List<SearchHistory> findSearchByUser(User user);
 	
 }

@@ -9,8 +9,14 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-G3Fme2BM4boCE9tHx9zHvcxaQoAkksPQa/8oyn1Dzqv7gdcXChereUsXGx6LtbqA" crossorigin="anonymous">
+
 </head>
 <body>
+
+<nav class="navbar navbar-light bg-light fixed-top">Hi!</nav>
+
       	<table>
       	Favorites size: ${favorites.getGifts().size() }
       		
@@ -56,5 +62,135 @@
       			</td></tr>
       			</c:forEach>
       	</table>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
+      	<br/>
 </body>
 </html>

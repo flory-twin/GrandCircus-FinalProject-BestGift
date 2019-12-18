@@ -174,7 +174,7 @@ public class GiftController {
 	
 	@RequestMapping("/topaz")
 	public ModelAndView topaz() {
-		return new ModelAndView("topaz2");
+		return new ModelAndView("topaz");
 		
 	}
 }

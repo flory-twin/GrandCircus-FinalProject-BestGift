@@ -9,8 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
 <style>
 body, h1, h2, h3, h4, h5, h6 {
 	font-family: "Karma", sans-serif
@@ -25,7 +24,7 @@ body, h1, h2, h3, h4, h5, h6 {
 
 <body>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; width:25%" id="leftMenu">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; width: 30%; opacity: 0.95" id="leftMenu">
   <button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-xlarge">Close &times;</button>
 	<table>
   <tr>
@@ -35,15 +34,17 @@ body, h1, h2, h3, h4, h5, h6 {
   	<c:forEach var="sh" items="${shr.findSearchByUser(user)}">
   <tr>
     <td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
+    <c:forEach var="kw" items="${sh.query.getAllKeywordsAsStrings()}">
     <td>
-    ${sh.query.getAllKeywordsAsStrings()} 
+    <a href="etsy-results?keywords1=${kw}">${kw}</a>
     </td>
+    </c:forEach>
   </tr>
   	</c:forEach>
 	</table>
 </div>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="rightMenu">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0; width: 30%; opacity: 0.95" id="rightMenu">
   <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
   <a href="#" class="w3-bar-item w3-button">Link 1</a>
   <a href="#" class="w3-bar-item w3-button">Link 2</a>
@@ -61,7 +62,9 @@ body, h1, h2, h3, h4, h5, h6 {
 	<div>  
   <c:forEach var="g" items="${giftHistory.searchResult.gifts}">  
     <div class="w3-quarter">
-      <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15"  style="width:90%; float:left; margin: 5px;">
+      <a href="https://www.etsy.com/listing/${g.listingId}" target="_blank">
+      <img src=${gs.getGiftImage(g.listingId).results[0].url_570xN } width="270" height="200" hspace="15" style="border-radius: 10%">
+      </a>
       <h3>${g.price} ${g.currencyCode}</h3>
       <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
       <div class="text"><p style="width: 300px;
@@ -81,11 +84,11 @@ body, h1, h2, h3, h4, h5, h6 {
 			<table>
 				<tr>
 					<td>Search Param:*</td>
-					<td><input type="text" name="keywords1" placeholder="blue" required /></td>
+					<td><input type="text" name="keywords1" placeholder="topaz" required /></td>
 				</tr>
 				<tr>
 					<td>Search Param:</td>
-					<td><input type="text" name="keywords2" placeholder="top hat"/></td>
+					<td><input type="text" name="keywords2"/></td>
 				</tr>
 				<tr>
 					<td>Search Param:</td>
@@ -101,10 +104,7 @@ body, h1, h2, h3, h4, h5, h6 {
 				</tr>
 			</table>
 		</form>
-
 	</div>
-
-	
 
 </div>
 </body>
