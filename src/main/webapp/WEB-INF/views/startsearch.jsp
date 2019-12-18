@@ -20,11 +20,12 @@ body, h1, h2, h3, h4, h5, h6 {
 	padding: 20px
 
 }
+
 </style>
 
 <body>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftMenu">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; width:25%" id="leftMenu">
   <button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-xlarge">Close &times;</button>
 	<table>
   <tr>
@@ -120,14 +121,14 @@ body, h1, h2, h3, h4, h5, h6 {
 	<div class="w3-third w3-serif">
 		<h3>Common searched keywords</h3>
 		<p>
-			<span class="w3-tag w3-black w3-margin-bottom">red</span> <span
-				class="w3-tag w3-dark-grey w3-small w3-margin-bottom">fabric</span>
+			<span class="w3-tag w3-black w3-margin-bottom">red</span> 
+			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">fabric</span>
 			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Dinner</span>
 			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">hat</span>
 			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">vintage</span>
 			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Drinks</span>
-			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">mrs
-				robe</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">cartoon</span>
+			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">mrs robe</span> 
+			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">cartoon</span>
 			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Cuisine</span>
 			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">steak</span>
 			<span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">pin</span>

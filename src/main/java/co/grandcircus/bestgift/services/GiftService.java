@@ -180,8 +180,6 @@ public class GiftService {
 		session.setAttribute("ser", ser);
 		session.setAttribute("shr", shr);
 		session.setAttribute("ur", ur);
-//		User loginUser = (User) session.getAttribute("user");
-//		session.setAttribute("user", loginUser);
 	}
 
 	/*
