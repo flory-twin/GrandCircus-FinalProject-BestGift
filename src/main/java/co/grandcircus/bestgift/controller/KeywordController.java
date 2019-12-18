@@ -149,7 +149,9 @@ public class KeywordController {
 		}
 		
 		if (!alreadyInFavs) {
-			favorites.getGifts().add(toBeAdded);
+			List<Gift> grownList = favorites.getGifts();
+			grownList.add(toBeAdded);
+			favorites.setGifts(grownList);
 			
 			// Also, get and add the extracted keywords for this Gift.
 			List<String> giftKeywords = new ArrayList<String>();

@@ -171,4 +171,10 @@ public class GiftController {
 		SearchHistory giftHistory = shr.findById(historyLogId).orElse(null);
 		return new ModelAndView("startsearch", "giftHistory", giftHistory);
 	}
+	
+	@RequestMapping("/topaz")
+	public ModelAndView topaz() {
+		return new ModelAndView("topaz2");
+		
+	}
 }
