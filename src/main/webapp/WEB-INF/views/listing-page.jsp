@@ -56,8 +56,9 @@ width: 18em;  */
 
 
 
-<header class="navbar navbar-light bg-light fixed-top">
+<header class="navbar navbar-light bg-light fixed-top" style="height: 100px;">
 	<button class="w3-button w3-xlarge w3-left" onclick="openLeftMenu()">&#9776; Search History</button>
+	<h2 align="center">Gift Finder</h2>
 	<button class="w3-button w3-xlarge w3-right" onclick="openRightMenu()">Keywords/Favorites &#9776;</button>
 </header>
 
