@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="co.grandcircus.bestgift.tables.GiftList"%>
+
 <%@ page import="co.grandcircus.bestgift.models.etsy.Gift"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -11,11 +12,11 @@
 <!--  TODO Brian to add this to shared JSP. -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-G3Fme2BM4boCE9tHx9zHvcxaQoAkksPQa/8oyn1Dzqv7gdcXChereUsXGx6LtbqA" crossorigin="anonymous">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"	href="https://fonts.googleapis.com/css?family=Karma">
 <style>
-
-Head, body, h1, h2, h3, h4, h5, h6 {
+body, h1, h2, h3, h4, h5, h6 {
 	font-family: "Karma", sans-serif
 }
 
@@ -39,14 +40,20 @@ height: 50em;
 width: 18em;  */
 }
 
-.w3-bar-block .w3-bar-item {
-	padding: 20px
-}
 
 .text:hover {
 	overflow: visible;
 }
 </style>
+<header class="navbar navbar-light bg-light fixed-top">
+
+	<button class="w3-button w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
+	
+	<button class="w3-button w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</button>
+
+
+</header>
+<body>
 
 
 
@@ -119,11 +126,7 @@ width: 18em;  */
 		</div>
 </div>
 
-<div>
-	<button class="w3-button w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
-	<button class="w3-button w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</button>
-	<div class="w3-container"></div>
-</div>
+
 
 <div class="w3-main w3-content w3-padding"
 	style="max-width: 1200px; margin-top: 100px">
@@ -227,8 +230,6 @@ width: 18em;  */
 	}
 
 	function changeKeyword(data,count) {
-		console.log(data);
-		console.log(count);
 		document.getElementById("option".concat(count)).value = data.value;
 	}
 	
