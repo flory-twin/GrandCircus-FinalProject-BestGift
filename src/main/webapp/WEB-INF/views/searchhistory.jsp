@@ -58,8 +58,7 @@
 							<div class="container">
 							    <div class="w3-quarter">
 								      <!-- TODO Needs update to synch with main page changes.  -->
-								      <img src=${ gs.getGiftImage(sh.getSearchResult().getGifts()[0].listingId)
-								      	  .results[0].url_570xN } width="80" height="100" hspace="15"  style="width:90%; float:left; margin: 5px;">
+								      <img src=${ gs.getGiftImage(sh.getSearchResult().getGifts()[0].listingId).results[0].url_570xN } width="10" height="10" hspace="15">
 								      <h3>${sh.getSearchResult().getGifts()[0].price} ${sh.getSearchResult().getGifts()[0].currencyCode}</h3>
 								      <!--  This paragraph tag sets the hidden static elements which keep the description blocks uniformly sized. -->
 								      <p style="width: 300px;

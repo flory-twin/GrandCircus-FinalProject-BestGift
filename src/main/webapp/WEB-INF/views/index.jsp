@@ -5,7 +5,6 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home Page</title>
-
 <link rel="stylesheet" href="index.css">
 </head>
 
@@ -68,6 +67,7 @@
 
 
 <script>
+
 
 document.querySelector('.img__btn').addEventListener('click', function() {
 	  document.querySelector('.cont').classList.toggle('s--signup');

@@ -119,6 +119,8 @@ public class GiftController {
 
 		return mv;
 	}
+	
+
 
 	@RequestMapping("/search")
 	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
@@ -130,7 +132,9 @@ public class GiftController {
 	// TODO potentially use if only one gift comes back
 	@RequestMapping("/con")
 	public ModelAndView viewGiftscongrad(HttpSession session) {
+
 		ModelAndView mv = new ModelAndView("congrad");
+
 
 		GiftResult result = null;
 		if (session.getAttribute("result") == null) {
