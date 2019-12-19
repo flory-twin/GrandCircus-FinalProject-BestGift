@@ -22,14 +22,30 @@ import co.grandcircus.bestgift.services.EntityExtractionService;
 import co.grandcircus.bestgift.services.GiftService;
 import co.grandcircus.bestgift.tables.GiftList;
 
+/**
+ * Handles keyword extraction and fetch, and handles the favorites list.
+ * 
+ * Stores session attributes as follows:
+ *   GiftList favorites: The list of favorites list.
+ *   Map<Integer, List<String>> keywords: For all favorites, stores the favorite's keywords against the gift ID.
+ *   
+ * @author Kevin Flory, Bryan Byrd, Kevin Chung
+ *
+ */
 @Controller
-public class KeywordController {
+public class FavoritesAndKeywordsController {
 	
 	@Autowired
 	EntityExtractionService es;
 	@Autowired
 	HttpSession session;
 
+	/**
+	 * Handle click events on favorite checkboxes
+	 * @param shouldBeInFavsString
+	 * @param id
+	 * @return
+	 */
 	// HTML only sends values for a checkbox when it's toggled on--not when it toggles off.
 	@RequestMapping("processFavoritesSelection")
 	public ModelAndView calculateFavoritesAndStashInSession(
@@ -67,6 +83,10 @@ public class KeywordController {
 		return new ModelAndView("listing-page");
 	}
 
+	/**
+	 * Clear the favorites list
+	 * @return
+	 */
 	// HTML only sends values for a checkbox when it's toggled on--not when it toggles off.
 	@RequestMapping("clearFavorites")
 	public ModelAndView clearFavoritesAndStashInSession(){
@@ -77,6 +97,12 @@ public class KeywordController {
 		return new ModelAndView("listing-page");
 	}
 
+	/**
+	 * Finds token shared between the two lists
+	 * @param tokens1
+	 * @param tokens2
+	 * @return
+	 */
 	private List<String> extractSharedWords(List<String> tokens1, List<String> tokens2) {
 		List<String> sharedTokens = new LinkedList<>();
 		
@@ -97,6 +123,11 @@ public class KeywordController {
 		return sharedTokens;
 	}
 	
+	/**
+	 * Remove duplicate members from the passed list
+	 * @param wordsToCheck
+	 * @return
+	 */
 	private List<String> getUniqueWords(List<String> wordsToCheck) {
 		// Check whether list has more than one member.
 		if (wordsToCheck.size() > 1) {
@@ -145,6 +176,12 @@ public class KeywordController {
 		recache(favorites, keywords);
 	}
 	
+	/**
+	 * Add a gift to the favorites list. Extract its keywords and add them to the keywords list
+	 * @param toBeAdded
+	 * @param favorites
+	 * @param keywords
+	 */
 	private void addFavorite(Gift toBeAdded, GiftList favorites, 
 			Map<Integer, List<String>> keywords) {
 		// If the Gift should be in the favorites--and currently is not--then add it.
@@ -194,6 +231,11 @@ public class KeywordController {
 		}
 	}
 	
+	/**
+	 * Upload the passed favorites and keywords lists to the session
+	 * @param favs
+	 * @param keywords
+	 */
 	private void recache(GiftList favs, Map<Integer, List<String>> keywords) {
 		session.setAttribute("favorites", favs);
 		session.setAttribute("keywords", keywords);

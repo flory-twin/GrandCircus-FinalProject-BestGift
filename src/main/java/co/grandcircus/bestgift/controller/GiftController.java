@@ -23,7 +23,8 @@ import co.grandcircus.bestgift.tables.SearchHistory;
 /**
  * This controller handles most requests to Gift Finder
  * 
- * Technical note: all parameters are passed out of this controller as session variables
+ * Does not directly store any session variables.
+ *    
  * @author Kevin Flory, Bryan Byrd, Kevin Chung
  *
  */
@@ -152,7 +153,7 @@ public class GiftController {
 		gs.recacheRepositories();
 		SearchHistory giftHistory = shr.findById(historyLogId).orElse(null);
 		gs.recacheResult(giftHistory);
-		KeywordController temporaryController = new KeywordController();
+		FavoritesAndKeywordsController temporaryController = new FavoritesAndKeywordsController();
 		return temporaryController.clearFavoritesAndStashInSession();
 	}
 	
