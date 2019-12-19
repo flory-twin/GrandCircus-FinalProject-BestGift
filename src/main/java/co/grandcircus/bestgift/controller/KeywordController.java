@@ -70,8 +70,8 @@ public class KeywordController {
 	// HTML only sends values for a checkbox when it's toggled on--not when it toggles off.
 	@RequestMapping("clearFavorites")
 	public ModelAndView clearFavoritesAndStashInSession(){
-		session.setAttribute("favorites", new GiftList());
-		session.setAttribute("keywords", new HashMap<Integer, List<String>>());
+		//session.setAttribute("favorites", new GiftList());
+		//session.setAttribute("keywords", new HashMap<Integer, List<String>>());
 		
 		// Finally, return to the main display.
 		return new ModelAndView("listing-page");

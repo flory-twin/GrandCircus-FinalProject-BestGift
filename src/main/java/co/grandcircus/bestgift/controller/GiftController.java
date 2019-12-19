@@ -126,6 +126,8 @@ public class GiftController {
 		SearchHistory giftHistory = shr.findById(historyLogId).orElse(null);
 		gs.recacheResult(giftHistory);
 		KeywordController temporaryController = new KeywordController();
+		System.out.println(giftHistory);
+		System.out.println(temporaryController);
 		return temporaryController.clearFavoritesAndStashInSession();
 	}
 	
