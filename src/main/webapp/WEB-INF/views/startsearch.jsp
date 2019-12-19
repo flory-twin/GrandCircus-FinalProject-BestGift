@@ -46,9 +46,84 @@ body, h1, h2, h3, h4, h5, h6 {
 
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0; width: 30%; opacity: 0.95" id="rightMenu">
   <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
-  <a href="#" class="w3-bar-item w3-button">Link 1</a>
-  <a href="#" class="w3-bar-item w3-button">Link 2</a>
-  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+			<div>
+			<h3 align="center">Search By More KeyWords</h3>
+			<form action="/etsy-results">	
+				<!-- The following table lays out search parameters and possible synonyms in a grid. -->			
+				<table>
+					<thead>
+						<tr>
+							<td>Searched Terms:</td>
+							<td>Pick a Synonym:</td>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Create a separate row for each of the search parameters used to create the last search. -->
+						<c:forEach var="kw"	items="${giftHistory.getQuery().getAllKeywordsAsStrings()}"	varStatus="s">
+							<tr>
+								<td>
+
+									<input id="option${ s.count+1}" type="text" name="keywords${ s.count+1}" value="${ kw }"  />
+								</td>
+								<td>
+									<select onchange="changeKeyword(this,${ s.count +1})">
+
+										<c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20" varStatus="t">
+											<option value="${ synonym }">${ synonym }</option>
+										</c:forEach>	
+									</select>
+								</td>
+								<td>
+								
+								</td>
+							</tr>
+						</c:forEach>
+						<!-- Create one additional row with a blank parameter. -->
+						<tr>
+							<td>
+								<input type="text" name="keywords1" /> 
+							</td>
+							<td>
+								<input	type="submit" value="Search" />
+							</td>
+						</tr>							
+					</tbody>
+				</table>
+			</form>
+		</div>
+		
+		<!-- Right-hand favorited gifts and keywords -->
+		<br>
+		<div>
+		<table>
+			<thead>
+				<tr>
+					<th>Favorite</th>
+					<th>Keywords</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="f" items="${ favorites.getGifts() }" varStatus = "j">
+					<tr>
+						<td>
+						<p>${ f.title.substring(0, 25) }
+							<c:if test="${f.title.length() > 25 }" >...</c:if>
+                        </p>
+                        <p><img src=${gs.getGiftImage(f.listingId).results[0].url_570xN } width="180" height="130" hspace="15" style="border-radius: 10%"></p>
+                        <p>${f.description.substring(0, 80) }<c:if test="${f.description.length() > 80 }" >...</c:if></p>
+                        </td>
+                        <td>
+                 			<c:forEach var="kw" items="${ keywords.get(f.getListingId()) }">
+							<span class="w3-tag w3-black w3-margin-bottom">${kw}</span>
+							</c:forEach>
+                        </td>
+                     </tr>
+                     <br>
+				</c:forEach>
+			</tbody>
+		</table>
+		<br>
+		</div>
 </div>
 
 <div>
