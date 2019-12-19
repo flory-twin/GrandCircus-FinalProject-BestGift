@@ -43,7 +43,7 @@
     </div>
     <div class="form sign-up">
     <form action="/add-user" method="post">
-      <h2>Time to feel like home</h2>
+      <h2>Create an account (no real emails please wink wink!!)</h2>
       <label>
         <span>Email</span>
         <input type="email" name="emailAddress" required>

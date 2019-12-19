@@ -15,6 +15,12 @@ import co.grandcircus.bestgift.jparepos.UserRepo;
 import co.grandcircus.bestgift.models.User;
 import co.grandcircus.bestgift.services.GiftService;
 
+/**
+ * Handles user logins and maintains user data while using app
+ * 
+ * @author Kevin Flory, Bryan Byrd, Kevin Chung
+ *
+ */
 @Controller
 public class UserController {
 
@@ -25,17 +31,24 @@ public class UserController {
 	@Autowired
 	HttpSession session;
 	
+	/**
+	 * directs all initial traffic to login page
+	 * @return
+	 */
+	
 	@RequestMapping("/") 
 	public ModelAndView displayLogin() {
 		return new ModelAndView("index");
 	}
 	
-	@RequestMapping("/new-account")
-	public ModelAndView newAccount() {
-		return new ModelAndView("add-user");
-	}
-
-//	This checks to see if the email is already in the database. If not, the user will be added to the database
+	/**
+	 * Handles addition of new user
+	 * 
+	 * This checks to see if the email is already in the database. If not, 
+	 * the user will be added to the database
+	 * @param user
+	 * @return
+	 */
 	@PostMapping("/add-user")
 	public ModelAndView addUser(User user) {
 		List<User> users = rp.findAll();
@@ -47,8 +60,18 @@ public class UserController {
 		rp.save(user);
 		return new ModelAndView("redirect:/");
 	}
-
-//	This checks to see if the database contains the email address, and if the password matches for the account
+	
+	/**
+	 * 
+	 * Checks user information upon click of log in button
+	 * 
+	 * This checks to see if the database contains the email address, and if the password matches
+	 * for the account then logs in user
+	 * 
+	 * @param emailAddress
+	 * @param passWord
+	 * @return
+	 */
 	@PostMapping("/login-user")
 	public ModelAndView loginUser(@RequestParam("emailAddress") String emailAddress,
 			@RequestParam("passWord") String passWord) {
@@ -68,6 +91,11 @@ public class UserController {
 
 	}
 	
+	/**
+	 * Handles logging out for user
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/log-out")
 	public ModelAndView logOut() {
 		session.removeAttribute("user");
