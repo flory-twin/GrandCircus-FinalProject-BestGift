@@ -20,7 +20,13 @@ import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.services.DataMuseService;
 import co.grandcircus.bestgift.services.GiftService;
 import co.grandcircus.bestgift.tables.SearchHistory;
-
+/**
+ * This controller handles most requests to Gift Finder
+ * 
+ * Technical note: all parameters are passed out of this controller as session variables
+ * @author Kevin Flory, Bryan Byrd, Kevin Chung
+ *
+ */
 @Controller
 public class GiftController {
 	@Value("${etsy.key}")
@@ -38,6 +44,10 @@ public class GiftController {
 	@Autowired
 	HttpSession session;
 	
+	/**
+	 * Dispatches traffic to the start page after the user logs in
+	 * @return
+	 */
 	@RequestMapping("/start-search")
 	public ModelAndView viewGifts() {
 		ModelAndView mv = new ModelAndView("startsearch");
@@ -48,6 +58,22 @@ public class GiftController {
 
 	}
 
+	/**
+	 * Assembles searched terms and passes them off for processing
+	 * 
+	 * @param kw1
+	 * @param kw2
+	 * @param kw3
+	 * @param kw4
+	 * @param kw5
+	 * @param kw6
+	 * @param kw7
+	 * @param kw8
+	 * @param kw9
+	 * @param kw10
+	 * @param max_price
+	 * @return
+	 */
 	@RequestMapping("/etsy-results")
 	public ModelAndView searchGifts(@RequestParam(value = "keywords1", required = true) String kw1,
 			// The first parameter must be present, but the remaining parameters not need be
@@ -97,43 +123,37 @@ public class GiftController {
 		return searchGiftsUsingList(keywords);
 	}
 
+	/**
+	 * Delegates searched terms to giftservice for handling
+	 * 
+	 * @param kws
+	 * @return
+	 */
 	private ModelAndView searchGiftsUsingList(List<String> kws) {
 		gs.recacheRepositories();
-
-		// request.getParameter("product"+i+"SkusCnt"))
 
 		ModelAndView mv = new ModelAndView("listing-page");
 		SearchExpression searchExp = SearchExpression.createFromKeywords(kws);
 
 		// Perform actual search
-		// TODO: Refactor to take SearchExp
-
-		GiftResult result = gs.getListOfSearchedGifts(searchExp);
+		gs.getListOfSearchedGifts(searchExp);
 		
 		return mv;
 	}
 	
-	@RequestMapping("/search")
-	public ModelAndView searchSingleKeyword(String kw1) {
-		gs.recacheRepositories();
-
-		return new ModelAndView("giftresults");
-	}
-
+	/**
+	 * Fetches list of previously searched parameters
+	 * 
+	 * @param historyLogId
+	 * @return
+	 */
 	@RequestMapping("/gift-history")
 	public ModelAndView getGiftHistory(Integer historyLogId) {
 		gs.recacheRepositories();
 		SearchHistory giftHistory = shr.findById(historyLogId).orElse(null);
 		gs.recacheResult(giftHistory);
 		KeywordController temporaryController = new KeywordController();
-		System.out.println(giftHistory);
-		System.out.println(temporaryController);
 		return temporaryController.clearFavoritesAndStashInSession();
 	}
 	
-	@RequestMapping("/topaz")
-	public ModelAndView topaz() {
-		return new ModelAndView("topaz");
-		
-	}
 }

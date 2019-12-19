@@ -6,6 +6,8 @@ import java.util.List;
 import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.search.Keyword;
+import co.grandcircus.bestgift.search.filter.GiftMatcher;
+import co.grandcircus.bestgift.search.filter.Searcher;
 
 public class KeywordSearcher extends Searcher<Keyword> {
 	public KeywordSearcher(GiftResult response, Keyword toSearchBy) {
