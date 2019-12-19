@@ -35,23 +35,21 @@ public class GiftController {
 	@Autowired
 	SearchHistoryRepository shr;
 	
+	@Autowired
+	HttpSession session;
+	
 	@RequestMapping("/start-search")
-	public ModelAndView viewGifts(HttpSession session) {
+	public ModelAndView viewGifts() {
 		ModelAndView mv = new ModelAndView("startsearch");
 		
-		gs.recacheRepositories(session);
-		GiftResult result = gs.getListOfGifts();
-
-		gs.recacheResult(result, session);
+		gs.recacheRepositories();
 		
-		session.setAttribute("dms", dms);
-
 		return mv;
 
 	}
 
 	@RequestMapping("/etsy-results")
-	public ModelAndView searchGifts(HttpSession session, @RequestParam(value = "keywords1", required = true) String kw1,
+	public ModelAndView searchGifts(@RequestParam(value = "keywords1", required = true) String kw1,
 			// The first parameter must be present, but the remaining parameters not need be
 			// sent
 			// in the request (required = false)
@@ -96,11 +94,11 @@ public class GiftController {
 		}
 		
 		// Turns keywords into a list of strings, then passes to private method
-		return searchGiftsUsingList(session, keywords);
+		return searchGiftsUsingList(keywords);
 	}
 
-	private ModelAndView searchGiftsUsingList(HttpSession session, List<String> kws) {
-		gs.recacheRepositories(session);
+	private ModelAndView searchGiftsUsingList(List<String> kws) {
+		gs.recacheRepositories();
 
 		// request.getParameter("product"+i+"SkusCnt"))
 
@@ -111,65 +109,24 @@ public class GiftController {
 		// TODO: Refactor to take SearchExp
 
 		GiftResult result = gs.getListOfSearchedGifts(searchExp);
-
-		// Cache new results.
-		gs.recacheResult(result, session);
-
-		// mv.addObject("giftresult", result.getResults());
-
+		
 		return mv;
 	}
 	
-
-
 	@RequestMapping("/search")
-	public ModelAndView searchSingleKeyword(String kw1, HttpSession session) {
-		gs.recacheRepositories(session);
+	public ModelAndView searchSingleKeyword(String kw1) {
+		gs.recacheRepositories();
 
 		return new ModelAndView("giftresults");
 	}
 
-	// TODO potentially use if only one gift comes back
-	@RequestMapping("/con")
-	public ModelAndView viewGiftscongrad(HttpSession session) {
-
-		ModelAndView mv = new ModelAndView("congrad");
-
-
-		GiftResult result = null;
-		if (session.getAttribute("result") == null) {
-			result = gs.getListOfGifts();
-			session.setAttribute("result", result);
-		} else {
-			result = (GiftResult) session.getAttribute("result");
-		}
-
-		if (session.getAttribute("currentGiftList") == null) {
-			session.setAttribute("currentGiftList", result.getResults());
-		}
-
-		session.setAttribute("gs", gs);
-
-		return mv;
-
-	}
-
-	@RequestMapping("/search-history")
-	public ModelAndView showHistoryPage(HttpSession session, @RequestParam(required = false) Integer listId) {
-		if (listId == null) {
-			gs.recacheRepositories(session);
-			return new ModelAndView("searchhistory");
-		} else {
-			gs.recacheRepositories(session);
-			return new ModelAndView("searchhistory", "listId", listId);
-		}
-	}
-
 	@RequestMapping("/gift-history")
-	public ModelAndView getGiftHistory(HttpSession session, Integer historyLogId) {
-		gs.recacheRepositories(session);
+	public ModelAndView getGiftHistory(Integer historyLogId) {
+		gs.recacheRepositories();
 		SearchHistory giftHistory = shr.findById(historyLogId).orElse(null);
-		return new ModelAndView("startsearch", "giftHistory", giftHistory);
+		gs.recacheResult(giftHistory);
+		KeywordController temporaryController = new KeywordController();
+		return temporaryController.clearFavoritesAndStashInSession();
 	}
 	
 	@RequestMapping("/topaz")

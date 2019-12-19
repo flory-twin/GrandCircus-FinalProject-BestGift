@@ -156,7 +156,7 @@ public class GiftService {
 		User loginUser = (User) session.getAttribute("user");
 		search.setUser(loginUser);
 		shr.save(search);
-//		shr.save(new SearchHistory(se, returnedList));
+		recacheResult(search);
 		return giftsToReturn;
 	}
 	/**
@@ -165,9 +165,9 @@ public class GiftService {
 	 * @param latest
 	 * @param session
 	 */
-	public void recacheResult(GiftResult latest, HttpSession session) {
-		session.setAttribute("result", latest);
-		session.setAttribute("currentGiftList", latest.getResults());
+	public void recacheResult(SearchHistory history) {
+		session.setAttribute("lastSearchHistory", history);
+		session.setAttribute("currentGiftList", history.getSearchResult().getGifts());
 	}
 /**
  * Stores all repositories in the session
@@ -175,7 +175,7 @@ public class GiftService {
  * 
  * @param session
  */
-	public void recacheRepositories(HttpSession session) {
+	public void recacheRepositories() {
 		session.setAttribute("gs", this);
 		session.setAttribute("gr", gr);
 		session.setAttribute("gl", gl);
@@ -235,7 +235,7 @@ public class GiftService {
 	 * @return
 	 */
 
-	public SearchHistory saveSearchHistoryRecordToDatabase(SearchHistory sh, HttpSession session) {
+	public SearchHistory saveSearchHistoryRecordToDatabase(SearchHistory sh) {
 		User loginUser = (User) session.getAttribute("user");
 		sh.setUser(loginUser);
 		ser.save(sh.getQuery());

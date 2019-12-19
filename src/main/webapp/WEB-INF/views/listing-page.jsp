@@ -101,7 +101,7 @@ width: 18em;  */
 					</thead>
 					<tbody>
 						<!-- Create a separate row for each of the search parameters used to create the last search. -->
-						<c:forEach var="kw"	items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
+						<c:forEach var="kw"	items="${ lastSearchHistory.getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
 							<tr>
 								<td>
 
@@ -145,6 +145,7 @@ width: 18em;  */
 				</tr>
 			</thead>
 			<tbody>
+
 				<c:forEach var="f" items="${ favorites.getGifts() }" varStatus = "j">
 					<tr>
 						<td>
@@ -175,8 +176,7 @@ width: 18em;  */
 
 	<!-- Form to contain the 1...${etsy.itemlimit}th 'favorites' checkboxes. -->
 	<c:forEach var="g" items="${ currentGiftList }" varStatus="i">
-		<form id="favoritesCheckboxForm${ i.count }"
-			action="processFavoritesSelection">
+		<form id="favoritesCheckboxForm${ i.count }" action="processFavoritesSelection">
 			<div class="w3-quarter">
 				<a href="https://www.etsy.com/listing/${ g.listingId }"
 					target="_blank"><img
@@ -202,72 +202,13 @@ width: 18em;  */
 		</form>
 	</c:forEach>
 
-	<footer class="w3-row-padding w3-padding-32">
-		<div class="w3-third">
-			<div>
-			<h3 align="left">Search By More KeyWords</h3>
-			<form action="/etsy-results">	
-				<!-- The following table lays out search parameters and possible synonyms in a grid. -->			
-				<table>
-					<thead>
-						<tr>
-							<td>Searched Terms:</td>
-							<td>Pick a Synonym:</td>
-						</tr>
-					</thead>
-					<tbody>
-						<!-- Create a separate row for each of the search parameters used to create the last search. -->
-						<c:forEach var="kw"	items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
-							<tr>
-								<td>
-									<input id="option${ s.count+1}" type="text" name="keywords${ s.count+1}" value="${ kw }"  />
-								</td>
-								<td>
-									<select onchange="changeKeyword(this,${ s.count +1})">
-										<c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20" varStatus="t">
-											<option value="${ synonym }">${ synonym }</option>
-										</c:forEach>	
-									</select>
-								</td>
-							</tr>
-						</c:forEach>
-						<!-- Create one additional row with a blank parameter. -->
-						<tr>
-							<td>
-								<input type="text" name="keywords1" /> 
-							</td>
-							<td>
-								<input	type="submit" value="Search" />
-							</td>
-						</tr>							
-					</tbody>
-				</table>
-			</form>
-		</div>
-		</div>
-
-		<div class="w3-third">
-			<h3>Past Favorite Items</h3>
-			<ul class="w3-ul w3-hoverable">
-				<c:forEach var="f" items="${ favorites.getGifts() }" varStatus = "j">
-					<li>
-						<span class="w3-large">
-							${ f.title.substring(0, 25) }
-							<c:if test="${f.title.length() > 25 }" >...</c:if>
-                        </span><br> 
-                        <span>${f.description.substring(0, 80) }<c:if test="${f.description.length() > 80 }" >...</c:if></span></li>
-				</c:forEach>
-			</ul>
-		</div>
-
-		<div class="w3-third w3-serif">
-			<h3>Interested Keywords</h3>
-			<p>
-				<c:forEach var="kw" items="${shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings()}">
-					<span class="w3-tag w3-black w3-margin-bottom"><a href="etsy-results?keywords1=${kw}">${kw}</a></span>
-				</c:forEach>
-			</p>
-		</div>
+	<footer class="w3-row-padding w3-padding-32" >
+	<div align="right">
+	<br>
+	<a href="/log-out"><h2>LogOut</h2></a>
+	
+	</div>
+	
 	</footer>
 
 </div>

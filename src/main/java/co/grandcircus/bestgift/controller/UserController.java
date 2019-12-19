@@ -62,7 +62,7 @@ public class UserController {
 		if (!loginUser.getPassWord().equals(passWord)) {
 			return new ModelAndView("index", "message", "Your password does not match");
 		}
-		gs.recacheRepositories(session);
+		gs.recacheRepositories();
 		session.setAttribute("user", loginUser);
 		return new ModelAndView("startsearch", "user", loginUser);
 

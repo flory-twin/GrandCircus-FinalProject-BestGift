@@ -34,8 +34,7 @@ public class KeywordController {
 	@RequestMapping("processFavoritesSelection")
 	public ModelAndView calculateFavoritesAndStashInSession(
 			@RequestParam(value = "checkbox", required = false) String shouldBeInFavsString, 
-			@RequestParam(value = "listId", required = true) Integer id, 
-			HttpSession session){
+			@RequestParam(value = "listId", required = true) Integer id){
 		
 		GiftService gs = (GiftService) session.getAttribute("gs");
 		Gift toBeProcessed = gs.getExistingGiftFromDb(id);
@@ -67,7 +66,17 @@ public class KeywordController {
 		// Finally, return to the main display.
 		return new ModelAndView("listing-page");
 	}
-					
+
+	// HTML only sends values for a checkbox when it's toggled on--not when it toggles off.
+	@RequestMapping("clearFavorites")
+	public ModelAndView clearFavoritesAndStashInSession(){
+		session.setAttribute("favorites", new GiftList());
+		session.setAttribute("keywords", new HashMap<Integer, List<String>>());
+		
+		// Finally, return to the main display.
+		return new ModelAndView("listing-page");
+	}
+
 	private List<String> extractSharedWords(List<String> tokens1, List<String> tokens2) {
 		List<String> sharedTokens = new LinkedList<>();
 		
