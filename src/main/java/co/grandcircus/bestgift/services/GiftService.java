@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import co.grandcircus.bestgift.jparepos.GiftListRepository;
 import co.grandcircus.bestgift.jparepos.GiftRepository;
 import co.grandcircus.bestgift.jparepos.ImageRepository;
-import co.grandcircus.bestgift.jparepos.KeywordRepository;
+import co.grandcircus.bestgift.jparepos.SearchTermRepository;
 import co.grandcircus.bestgift.jparepos.SearchExpressionRepository;
 import co.grandcircus.bestgift.jparepos.SearchHistoryRepository;
 import co.grandcircus.bestgift.jparepos.TagRepository;
@@ -22,7 +22,7 @@ import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.models.etsy.Image;
 import co.grandcircus.bestgift.models.etsy.info.Tag;
-import co.grandcircus.bestgift.search.Keyword;
+import co.grandcircus.bestgift.search.SearchTerm;
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.tables.GiftList;
 import co.grandcircus.bestgift.tables.SearchHistory;
@@ -66,7 +66,7 @@ public class GiftService {
 	@Autowired
 	SearchExpressionRepository ser;
 	@Autowired
-	KeywordRepository kr;
+	SearchTermRepository kr;
 	@Autowired
 	SearchHistoryRepository shr;
 	@Autowired
@@ -120,13 +120,13 @@ public class GiftService {
 		if (se.getOperator() == null) {
 			// Case 1
 			// To get this data from Etsy, just use the 1st keyword.
-			returnVal = ("&keywords=\"" + se.getKeyword1().getUrlEncodedValue() + "\"");
+			returnVal = ("&keywords=\"" + se.getSearchTerm1().getUrlEncodedValue() + "\"");
 		} else {
 			// Case 2
 			// Case 2a. If the second keyword is set, the URL is easy.
-			if (se.getKeyword2() != null) {
-				returnVal = ("&keywords=\"" + se.getKeyword1().getUrlEncodedValue() + "\" \""
-						+ se.getKeyword2().getUrlEncodedValue() + "\"");
+			if (se.getSearchTerm2() != null) {
+				returnVal = ("&keywords=\"" + se.getSearchTerm1().getUrlEncodedValue() + "\" \""
+						+ se.getSearchTerm2().getUrlEncodedValue() + "\"");
 			} else {
 				// Case 2b
 				// We'll need to go through the BaseExpression in order to get -its- query
@@ -134,7 +134,7 @@ public class GiftService {
 				returnVal = getEtsySearchParameters(se.getBaseExpression());
 				// Now add our keyword to the very front.
 				returnVal = returnVal.replace("&keywords=",
-						"&keywords=\"" + se.getKeyword1().getUrlEncodedValue() + "\" ");
+						"&keywords=\"" + se.getSearchTerm1().getUrlEncodedValue() + "\" ");
 			}
 		}
 
@@ -218,7 +218,7 @@ public class GiftService {
 	 * @param k
 	 * @return
 	 */
-	private Keyword saveKeywordToDatabase(Keyword k) {
+	private SearchTerm saveKeywordToDatabase(SearchTerm k) {
 		kr.save(k);
 		return k;
 	}
@@ -235,15 +235,15 @@ public class GiftService {
 		// 2. If an Operator is set, then either (2a) the second keyword is set, or (2b)
 		// the interior search expression is set.
 
-		saveKeywordToDatabase(se.getKeyword1());
+		saveKeywordToDatabase(se.getSearchTerm1());
 		if (se.getOperator() == null) {
 			// Operator not set,. so no second operand
 
 		} else {
 			// Case 2
 			// Case 2a. Second keyword is set
-			if (se.getKeyword2() != null) {
-				saveKeywordToDatabase(se.getKeyword2());
+			if (se.getSearchTerm2() != null) {
+				saveKeywordToDatabase(se.getSearchTerm2());
 			} else {
 				// Case 2b
 				// We'll need to go through the BaseExpression in order to get -its- query

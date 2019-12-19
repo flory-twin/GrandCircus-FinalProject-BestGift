@@ -6,24 +6,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Keyword {
+public class SearchTerm {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String value;
 
-	public Keyword() {
+	public SearchTerm() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Keyword(String value) {
+	public SearchTerm(String value) {
 		super();
 		this.value = value;
 	}
 
-	public Keyword(Integer id, String value) {
+	public SearchTerm(Integer id, String value) {
 		super();
 		this.id = id;
 		this.value = value;

@@ -47,8 +47,8 @@ body, h1, h2, h3, h4, h5, h6 {
 			<tr>
 				<td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
 				<td>
-				<c:forEach var="kw" items="${sh.query.getAllKeywordsAsStrings()}">
-				<a href="etsy-results?keywords1=${kw}"><span class="w3-tag w3-black w3-margin-bottom">${kw}</span></a>
+				<c:forEach var="kw" items="${sh.query.getAllSearchTermsAsStrings()}">
+				<a href="etsy-results?searchTerm1=${kw}"><span class="w3-tag w3-black w3-margin-bottom">${kw}</span></a>
 				</c:forEach>
 				</td>
 			</tr>
@@ -73,10 +73,10 @@ body, h1, h2, h3, h4, h5, h6 {
 					</thead>
 					<tbody>
 						<!-- Create a separate row for each of the search parameters used to create the last search. -->
-						<c:forEach var="kw"	items="${ shr.findByMaxCreatedAt().getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
+						<c:forEach var="kw"	items="${ shr.findByMaxCreatedAt().getQuery().getAllSearchTermsAsStrings() }"	varStatus="s">
 							<tr>
 								<td>
-									<input id="option${ s.count+1}" type="text" name="keywords${ s.count+1}" value="${ kw }"  />
+									<input id="option${ s.count+1}" type="text" name="searchTerm${ s.count+1}" value="${ kw }"  />
 								</td>
 								<td>
 									<select onchange="changeKeyword(this,${ s.count +1})">
@@ -90,7 +90,7 @@ body, h1, h2, h3, h4, h5, h6 {
 						<!-- Create one additional row with a blank parameter. -->
 						<tr>
 							<td>
-								<input type="text" name="keywords1" /> 
+								<input type="text" name="searchTerm1" /> 
 							</td>
 							<td>
 								<input	type="submit" value="Search" />
@@ -164,19 +164,19 @@ body, h1, h2, h3, h4, h5, h6 {
 			<table>
 				<tr>
 					<td>Search Param:*</td>
-					<td><input type="text" name="keywords1" placeholder="topaz" required /></td>
+					<td><input type="text" name="searchTerm1" placeholder="topaz" required /></td>
 				</tr>
 				<tr>
 					<td>Search Param:</td>
-					<td><input type="text" name="keywords2"/></td>
+					<td><input type="text" name="searchTerm2"/></td>
 				</tr>
 				<tr>
 					<td>Search Param:</td>
-					<td><input type="text" name="keywords3" /></td>
+					<td><input type="text" name="searchTerm3" /></td>
 				</tr>
 				<tr>
 					<td>Search Param:</td>
-					<td><input type="text" name="keywords4" /></td>
+					<td><input type="text" name="searchTerm4" /></td>
 				</tr>
 				<tr>
 					<td></td>

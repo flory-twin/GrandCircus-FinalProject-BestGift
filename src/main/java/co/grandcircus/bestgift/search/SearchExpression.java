@@ -19,12 +19,12 @@ public class SearchExpression {
 	private Integer searchId;
 
 	@OneToOne
-	private Keyword k1;
+	private SearchTerm k1;
 
 	@OneToOne
 	private SearchExpression baseSE = null;
 	@OneToOne
-	private Keyword k2 = null;
+	private SearchTerm k2 = null;
 	@Enumerated(EnumType.ORDINAL)
 	private Operator o = null;
 
@@ -54,7 +54,7 @@ public class SearchExpression {
 	}
 
 	// Covers case 1.
-	public SearchExpression(Keyword k) {
+	public SearchExpression(SearchTerm k) {
 		this();
 		this.k1 = k;
 	}
@@ -68,14 +68,14 @@ public class SearchExpression {
 	}
 
 	// Covers case 4a.
-	public SearchExpression(Keyword k1, Operator o, Keyword k2) {
+	public SearchExpression(SearchTerm k1, Operator o, SearchTerm k2) {
 		this.k1 = k1;
 		this.k2 = k2;
 		this.o = o;
 	}
 
 	// Covers case 4b.
-	public SearchExpression(Keyword k, Operator o, SearchExpression se) {
+	public SearchExpression(SearchTerm k, Operator o, SearchExpression se) {
 		this.k1 = k;
 		this.o = o;
 		this.baseSE = se;
@@ -88,7 +88,7 @@ public class SearchExpression {
 	 */
 
 	// Allow access to members.
-	public Keyword getKeyword1() {
+	public SearchTerm getSearchTerm1() {
 		return k1;
 	}
 
@@ -96,7 +96,7 @@ public class SearchExpression {
 		return baseSE;
 	}
 
-	public Keyword getKeyword2() {
+	public SearchTerm getSearchTerm2() {
 		return k2;
 	}
 
@@ -112,11 +112,11 @@ public class SearchExpression {
 		this.searchId = searchId;
 	}
 
-	public Keyword getK1() {
+	public SearchTerm getK1() {
 		return k1;
 	}
 
-	public void setK1(Keyword k1) {
+	public void setK1(SearchTerm k1) {
 		this.k1 = k1;
 	}
 
@@ -128,11 +128,11 @@ public class SearchExpression {
 		this.baseSE = baseSE;
 	}
 
-	public Keyword getK2() {
+	public SearchTerm getK2() {
 		return k2;
 	}
 
-	public void setK2(Keyword k2) {
+	public void setK2(SearchTerm k2) {
 		this.k2 = k2;
 	}
 
@@ -149,23 +149,23 @@ public class SearchExpression {
 	 * 
 	 * @return
 	 */
-	public List<Keyword> getAllKeywords() {
-		List<Keyword> kwsToReturn = new LinkedList<>();
+	public List<SearchTerm> getAllSearchTerms() {
+		List<SearchTerm> kwsToReturn = new LinkedList<>();
 
-		kwsToReturn.add(this.getKeyword1());
+		kwsToReturn.add(this.getSearchTerm1());
 		if (k2 != null) {
 			kwsToReturn.add(k2);
 		} else if (baseSE != null) {
-			kwsToReturn.addAll(baseSE.getAllKeywords());
+			kwsToReturn.addAll(baseSE.getAllSearchTerms());
 		}
 
 		return kwsToReturn;
 	}
 
-	public List<String> getAllKeywordsAsStrings() {
-		List<Keyword> kws = getAllKeywords();
+	public List<String> getAllSearchTermsAsStrings() {
+		List<SearchTerm> kws = getAllSearchTerms();
 		List<String> asStrings = new LinkedList<>();
-		for (Keyword k : kws) {
+		for (SearchTerm k : kws) {
 			asStrings.add(k.getValue());
 		}
 		return asStrings;
@@ -174,27 +174,27 @@ public class SearchExpression {
 	/**
 	 * A special method used by an SE to expand an instance from a list of keywords.
 	 */
-	public static SearchExpression createFromKeywords(List<String> keywords) {
+	public static SearchExpression createFromSearchTerms(List<String> searchTerms) {
 		SearchExpression seToReturn = new SearchExpression();
 
 		// If only one keyword is given, create a one-operand search expression.
-		if (keywords.size() == 1) {
-			seToReturn.setK1(new Keyword(keywords.get(0)));
-		} else if (keywords.size() == 2) {
+		if (searchTerms.size() == 1) {
+			seToReturn.setK1(new SearchTerm(searchTerms.get(0)));
+		} else if (searchTerms.size() == 2) {
 			// If exactly two keywords are given, create a two-operand search expression.
-			seToReturn.setK1(new Keyword(keywords.get(0)));
-			seToReturn.setK2(new Keyword(keywords.get(1)));
+			seToReturn.setK1(new SearchTerm(searchTerms.get(0)));
+			seToReturn.setK2(new SearchTerm(searchTerms.get(1)));
 			// Use the default operand...
 			seToReturn.setO(Operator.AND);
-		} else if (keywords.size() > 2) {
+		} else if (searchTerms.size() > 2) {
 			// If there are more keywords, recursively add search expressions to handle
 			// them.
-			seToReturn.setK1(new Keyword(keywords.get(0)));
+			seToReturn.setK1(new SearchTerm(searchTerms.get(0)));
 			// Use the default operand...
 			seToReturn.setO(Operator.AND);
-			List<String> copyList = new LinkedList<>(keywords);
+			List<String> copyList = new LinkedList<>(searchTerms);
 			copyList.remove(0);
-			seToReturn.setBaseSE(SearchExpression.createFromKeywords(copyList));
+			seToReturn.setBaseSE(SearchExpression.createFromSearchTerms(copyList));
 		}
 
 		return seToReturn;

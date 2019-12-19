@@ -76,19 +76,19 @@ public class GiftController {
 	 * @return
 	 */
 	@RequestMapping("/etsy-results")
-	public ModelAndView searchGifts(@RequestParam(value = "keywords1", required = true) String kw1,
+	public ModelAndView searchGifts(@RequestParam(value = "searchTerm1", required = true) String kw1,
 			// The first parameter must be present, but the remaining parameters not need be
 			// sent
 			// in the request (required = false)
-			@RequestParam(value = "keywords2", required = false) String kw2,
-			@RequestParam(value = "keywords3", required = false) String kw3,
-			@RequestParam(value = "keywords4", required = false) String kw4,
-			@RequestParam(value = "keywords5", required = false) String kw5,
-			@RequestParam(value = "keywords6", required = false) String kw6,
-			@RequestParam(value = "keywords7", required = false) String kw7,
-			@RequestParam(value = "keywords8", required = false) String kw8,
-			@RequestParam(value = "keywords9", required = false) String kw9,
-			@RequestParam(value = "keywords10", required = false) String kw10,
+			@RequestParam(value = "searchTerm2", required = false) String kw2,
+			@RequestParam(value = "searchTerm3", required = false) String kw3,
+			@RequestParam(value = "searchTerm4", required = false) String kw4,
+			@RequestParam(value = "searchTerm5", required = false) String kw5,
+			@RequestParam(value = "searchTerm6", required = false) String kw6,
+			@RequestParam(value = "searchTerm7", required = false) String kw7,
+			@RequestParam(value = "searchTerm8", required = false) String kw8,
+			@RequestParam(value = "searchTerm9", required = false) String kw9,
+			@RequestParam(value = "searchTerm10", required = false) String kw10,
 			@RequestParam(required = false) Double max_price) {
 		List<String> keywords = new LinkedList<>();
 		keywords.add(kw1);
@@ -134,7 +134,7 @@ public class GiftController {
 		gs.recacheRepositories();
 
 		ModelAndView mv = new ModelAndView("listing-page");
-		SearchExpression searchExp = SearchExpression.createFromKeywords(kws);
+		SearchExpression searchExp = SearchExpression.createFromSearchTerms(kws);
 
 		// Perform actual search
 		gs.getListOfSearchedGifts(searchExp);

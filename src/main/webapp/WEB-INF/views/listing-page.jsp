@@ -78,8 +78,8 @@ width: 18em;  */
 			<tr>
 				<td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
 				<td>
-				<c:forEach var="kw" items="${sh.query.getAllKeywordsAsStrings()}">
-				<a href="etsy-results?keywords1=${kw}"><span class="w3-tag w3-black w3-margin-bottom">${kw}</span></a>
+				<c:forEach var="kw" items="${sh.query.getAllSearchTermsAsStrings()}">
+				<a href="etsy-results?searchTerm1=${kw}"><span class="w3-tag w3-black w3-margin-bottom">${kw}</span></a>
 				</c:forEach>
 				</td>
 			</tr>
@@ -105,10 +105,10 @@ width: 18em;  */
 					</thead>
 					<tbody>
 						<!-- Create a separate row for each of the search parameters used to create the last search. -->
-						<c:forEach var="kw"	items="${ lastSearchHistory.getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
+						<c:forEach var="kw"	items="${ lastSearchHistory.getQuery().getAllSearchTermsAsStrings() }"	varStatus="s">
 							<tr>
 								<td>
-									<input id="option${ s.count+1}" type="text" name="keywords${ s.count+1}" value="${ kw }"  />
+									<input id="option${ s.count+1}" type="text" name="searchTerm${ s.count+1}" value="${ kw }"  />
 								</td>
 								<td>
 									<select onchange="changeKeyword(this,${ s.count +1})">
@@ -122,7 +122,7 @@ width: 18em;  */
 						<!-- Create one additional row with a blank parameter. -->
 						<tr>
 							<td>
-								<input type="text" name="keywords1" /> 
+								<input type="text" name="searchTerm1" /> 
 							</td>
 							<td>
 								<input	type="submit" value="Search" />
