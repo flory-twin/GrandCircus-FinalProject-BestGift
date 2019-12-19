@@ -77,7 +77,11 @@ width: 18em;  */
 		<c:forEach var="sh" items="${shr.findSearchByUser(user)}">
 			<tr>
 				<td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
-				<td>${sh.query.getAllKeywordsAsStrings()}</td>
+				<td>
+				<c:forEach var="kw" items="${sh.query.getAllKeywordsAsStrings()}">
+				<a href="etsy-results?keywords1=${kw}"><span class="w3-tag w3-black w3-margin-bottom">${kw}</span></a>
+				</c:forEach>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -157,9 +161,13 @@ width: 18em;  */
                         </td>
                      </tr>
                      <br>
-				</c:forEach>
+				</c:forEach>					
 			</tbody>
 		</table>
+		<br>
+		<br>
+		<br>
+		<br>
 		<br>
 		</div>
 </div>
@@ -200,7 +208,7 @@ width: 18em;  */
 	<footer class="w3-row-padding w3-padding-32" >
 	<div align="right">
 	<br>
-	<a href="/log-out"><h2>LogOut</h2></a>
+	<a class="btn btn-dark" href="/log-out"><h2>LogOut</h2></a>
 	
 	</div>
 	

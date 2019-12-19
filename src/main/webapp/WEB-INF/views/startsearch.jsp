@@ -46,7 +46,11 @@ body, h1, h2, h3, h4, h5, h6 {
 		<c:forEach var="sh" items="${shr.findSearchByUser(user)}">
 			<tr>
 				<td><a href="/gift-history?historyLogId=${sh.historyLogId}">${sh.createdAt}</a></td>
-				<td>${sh.query.getAllKeywordsAsStrings()}</td>
+				<td>
+				<c:forEach var="kw" items="${sh.query.getAllKeywordsAsStrings()}">
+				<a href="etsy-results?keywords1=${kw}"><span class="w3-tag w3-black w3-margin-bottom">${kw}</span></a>
+				</c:forEach>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -185,6 +189,14 @@ body, h1, h2, h3, h4, h5, h6 {
 </div>
 </body>
 
+	<footer class="w3-row-padding w3-padding-32" >
+	<div align="right">
+	<br>
+	<a class="btn btn-dark" href="/log-out"><h2>LogOut</h2></a>
+	
+	</div>
+	
+	</footer>
 
 <script>
 function openLeftMenu() {
