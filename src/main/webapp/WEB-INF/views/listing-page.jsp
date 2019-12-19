@@ -15,8 +15,8 @@
 <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-G3Fme2BM4boCE9tHx9zHvcxaQoAkksPQa/8oyn1Dzqv7gdcXChereUsXGx6LtbqA" crossorigin="anonymous">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
-<link rel="stylesheet" href="listing-page.css">
 <link rel="stylesheet"	href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="stylesheet" href="listing-page.css">
 <style>
 
 Head, body, h1, h2, h3, h4, h5, h6 {
@@ -64,7 +64,7 @@ width: 18em;  */
 
 <body>
 
-<!-- Right-hand collapsible element -->
+<!-- Left-hand collapsible element -->
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-left"
 	style="display: none; width: 30%; opacity: 0.95" id="leftMenu">
 	<button onclick="closeLeftMenu()"
@@ -104,19 +104,14 @@ width: 18em;  */
 						<c:forEach var="kw"	items="${ lastSearchHistory.getQuery().getAllKeywordsAsStrings() }"	varStatus="s">
 							<tr>
 								<td>
-
 									<input id="option${ s.count+1}" type="text" name="keywords${ s.count+1}" value="${ kw }"  />
 								</td>
 								<td>
 									<select onchange="changeKeyword(this,${ s.count +1})">
-
 										<c:forEach var="synonym" items="${ dms.getSynonyms(kw) }" end="20" varStatus="t">
 											<option value="${ synonym }">${ synonym }</option>
 										</c:forEach>	
 									</select>
-								</td>
-								<td>
-								
 								</td>
 							</tr>
 						</c:forEach>
@@ -230,10 +225,8 @@ width: 18em;  */
 		document.getElementById("rightMenu").style.display = "none";
 	}
 
-
-	function changeKeyword(data,count) {
-		document.getElementById("option".concat(count)).value = data.value;
-
+	function changeKeyword(synonym,count) {
+		document.getElementById("option".concat(count)).value = synonym.value;
 	}
 	
 </script>
