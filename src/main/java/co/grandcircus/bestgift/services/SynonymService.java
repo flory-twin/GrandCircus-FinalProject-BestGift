@@ -8,9 +8,13 @@ import org.springframework.web.client.RestTemplate;
 
 import co.grandcircus.bestgift.models.datamuse.SynonymResponse;
 import co.grandcircus.bestgift.models.datamuse.Word;
-
+/**
+ * This uses DataMuse service to find synonyms
+ * @author Kevin Flory, Bryan Byrd, Kevin Chung
+ *
+ */
 @Component
-public class DataMuseService {
+public class SynonymService {
 	
 	public static String synonymUrl = "https://api.datamuse.com/words?ml=";
 	

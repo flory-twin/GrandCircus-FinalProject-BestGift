@@ -18,7 +18,7 @@ import co.grandcircus.bestgift.models.dandelion.Entity;
 import co.grandcircus.bestgift.models.dandelion.EntityExtractionResults;
 import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.models.etsy.info.Tag;
-import co.grandcircus.bestgift.services.EntityExtractionService;
+import co.grandcircus.bestgift.services.KeywordExtractionService;
 import co.grandcircus.bestgift.services.GiftService;
 import co.grandcircus.bestgift.tables.GiftList;
 
@@ -36,7 +36,7 @@ import co.grandcircus.bestgift.tables.GiftList;
 public class FavoritesAndKeywordsController {
 	
 	@Autowired
-	EntityExtractionService es;
+	KeywordExtractionService es;
 	@Autowired
 	HttpSession session;
 

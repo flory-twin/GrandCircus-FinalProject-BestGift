@@ -17,7 +17,7 @@ import co.grandcircus.bestgift.jparepos.UserRepo;
 import co.grandcircus.bestgift.models.etsy.Gift;
 import co.grandcircus.bestgift.models.etsy.GiftResult;
 import co.grandcircus.bestgift.search.SearchExpression;
-import co.grandcircus.bestgift.services.DataMuseService;
+import co.grandcircus.bestgift.services.SynonymService;
 import co.grandcircus.bestgift.services.GiftService;
 import co.grandcircus.bestgift.tables.SearchHistory;
 /**
@@ -37,7 +37,7 @@ public class GiftController {
 	GiftService gs;
 	
 	@Autowired
-	DataMuseService dms;
+	SynonymService dms;
 	
 	@Autowired
 	SearchHistoryRepository shr;

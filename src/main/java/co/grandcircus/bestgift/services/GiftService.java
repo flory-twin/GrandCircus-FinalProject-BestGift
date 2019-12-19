@@ -26,7 +26,27 @@ import co.grandcircus.bestgift.search.Keyword;
 import co.grandcircus.bestgift.search.SearchExpression;
 import co.grandcircus.bestgift.tables.GiftList;
 import co.grandcircus.bestgift.tables.SearchHistory;
-
+/**
+ * Handle all operations directly related to a Gift or search.
+ * 
+ * Stores session attributes as follows:
+ *   Repositories:  
+ *     UserRepo ur
+ *     TagRepository tr
+ *     KeywordRepository kr
+ *     GiftRepository gr
+ *     GiftListRepository gl
+ *     SearchExpressionRepository ser
+ *     SearchHistoryRepository shr
+ *   Services:
+ *     GiftService gs: This service
+ *     SynonymService dms: The Dandelion synonym webservice
+ *   Convenience Objects:
+ *     SearchHistory lastSearchHistory: The last search run by the logged-in user.
+ *     List<Gift> currentGiftList: The results of the last search run by the logged-in user.
+ * @author Kevin Flory, Bryan Byrd, Kevin Chung
+ *
+ */
 @Component
 public class GiftService {
 	@Value("${etsy.key}")
@@ -56,11 +76,10 @@ public class GiftService {
 	@Autowired
 	TagRepository tr;
 	@Autowired
-	DataMuseService dms;
+	SynonymService dms;
 	
 	@Autowired
 	HttpSession session;
-	
 	
 	private String listingUrl = "https://openapi.etsy.com/v2/listings/active?api_key=";
 	RestTemplate rt = new RestTemplate();
@@ -71,7 +90,7 @@ public class GiftService {
 	 * @return
 	 */
 	public String getGiftsUrl() {
-		return "https://openapi.etsy.com/v2/listings/active?api_key=" + etsyKey + "&limit=" + itemLimit;
+		return listingUrl + etsyKey + "&limit=" + itemLimit;
 	}
 
 	/**
@@ -126,19 +145,6 @@ public class GiftService {
 		return rt.getForObject(getGiftImageUrl(listing_id), Image.class);
 	}
 
-	// TODO combine this with the getListofSearchGifts
-	public GiftResult getListOfGifts() {
-		GiftResult giftsToReturn = rt.getForObject(getGiftsUrl(), GiftResult.class);
-		// Save gifts to DB.
-		GiftList returnedList = saveGiftListToDatabase(giftsToReturn.getResults());
-
-		// This adds the search expression to the database
-		SearchExpression se = new SearchExpression(new Keyword(""));
-		saveSearchExpressionToDatabase(se);
-		shr.save(new SearchHistory(se, returnedList));
-		return giftsToReturn;
-	}
-
 	/**
 	 *  Uses the keywords in the passed search expression to get a list of gifts from etsy. 
 	 *  Only listings marked as active by Etsy will return.
@@ -148,7 +154,6 @@ public class GiftService {
 	public GiftResult getListOfSearchedGifts(SearchExpression se) {
 		String url = listingUrl + etsyKey + getEtsySearchParameters(se) + "&limit=" + itemLimit;
 		GiftResult giftsToReturn = rt.getForObject(url, GiftResult.class);
-		// TODO Save search expression here to create history log.
 		// Save gifts to DB.
 		GiftList returnedList = saveGiftListToDatabase(giftsToReturn.getResults());
 		saveSearchExpressionToDatabase(se);
@@ -159,6 +164,7 @@ public class GiftService {
 		recacheResult(search);
 		return giftsToReturn;
 	}
+	
 	/**
 	 * Stores last list of gifts from etsy in the session
 	 * 
@@ -169,12 +175,13 @@ public class GiftService {
 		session.setAttribute("lastSearchHistory", history);
 		session.setAttribute("currentGiftList", history.getSearchResult().getGifts());
 	}
-/**
- * Stores all repositories in the session
- * this makes them accessible from all .jsp
- * 
- * @param session
- */
+	
+	/**
+	 * Stores all repositories in the session
+	 * this makes them accessible from all .jsp
+	 * 
+	 * @param session
+	 */
 	public void recacheRepositories() {
 		session.setAttribute("gs", this);
 		session.setAttribute("gr", gr);
@@ -185,18 +192,40 @@ public class GiftService {
 		session.setAttribute("ur", ur);
 		session.setAttribute("dms", dms);
 	}
-
+	
+	/**
+	 * For some reason there are duplicate Gifts by listing ID in the DB. 
+	 * That shouldn't be possible, but regardless, to get around it,
+	 * take only the first Gift found.
+	 * 
+	 * @param listingId
+	 * @return
+	 */
+	public Gift getExistingGiftFromDb(Integer listingId) {
+		return gr.findByListingId(listingId).get(0);
+	}
+	
 	/*
-	 * Interact with increasingly complex save scenarios. The higher-level save
-	 * scenarios save all their components themselves, so try not to call the
-	 * primitives!!
+	 * ------------------------------------------------------------------------------------
+	 * The following methods interact with increasingly complex save scenarios. The higher-level save
+	 * scenarios (saveSearchHistoryRecordToDatabase and saveGiftsToDatabase) save all their components 
+	 * themselves, so try to call only those two methods!!!
+	 * ------------------------------------------------------------------------------------
+	 */
+	
+	/**
+	 * Saves a Keyword to the database.
+	 * @param k
+	 * @return
 	 */
 	private Keyword saveKeywordToDatabase(Keyword k) {
 		kr.save(k);
 		return k;
 	}
+	
 	/**
-	 * if calling this function, do not call saveKeywordToDatabase
+	 * Save a SearchExpression and its component Keywords to the database.
+	 * If calling this function, do not call saveKeywordToDatabase!
 	 * @param se
 	 */
 	private void saveSearchExpressionToDatabase(SearchExpression se) {
@@ -228,13 +257,15 @@ public class GiftService {
 	}
 	
 	/**
-	 * if calling this method do not call saveSearchExpressionToDatabase
+	 * Saves a SearchHistory and its component SearchExpression and GiftList of results
+	 * to the database.
+	 * 
+	 * If calling this method do not call saveSearchExpressionToDatabase!
 	 * 
 	 * @param sh
 	 * @param session
 	 * @return
 	 */
-
 	public SearchHistory saveSearchHistoryRecordToDatabase(SearchHistory sh) {
 		User loginUser = (User) session.getAttribute("user");
 		sh.setUser(loginUser);
@@ -245,6 +276,10 @@ public class GiftService {
 		return sh;
 	}
 
+	/**
+	 * Saves a List<Gift> and the Gift's component Tags to the database.
+	 * @param giftsToAdd
+	 */
 	private void saveGiftsToDatabase(List<Gift> giftsToAdd) {
 		for (Gift g : giftsToAdd) {
 			for (Tag t : g.getTags()) {
@@ -254,14 +289,9 @@ public class GiftService {
 		}
 	}
 	
-	// TODO: For some reason there are duplicate Gifts by listing ID in the DB. That shouldn't be possible, but regardless, all of those Gifts are logically the same Gift...
-	public Gift getExistingGiftFromDb(Integer listingId) {
-		return gr.findByListingId(listingId).get(0);
-	}
-	
-	
 	/**
-	 * If calling this method do not call saveGiftsToDatabase
+	 * Saves a GiftList and its component Gifts to the database.
+	 * If calling this method do not call saveGiftsToDatabase!
 	 * @param giftsToAdd
 	 * @return
 	 */
