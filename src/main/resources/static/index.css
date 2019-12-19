@@ -94,7 +94,7 @@ button {
 	width: 900px;
 	height: 100%;
 	background-image:
-		url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/sections-3.jpg");
+		url('gc2.5.jpg');
 	background-size: cover;
 	transition: -webkit-transform 1.2s ease-in-out;
 	transition: transform 1.2s ease-in-out;
